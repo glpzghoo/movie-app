@@ -1,5 +1,22 @@
 import { Button } from "@/components/ui/button";
+import { Cards } from "./_components/cards";
 
+export type Movie = {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+};
 const options = {
   method: "GET",
   headers: {
@@ -9,25 +26,43 @@ const options = {
   },
 };
 export default async function Home() {
-  const res = await fetch(
+  const response = await fetch("https://api.themoviedb.org/3/movie/", options);
+  const res_topRated = await fetch(
     "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
     options
   );
-  const data = await res.json();
-  console.log("data result", data.results[0]);
+  const res_popular = await fetch(
+    "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
+    options
+  );
+  const moviesData = await response.json();
+  const popular = await res_popular.json();
+  const top_rated = await res_topRated.json();
+  console.log("movies", moviesData);
+  console.log("top_rated result", top_rated);
+  console.log("popular", popular);
   // const res1 = await fetch(
   //   "https://api.themoviedb.org/3/discover/movie",
   //   options
   // );
-  // const data1 = await res1.json();
-  // console.log("data 1", data1.results[0]);
-  const featuredMovieTitle = data.results[0].title;
-  const featuredMovieOverview = data.results[0].overview;
-  const featuredMoviePicture = data.results[0].poster_path;
-  const featuredMovieRating = data.results[0].vote_average;
+  // const top_rated1 = await res1.json();
+  // console.log("top_rated 1", top_rated1.results[0]);
+  const topRatedMovies: string[] = top_rated.results;
+  const topRatedMovieTitle: string = top_rated.results[0].title;
+  const topRatedMovieOverview: string = top_rated.results[0].overview;
+  const topRatedMoviePicture: string = top_rated.results[0].poster_path;
+  const topRatedMovieRating: number = top_rated.results[0].vote_average;
+
+  const popularMovies: string[] = popular.results;
+  const popularMovieTitle: string = popular.results[0].title;
+  const popularMovieOverview: string = popular.results[0].overview;
+  const popularMoviePicture: string = popular.results[0].poster_path;
+  const popularMovieRating: number = popular.results[0].vote_average;
   // fetch featured picture
-  console.log("picture", featuredMoviePicture);
-  console.log("data", data);
+  // console.log("picture", topRatedMoviePicture);
+  // console.log("top-rated movies", topRatedMovies);
+  // console.log("top-rated movies", topRatedMovies);
+
   return (
     <div className="">
       <div className="navigation">
@@ -52,17 +87,17 @@ export default async function Home() {
       <div className="featured-movie">
         <img
           className="w-full"
-          src={`https://image.tmdb.org/t/p/w185${featuredMoviePicture}`}
+          src={`https://image.tmdb.org/t/p/w185${popularMoviePicture}`}
         />
         <div className="p-7">
           <div className="flex justify-between py-4">
             <div>
-              <div>Now on theater:</div>
-              <h1 className="text-lg font-extrabold">{featuredMovieTitle}</h1>
+              <div>Now in theaters:</div>
+              <h1 className="text-lg font-bold">{popularMovieTitle}</h1>
             </div>
             <div className="">
               <img src="/img/rating.svg" />
-              <div>{featuredMovieRating}/10</div>
+              <div>{Math.floor(popularMovieRating * 10) / 10}/10</div>
             </div>
           </div>
           <div className="text-sm py-4">
@@ -70,25 +105,40 @@ export default async function Home() {
             Glinda, a popular girl, become friends at Shiz University in the
             Land of Oz. After an encounter with the Wonderful Wizard of Oz,
             their friendship reaches a crossroads. */}
-            {featuredMovieOverview}
+            {popularMovieOverview}
           </div>
           <div className="py-4">
             <Button className="px-4 py-2 ">Watch Trailer</Button>
           </div>
         </div>
       </div>
-      <div className="suggestion p-6">
-        <div className="upcoming flex justify-between">
-          <h1 className="text-xl font-bold">Upcoming</h1>
-          <div>See More</div>
+      <div className="suggestion p-5">
+        <div className="upcoming">
+          <div className="upcoming-header flex justify-between">
+            <h1 className="text-xl font-bold">Upcoming</h1>
+            <div>See More</div>
+          </div>
+          {/*  cards here */}
+
+          <div className="popular">
+            <div className="popular-header popular flex justify-between">
+              <h1 className="text-xl font-bold">Popular</h1>
+              <div>See More</div>
+            </div>
+            {/*  cards here */}
+            <div className="flex flex-wrap gap-5">
+              {popular.results.map((movie: Movie) => (
+                <Cards prop={movie} />
+              ))}
+            </div>
+          </div>
         </div>
-        <div className="upcoming flex justify-between">
-          <h1 className="text-xl font-bold">Popular</h1>
-          <div>See More</div>
-        </div>
-        <div className="upcoming flex justify-between">
-          <h1 className="text-xl font-bold">Top-rated</h1>
-          <div>See More</div>
+        <div className="toprated ">
+          <div className="toprated-header flex justify-between">
+            <h1 className="text-xl font-bold">Top-rated</h1>
+            <div>See More</div>
+          </div>
+          {/*  cards here */}
         </div>
       </div>
     </div>
