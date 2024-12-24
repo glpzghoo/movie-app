@@ -1,7 +1,3 @@
-import Image from "next/image";
-import { Footer } from "./_components/footer";
-import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const options = {
@@ -18,7 +14,20 @@ export default async function Home() {
     options
   );
   const data = await res.json();
-  console.log(data);
+  console.log("data result", data.results[0]);
+  // const res1 = await fetch(
+  //   "https://api.themoviedb.org/3/discover/movie",
+  //   options
+  // );
+  // const data1 = await res1.json();
+  // console.log("data 1", data1.results[0]);
+  const featuredMovieTitle = data.results[0].title;
+  const featuredMovieOverview = data.results[0].overview;
+  const featuredMoviePicture = data.results[0].poster_path;
+  const featuredMovieRating = data.results[0].vote_average;
+  // fetch featured picture
+  console.log("picture", featuredMoviePicture);
+  console.log("data", data);
   return (
     <div className="">
       <div className="navigation">
@@ -41,27 +50,45 @@ export default async function Home() {
         </div>
       </div>
       <div className="featured-movie">
-        <img className="w-full" src="/img/Feature.svg" />
+        <img
+          className="w-full"
+          src={`https://image.tmdb.org/t/p/w185${featuredMoviePicture}`}
+        />
         <div className="p-7">
           <div className="flex justify-between py-4">
             <div>
               <div>Now on theater:</div>
-              <h1>Wicked</h1>
+              <h1 className="text-lg font-extrabold">{featuredMovieTitle}</h1>
             </div>
             <div className="">
               <img src="/img/rating.svg" />
-              <div>6.9/10</div>
+              <div>{featuredMovieRating}/10</div>
             </div>
           </div>
           <div className="text-sm py-4">
-            Elphaba, a misunderstood young woman because of her green skin, and
+            {/* Elphaba, a misunderstood young woman because of her green skin, and
             Glinda, a popular girl, become friends at Shiz University in the
             Land of Oz. After an encounter with the Wonderful Wizard of Oz,
-            their friendship reaches a crossroads.
+            their friendship reaches a crossroads. */}
+            {featuredMovieOverview}
           </div>
           <div className="py-4">
             <Button className="px-4 py-2 ">Watch Trailer</Button>
           </div>
+        </div>
+      </div>
+      <div className="suggestion p-6">
+        <div className="upcoming flex justify-between">
+          <h1 className="text-xl font-bold">Upcoming</h1>
+          <div>See More</div>
+        </div>
+        <div className="upcoming flex justify-between">
+          <h1 className="text-xl font-bold">Popular</h1>
+          <div>See More</div>
+        </div>
+        <div className="upcoming flex justify-between">
+          <h1 className="text-xl font-bold">Top-rated</h1>
+          <div>See More</div>
         </div>
       </div>
     </div>
