@@ -41,19 +41,16 @@ export default async function Home() {
     options
   );
 
-  const moviesData = await response.json();
   const popular = await res_popular.json();
   const top_rated = await res_topRated.json();
   const upcoming = await res_upcoming.json();
-  console.log("movies", moviesData);
-  console.log("top_rated result", top_rated);
-  console.log("popular", popular);
-  console.log("upcoming", upcoming);
-  // const res1 = await fetch(
-  //   "https://api.themoviedb.org/3/discover/movie",
-  //   options
-  // );
-  // const top_rated1 = await res1.json();
+
+  const res_movies = await fetch(
+    "https://api.themoviedb.org/3/discover/movie",
+    options
+  );
+  const moviesData = await res_movies.json();
+  // const moviesData= await res_movies.json();
   // console.log("top_rated 1", top_rated1.results[0]);
   const topRatedMovies: string[] = top_rated.results;
   const topRatedMovieTitle: string = top_rated.results[0].title;
@@ -87,6 +84,10 @@ export default async function Home() {
   // console.log("top-rated movies", topRatedMovies);
   // console.log("top-rated movies", topRatedMovies);
   console.log("trailer info", get_thelink_pls);
+  console.log("movies", moviesData);
+  console.log("top_rated result", top_rated);
+  console.log("popular", popular);
+  console.log("upcoming", upcoming);
 
   return (
     <div className="">
