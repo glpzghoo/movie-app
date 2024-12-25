@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Cards } from "./_components/cards";
+import { Link } from "lucide-react";
 
 export type Movie = {
   adult: boolean;
@@ -35,12 +36,19 @@ export default async function Home() {
     "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
     options
   );
+  const res_upcoming = await fetch(
+    "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
+    options
+  );
+
   const moviesData = await response.json();
   const popular = await res_popular.json();
   const top_rated = await res_topRated.json();
+  const upcoming = await res_upcoming.json();
   console.log("movies", moviesData);
   console.log("top_rated result", top_rated);
   console.log("popular", popular);
+  console.log("upcoming", upcoming);
   // const res1 = await fetch(
   //   "https://api.themoviedb.org/3/discover/movie",
   //   options
@@ -58,10 +66,27 @@ export default async function Home() {
   const popularMovieOverview: string = popular.results[0].overview;
   const popularMoviePicture: string = popular.results[0].poster_path;
   const popularMovieRating: number = popular.results[0].vote_average;
+  const popularMovieId: number = popular.results[0].id;
+  const res_movie_trailer = await fetch(
+    `https://api.themoviedb.org/3/movie/${popularMovieId}/videos`,
+    options
+  );
+  const trailer_info_data = await res_movie_trailer.json();
+  const get_thelink_pls =
+    trailer_info_data.results[trailer_info_data.results.length - 1].key;
+
+  const yt_trailer: string = `https://www.youtube.com/watch?v=${get_thelink_pls}`;
+
+  const upcomingMovies: string[] = upcoming.results;
+  const upcomingMovieTitle: string = upcoming.results[0].title;
+  const upcomingMovieOverview: string = upcoming.results[0].overview;
+  const upcomingMoviePicture: string = upcoming.results[0].poster_path;
+  const upcomingMovieRating: number = upcoming.results[0].vote_average;
   // fetch featured picture
   // console.log("picture", topRatedMoviePicture);
   // console.log("top-rated movies", topRatedMovies);
   // console.log("top-rated movies", topRatedMovies);
+  console.log("trailer info", get_thelink_pls);
 
   return (
     <div className="">
@@ -108,37 +133,49 @@ export default async function Home() {
             {popularMovieOverview}
           </div>
           <div className="py-4">
-            <Button className="px-4 py-2 ">Watch Trailer</Button>
+            <a href={yt_trailer}>
+              <Button className="px-4 py-2">Watch Trailer</Button>
+            </a>
           </div>
         </div>
       </div>
       <div className="suggestion p-5">
-        <div className="upcoming">
+        <div className="upcoming my-6">
           <div className="upcoming-header flex justify-between">
-            <h1 className="text-xl font-bold">Upcoming</h1>
+            <h1 className="text-xl font-extrabold ">Upcoming</h1>
             <div>See More</div>
           </div>
           {/*  cards here */}
+          <div className="flex flex-wrap gap-5">
+            {upcoming.results.map((movie: Movie) => (
+              <Cards prop={movie} />
+            ))}
+          </div>
 
-          <div className="popular">
+          <div className="popular my-6">
             <div className="popular-header popular flex justify-between">
-              <h1 className="text-xl font-bold">Popular</h1>
+              <h1 className="text-xl font-extrabold ">Popular</h1>
               <div>See More</div>
             </div>
             {/*  cards here */}
-            <div className="flex flex-wrap gap-5">
+            <div className="flex flex-wrap gap-5 my-3">
               {popular.results.map((movie: Movie) => (
                 <Cards prop={movie} />
               ))}
             </div>
           </div>
         </div>
-        <div className="toprated ">
+        <div className="toprated my-6">
           <div className="toprated-header flex justify-between">
-            <h1 className="text-xl font-bold">Top-rated</h1>
+            <h1 className="text-xl font-extrabold ">Top-rated</h1>
             <div>See More</div>
           </div>
           {/*  cards here */}
+          <div className="flex flex-wrap gap-5">
+            {top_rated.results.map((movie: Movie) => (
+              <Cards prop={movie} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
