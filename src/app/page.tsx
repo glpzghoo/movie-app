@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Cards } from "./_components/cards";
+import { Cards } from "./_components/movies";
 import { Link } from "lucide-react";
 
 export type Movie = {
@@ -18,7 +18,7 @@ export type Movie = {
   vote_average: number;
   vote_count: number;
 };
-const options = {
+export const options = {
   method: "GET",
   headers: {
     accept: "application/json",
@@ -40,10 +40,15 @@ export default async function Home() {
     "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=1",
     options
   );
+  const res_now_playing = await fetch(
+    "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1",
+    options
+  );
 
   const popular = await res_popular.json();
   const top_rated = await res_topRated.json();
   const upcoming = await res_upcoming.json();
+  const now_playing = await res_now_playing.json();
 
   const res_movies = await fetch(
     "https://api.themoviedb.org/3/discover/movie",
@@ -52,12 +57,13 @@ export default async function Home() {
   const moviesData = await res_movies.json();
   // const moviesData= await res_movies.json();
   // console.log("top_rated 1", top_rated1.results[0]);
+  // top rated
   const topRatedMovies: string[] = top_rated.results;
   const topRatedMovieTitle: string = top_rated.results[0].title;
   const topRatedMovieOverview: string = top_rated.results[0].overview;
   const topRatedMoviePicture: string = top_rated.results[0].poster_path;
   const topRatedMovieRating: number = top_rated.results[0].vote_average;
-
+  // popular
   const popularMovies: string[] = popular.results;
   const popularMovieTitle: string = popular.results[0].title;
   const popularMovieOverview: string = popular.results[0].overview;
@@ -73,7 +79,7 @@ export default async function Home() {
     trailer_info_data.results[trailer_info_data.results.length - 1].key;
 
   const yt_trailer: string = `https://www.youtube.com/watch?v=${get_thelink_pls}`;
-
+  // upcoming
   const upcomingMovies: string[] = upcoming.results;
   const upcomingMovieTitle: string = upcoming.results[0].title;
   const upcomingMovieOverview: string = upcoming.results[0].overview;
@@ -83,21 +89,33 @@ export default async function Home() {
   // console.log("picture", topRatedMoviePicture);
   // console.log("top-rated movies", topRatedMovies);
   // console.log("top-rated movies", topRatedMovies);
+
+  //now playing
+
+  const now_playingMovies: string[] = now_playing.results;
+  const now_playingMovieTitle: string = now_playing.results[0].title;
+  const now_playingMovieOverview: string = now_playing.results[0].overview;
+  const now_playingMoviePicture: string = now_playing.results[0].backdrop_path;
+  const now_playingMovieRating: number = now_playing.results[0].vote_average;
+
   console.log("trailer info", get_thelink_pls);
   console.log("movies", moviesData);
   console.log("top_rated result", top_rated);
   console.log("popular", popular);
   console.log("upcoming", upcoming);
+  console.log("now playing", now_playing);
 
   return (
     <div className="">
       <div className="navigation">
         <div>
           <div className="flex justify-around p-4">
-            <div className="flex gap-2 items-center">
-              <img className="w-9 h-9" src="/img/film.svg" />
-              <h3 className="">Movie</h3>
-            </div>
+            <a href="/">
+              <div className="flex gap-2 items-center">
+                <img className="w-9 h-9" src="/img/film.svg" />
+                <h3 className="">Movie</h3>
+              </div>
+            </a>
             <div className="flex"></div>
             <div className="flex gap-4">
               <button>
@@ -112,18 +130,18 @@ export default async function Home() {
       </div>
       <div className="featured-movie">
         <img
-          className="w-full"
-          src={`https://image.tmdb.org/t/p/w185${popularMoviePicture}`}
+          className="overflow-auto w-full h-full justify-self-center"
+          src={`https://image.tmdb.org/t/p/w500${now_playingMoviePicture}`}
         />
         <div className="p-7">
           <div className="flex justify-between py-4">
             <div>
               <div>Now in theaters:</div>
-              <h1 className="text-lg font-bold">{popularMovieTitle}</h1>
+              <h1 className="text-lg font-bold">{now_playingMovieTitle}</h1>
             </div>
             <div className="">
               <img src="/img/rating.svg" />
-              <div>{Math.floor(popularMovieRating * 10) / 10}/10</div>
+              <div>{Math.floor(now_playingMovieRating * 10) / 10}/10</div>
             </div>
           </div>
           <div className="text-sm py-4">
@@ -131,7 +149,7 @@ export default async function Home() {
             Glinda, a popular girl, become friends at Shiz University in the
             Land of Oz. After an encounter with the Wonderful Wizard of Oz,
             their friendship reaches a crossroads. */}
-            {popularMovieOverview}
+            {now_playingMovieOverview}
           </div>
           <div className="py-4">
             <a href={yt_trailer}>
@@ -144,38 +162,44 @@ export default async function Home() {
         <div className="upcoming my-6">
           <div className="upcoming-header flex justify-between">
             <h1 className="text-xl font-extrabold ">Upcoming</h1>
-            <div>See More</div>
+            <a href="/upcoming">
+              <div>See More</div>
+            </a>
           </div>
           {/*  cards here */}
-          <div className="flex flex-wrap gap-5">
-            {upcoming.results.map((movie: Movie) => (
-              <Cards prop={movie} />
-            ))}
+          <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+            {upcoming.results
+              .map((movie: Movie) => <Cards prop={movie} />)
+              .slice(0, 12)}
           </div>
 
           <div className="popular my-6">
             <div className="popular-header popular flex justify-between">
               <h1 className="text-xl font-extrabold ">Popular</h1>
-              <div>See More</div>
+              <a href="/popular">
+                <div>See More</div>
+              </a>
             </div>
             {/*  cards here */}
-            <div className="flex flex-wrap gap-5 my-3">
-              {popular.results.map((movie: Movie) => (
-                <Cards prop={movie} />
-              ))}
+            <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+              {popular.results
+                .map((movie: Movie) => <Cards prop={movie} />)
+                .slice(0, 12)}
             </div>
           </div>
         </div>
         <div className="toprated my-6">
           <div className="toprated-header flex justify-between">
             <h1 className="text-xl font-extrabold ">Top-rated</h1>
-            <div>See More</div>
+            <a href="/top_rated">
+              <div>See More</div>
+            </a>
           </div>
           {/*  cards here */}
-          <div className="flex flex-wrap gap-5">
-            {top_rated.results.map((movie: Movie) => (
-              <Cards prop={movie} />
-            ))}
+          <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+            {top_rated.results
+              .map((movie: Movie) => <Cards prop={movie} />)
+              .slice(0, 12)}
           </div>
         </div>
       </div>
