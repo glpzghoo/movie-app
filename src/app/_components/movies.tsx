@@ -10,10 +10,8 @@ export const Cards = (props: Props) => {
 
   console.log(props.prop.id);
   return (
-    <a href={`/movie/${props.prop.id}`}>
-      <div
-        key={props.prop.id}
-        className={`rounded-lg bg-secondary overflow-hidden`}>
+    <a key={props.prop.id} href={`/movie/${props.prop.id}`}>
+      <div className={`rounded-lg bg-secondary overflow-hidden`}>
         <img
           className="w-full h-auto"
           src={`https://image.tmdb.org/t/p/w500${props.prop.poster_path}`}
