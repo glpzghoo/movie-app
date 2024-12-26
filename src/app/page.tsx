@@ -169,8 +169,8 @@ export default async function Home() {
       </div>
       <div className="suggestion p-5">
         <div className="upcoming my-6">
-          <div className="upcoming-header flex justify-between">
-            <h1 className="text-xl font-extrabold ">Upcoming</h1>
+          <div className="upcoming-header flex justify-between p-3">
+            <h1 className="text-2xl font-extrabold ">Upcoming</h1>
             <a href="/upcoming">
               <div>See More</div>
             </a>
@@ -183,8 +183,8 @@ export default async function Home() {
           </div>
 
           <div className="popular my-6">
-            <div className="popular-header popular flex justify-between">
-              <h1 className="text-xl font-extrabold ">Popular</h1>
+            <div className="popular-header popular flex justify-between p-3">
+              <h1 className="text-2xl font-extrabold ">Popular</h1>
               <a href="/popular">
                 <div>See More</div>
               </a>
@@ -198,8 +198,8 @@ export default async function Home() {
           </div>
         </div>
         <div className="toprated my-6">
-          <div className="toprated-header flex justify-between">
-            <h1 className="text-xl font-extrabold ">Top-rated</h1>
+          <div className="toprated-header flex justify-between p-3">
+            <h1 className="text-2xl font-extrabold ">Top rated</h1>
             <a href="/top_rated">
               <div>See More</div>
             </a>
