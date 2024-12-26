@@ -1,19 +1,54 @@
+"use client";
+import { useParams } from "next/navigation";
 import { Cards } from "../_components/movies";
 import { Movie, options } from "../page";
+import { useEffect, useState } from "react";
+import { Genres } from "../types/types";
 type Props = {
   params: Params;
 };
 type Params = {
   genre: string;
 };
-export default async function Genre(props: Props) {
-  console.log(props.params);
-  const res_topRated = await fetch(
-    `https://api.themoviedb.org/3/movie/${props.params.genre}?language=en-US`,
-    options
-  );
-  const moviesData = await res_topRated.json();
-  const movies = moviesData.results;
+type oneMovieGenre = {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+};
+type results = oneMovieGenre[];
+type movies = {
+  results: results;
+};
+export default function Genre() {
+  const [movies, setMovies] = useState<movies>();
+  const params: Params = useParams();
+
+  // console.log(params);
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/movie/${params.genre}?language=en-US`,
+        options
+      );
+      const data = await res.json();
+      console.log("data response", data);
+      setMovies(data);
+      console.log("checking movies", movies);
+    };
+    fetchData();
+  }, []);
+
   console.log(movies);
   return (
     <div>
@@ -41,7 +76,7 @@ export default async function Genre(props: Props) {
       <div className="m-4">
         <div className="upcoming-header flex justify-between">
           <h1 className="text-xl font-extrabold ">
-            {props.params.genre.toUpperCase().replaceAll("_", " ")}
+            {movies && params?.genre?.toUpperCase().replaceAll("_", " ")}
           </h1>
           {/* <a href="/upcoming">
           <div>See More</div>

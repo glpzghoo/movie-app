@@ -96,6 +96,7 @@ export default async function Home() {
   const now_playingMovieTitle: string = now_playing.results[0].title;
   const now_playingMovieOverview: string = now_playing.results[0].overview;
   const now_playingMoviePicture: string = now_playing.results[0].backdrop_path;
+  const now_playingMoviePictureSM: string = now_playing.results[0].poster_path;
   const now_playingMovieRating: number = now_playing.results[0].vote_average;
 
   console.log("trailer info", get_thelink_pls);
@@ -109,7 +110,7 @@ export default async function Home() {
     <div className="">
       <div className="navigation">
         <div>
-          <div className="flex justify-around p-4">
+          <div className="flex justify-around p-4 sm:justify-between">
             <a href="/">
               <div className="flex gap-2 items-center">
                 <img className="w-9 h-9" src="/img/film.svg" />
@@ -117,8 +118,9 @@ export default async function Home() {
               </div>
             </a>
             <div className="flex"></div>
+            <input placeholder="Search" className="hidden w-1/2 sm:block" />
             <div className="flex gap-4">
-              <button>
+              <button className="block sm:hidden">
                 <img className="w-9" src="/img/search.png" />
               </button>
               <button>
@@ -129,32 +131,38 @@ export default async function Home() {
         </div>
       </div>
       <div className="featured-movie">
-        <img
-          className="overflow-auto w-full h-full justify-self-center"
-          src={`https://image.tmdb.org/t/p/w500${now_playingMoviePicture}`}
-        />
-        <div className="p-7">
-          <div className="flex justify-between py-4">
-            <div>
-              <div>Now in theaters:</div>
-              <h1 className="text-lg font-bold">{now_playingMovieTitle}</h1>
+        <div className="sm:flex">
+          <img
+            className="overflow-auto w-[50%] h-[50%] justify-self-center hidden sm:block"
+            src={`https://image.tmdb.org/t/p/w500${now_playingMoviePictureSM}`}
+          />
+          <img
+            className="overflow-auto w-full h-full justify-self-center block sm:hidden"
+            src={`https://image.tmdb.org/t/p/w500${now_playingMoviePicture}`}
+          />
+          <div className="p-7">
+            <div className="flex justify-between py-4">
+              <div>
+                <div>Now in theaters:</div>
+                <h1 className="text-lg font-bold">{now_playingMovieTitle}</h1>
+              </div>
+              <div className="">
+                <img src="/img/rating.svg" />
+                <div>{Math.floor(now_playingMovieRating * 10) / 10}/10</div>
+              </div>
             </div>
-            <div className="">
-              <img src="/img/rating.svg" />
-              <div>{Math.floor(now_playingMovieRating * 10) / 10}/10</div>
-            </div>
-          </div>
-          <div className="text-sm py-4">
-            {/* Elphaba, a misunderstood young woman because of her green skin, and
+            <div className="text-sm py-4">
+              {/* Elphaba, a misunderstood young woman because of her green skin, and
             Glinda, a popular girl, become friends at Shiz University in the
             Land of Oz. After an encounter with the Wonderful Wizard of Oz,
             their friendship reaches a crossroads. */}
-            {now_playingMovieOverview}
-          </div>
-          <div className="py-4">
-            <a href={yt_trailer}>
-              <Button className="px-4 py-2">Watch Trailer</Button>
-            </a>
+              {now_playingMovieOverview}
+            </div>
+            <div className="py-4">
+              <a href={yt_trailer}>
+                <Button className="px-4 py-2">Watch Trailer</Button>
+              </a>
+            </div>
           </div>
         </div>
       </div>

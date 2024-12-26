@@ -1,4 +1,3 @@
-import Genre from "../[genre]/page";
 import { Movie, options } from "../page";
 import { CreditCrew, Genres, movieDetail, Props } from "../types/types";
 import { Badge } from "./badge";
@@ -142,19 +141,19 @@ export const Loaded = async (props: Props) => {
           src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
         />
       </div>
-      <div className="flex justify-between p-5">
-        <div className="zuragnii-div ">
+      <div className="flex justify-around gap-10 w-full p-5">
+        <div className="zuragnii-div w-[50%]">
           <img
-            className="min-w-[100px]"
+            className="w-full h-full"
             src={`https://image.tmdb.org/t/p/w154${movie.poster_path}`}
           />
         </div>
-        <div className="tailbariin-div w-[201px] ">
+        <div className="tailbariin-div w-[50%]">
           <div className="badges-here flex gap-3 flex-wrap my-3">
             {movieGenres &&
               movieGenres.map((genre: Genres) => <Badge genre={genre} />)}
           </div>
-          <div className="overview my-3">{movie.overview}</div>
+          <div className="overview my-3 w-[100%]">{movie.overview}</div>
         </div>
       </div>
       <div className="nairuulagchtai-heseg">

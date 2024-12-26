@@ -10,8 +10,7 @@ export const Badge = (props: Props) => {
   return (
     <div
       key={genre.id}
-      className="border bg-none border-gray-200 p-1 rounded-sm font-semibold text-foreground text-xs content-center justify-center"
-    >
+      className="border bg-none border-gray-200 px-5 rounded-xl font-semibold text-foreground text-xs content-center justify-center">
       {genre.name}
     </div>
   );
