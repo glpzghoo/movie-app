@@ -41,7 +41,7 @@ export default async function Genre(props: Props) {
       <div className="m-4">
         <div className="upcoming-header flex justify-between">
           <h1 className="text-xl font-extrabold ">
-            {props.params.genre.toUpperCase()}
+            {props.params.genre.toUpperCase().replaceAll("_", " ")}
           </h1>
           {/* <a href="/upcoming">
           <div>See More</div>

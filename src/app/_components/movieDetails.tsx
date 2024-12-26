@@ -1,8 +1,45 @@
 import Genre from "../[genre]/page";
-import { options } from "../page";
+import { Movie, options } from "../page";
 import { CreditCrew, Genres, movieDetail, Props } from "../types/types";
 import { Badge } from "./badge";
+import { Cards } from "./movies";
 // type movieDetailGenres = {};
+// type creditsData ={
+//   cast:
+// }
+type cast = {
+  adult: boolean;
+  gender: boolean;
+  id: number;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: number;
+  profile_path: string;
+  cast_id: number;
+  character: string;
+  credit_id: string;
+  order: number;
+};
+type crew = {
+  adult: boolean;
+  gender: boolean;
+  id: boolean;
+  known_for_department: string;
+  name: string;
+  original_name: string;
+  popularity: boolean;
+  profile_path: string;
+  credit_id: string;
+  department: string;
+  job: string;
+};
+type creditsDetails = {
+  cast: cast[];
+  crew: crew[];
+  id: number;
+};
+
 export const Loaded = async (props: Props) => {
   const movie: movieDetail = props.movie;
   const movieGenres: Genres[] = movie.genres;
@@ -14,22 +51,32 @@ export const Loaded = async (props: Props) => {
     options
   );
   const credits = await response.json();
+  const res_recom = await fetch(
+    `https://api.themoviedb.org/3/movie/${movie.id}/recommendations?language=en-US&page=1`,
+    options
+  );
+  const recommendations = await res_recom.json();
+
   console.log("credits crew", credits.crew);
-  const directors: CreditCrew[] = credits.crew.filter((crew: CreditCrew) => {
-    if (crew.job == "Director" || crew.known_for_department == "Directing") {
+
+  console.log("recommendations", recommendations);
+
+  const directors: CreditCrew[] = credits?.crew?.filter((crew: CreditCrew) => {
+    if (crew.known_for_department == "Directing" || crew.job === "Director") {
       return <div>{crew.name}</div>;
     }
   });
-  const Writers: CreditCrew[] = credits.crew.filter((crew: CreditCrew) => {
-    if (crew.job == "Story" || crew.known_for_department == "Writing") {
+  const Writers: CreditCrew[] = credits?.crew?.filter((crew: CreditCrew) => {
+    if (crew.known_for_department == "Writing" || crew.job === "Writing") {
       return <div>{crew.name}</div>;
     }
   });
-  const Stars: CreditCrew[] = credits.crew.filter((crew: CreditCrew) => {
-    if (crew.job == "Director" || crew.known_for_department == "Directing") {
-      return <div>{crew.name}</div>;
-    }
-  });
+  // const Stars: CreditCrew[] = credits.crew.filter((crew: CreditCrew) => {
+  //   if (crew.job == "Director" || crew.known_for_department == "Directing") {
+  //     return <div>{crew.name}</div>;
+  //   }
+  // });
+  console.log("credits", credits);
   console.log("directors", directors);
   console.log("writes", Writers);
   return (
@@ -61,7 +108,7 @@ export const Loaded = async (props: Props) => {
             <div>
               <h1 className="text-2xl font-extrabold">{movie.title}</h1>
               <div className="flex gap-2">
-                <div>{movie.release_date.replaceAll("-", ".")}</div>·
+                <div>{movie && movie?.release_date?.replaceAll("-", ".")}</div>·
                 {/* <div className="flex gap-2">
                     {movie.genres.map((genre: Genres) => {
                       return <div>{genre.name}</div>;
@@ -69,7 +116,8 @@ export const Loaded = async (props: Props) => {
                   </div>
                   · */}
                 <div>
-                  {Math.floor(movie.runtime / 60)}h : {movie.runtime % 60}m
+                  {movie && Math.floor(movie.runtime / 60)}h :{" "}
+                  {movie.runtime % 60}m
                 </div>
               </div>
             </div>
@@ -78,7 +126,7 @@ export const Loaded = async (props: Props) => {
                 <img className="w-9" src="/img/rating.svg" />
                 <div>
                   <div className="flex justify-center">
-                    {movie.vote_average.toFixed(1)}/{" "}
+                    {movie && movie?.vote_average?.toFixed(1)}/{" "}
                     <span className="text-gray-400">10</span>
                   </div>
                   <div className="justify-self-end">({movie.vote_count})</div>
@@ -103,26 +151,60 @@ export const Loaded = async (props: Props) => {
         </div>
         <div className="tailbariin-div w-[201px] ">
           <div className="badges-here flex gap-3 flex-wrap my-3">
-            {movieGenres.map((genre: Genres) => (
-              <Badge genre={genre} />
-            ))}
+            {movieGenres &&
+              movieGenres.map((genre: Genres) => <Badge genre={genre} />)}
           </div>
           <div className="overview my-3">{movie.overview}</div>
         </div>
       </div>
       <div className="nairuulagchtai-heseg">
-        <div className="w-[90%] justify-self-center flex border-b-2 border-gray-300">
+        <div className="w-[90%]  min-h-20 justify-self-center flex gap-2 border-b-2 border-gray-300">
           <h1 className="font-bold">Directer</h1>
-          <h3>
+          <h3 className="flex flex-wrap gap-2">
             {/* reminder */}
-            {directors.map((director) => director.name)}
+            {directors &&
+              directors
+                .map((director, index) => (
+                  <div key={index}>{director.name}</div>
+                ))
+                .slice(0, 5)}
           </h3>
         </div>
-        <div className="w-[90%] justify-self-center">
+        <div className="w-[90%] min-h-20 justify-self-center flex gap-2 border-b-2 border-gray-300">
           <h1 className="font-bold">Writer</h1>
+          <h3 className="flex flex-wrap gap-2">
+            {/* reminder */}
+            {Writers &&
+              Writers.map((writer, index) => (
+                <div key={index}>{writer.name}</div>
+              )).slice(0, 5)}
+          </h3>
         </div>
-        <div className="w-[90%] justify-self-center">
+        <div className="w-[90%] min-h-20 justify-self-center flex gap-2 border-b-2 border-gray-300">
           <h1 className="font-bold">Stars</h1>
+          <h3 className="flex flex-wrap gap-2">
+            {/* reminder */}
+            {credits &&
+              credits?.cast
+                ?.map((cast: cast, index: number) => (
+                  <div key={index}>{cast.name}</div>
+                ))
+                .slice(0, 5)}
+          </h3>
+        </div>
+        <div className="m-6">
+          <div className=" popular flex justify-between">
+            <h1 className="text-xl font-extrabold ">More like this</h1>
+            <a href="/">
+              <div>See More</div>
+            </a>
+          </div>
+          <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+            {recommendations &&
+              recommendations?.results
+                ?.map((movie: Movie) => <Cards prop={movie} />)
+                .slice(0, 4)}
+          </div>
         </div>
       </div>
     </div>
