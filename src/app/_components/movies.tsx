@@ -14,7 +14,7 @@ export const Cards = (props: Props) => {
       <div className={`rounded-lg bg-secondary overflow-hidden`}>
         <img
           className="w-full h-auto"
-          src={`https://image.tmdb.org/t/p/w500${props.prop.poster_path}`}
+          src={`https://image.tmdb.org/t/p/original${props.prop.poster_path}`}
         />
         <div className="p-[10px]">
           <div className="rating flex items-center text-xs">

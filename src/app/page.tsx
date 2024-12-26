@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Cards } from "./_components/movies";
 import { Link } from "lucide-react";
+import { SearchBar } from "./_components/searchBar";
 
 export type Movie = {
   adult: boolean;
@@ -118,11 +119,11 @@ export default async function Home() {
               </div>
             </a>
             <div className="flex"></div>
-            <input placeholder="Search" className="hidden w-1/2 sm:block" />
+            {/* here */}
+
             <div className="flex gap-4">
-              <button className="block sm:hidden">
-                <img className="w-9" src="/img/search.png" />
-              </button>
+              {/* here */}
+              <SearchBar />
               <button>
                 <img className="w-9" src="/img/switch-button.png" />
               </button>

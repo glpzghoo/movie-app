@@ -2,6 +2,7 @@ import { Movie, options } from "../page";
 import { CreditCrew, Genres, movieDetail, Props } from "../types/types";
 import { Badge } from "./badge";
 import { Cards } from "./movies";
+import { SearchBar } from "./searchBar";
 // type movieDetailGenres = {};
 // type creditsData ={
 //   cast:
@@ -91,9 +92,7 @@ export const Loaded = async (props: Props) => {
             </a>
             <div className="flex"></div>
             <div className="flex gap-4">
-              <button>
-                <img className="w-9" src="/img/search.png" />
-              </button>
+              <SearchBar />
               <button>
                 <img className="w-9" src="/img/switch-button.png" />
               </button>
@@ -138,14 +137,14 @@ export const Loaded = async (props: Props) => {
       <div>
         <img
           className="w-full"
-          src={`https://image.tmdb.org/t/p/w500${movie.backdrop_path}`}
+          src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
         />
       </div>
       <div className="flex justify-around gap-10 w-full p-5">
         <div className="zuragnii-div w-[50%]">
           <img
             className="w-full h-full"
-            src={`https://image.tmdb.org/t/p/w154${movie.poster_path}`}
+            src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
           />
         </div>
         <div className="tailbariin-div w-[50%]">

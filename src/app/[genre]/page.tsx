@@ -1,8 +1,7 @@
-import { useParams } from "next/navigation";
 import { Cards } from "../_components/movies";
 import { Movie, options } from "../page";
-import { useEffect, useState } from "react";
 import { Loading } from "../_components/movieDetails";
+import { SearchBar } from "../_components/searchBar";
 
 type Props = {
   params: Params;
@@ -30,27 +29,18 @@ type results = oneMovieGenre[];
 type movies = {
   results: results;
 };
-export default function Genre() {
-  const [movies, setMovies] = useState<movies[]>();
-  const params: Params = useParams();
-  const genre = params.genre;
+export default async function Genre(props: Props) {
+  console.log("params check", props.params.genre);
+  const genre = props.params.genre;
+  const res = await fetch(
+    `https://api.themoviedb.org/3/movie/${genre}`,
+    options
+  );
+  const data = await res.json();
+  console.log("data response", data);
 
-  console.log(genre);
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch(
-        `https://api.themoviedb.org/3/movie/${genre}`,
-        options
-      );
-      const data = await res.json();
-      console.log("data response", data);
-      setMovies(data.results);
-      console.log("checking movies", movies);
-    };
-    fetchData();
-  }, []);
-
-  console.log("is this movies?", movies);
+  console.log("checking movies", data.results);
+  const movies = data.results;
   return (
     <div>
       <div className="navigation">
@@ -64,9 +54,7 @@ export default function Genre() {
             </a>
             <div className="flex"></div>
             <div className="flex gap-4">
-              <button>
-                <img className="w-9" src="/img/search.png" />
-              </button>
+              <SearchBar />
               <button>
                 <img className="w-9" src="/img/switch-button.png" />
               </button>
@@ -77,18 +65,23 @@ export default function Genre() {
       <div className="m-4">
         <div className="upcoming-header flex justify-between">
           <h1 className="text-xl font-extrabold ">
-            {movies && params?.genre?.toUpperCase().replaceAll("_", " ")}
+            {movies && genre?.toUpperCase().replaceAll("_", " ")}
           </h1>
           {/* <a href="/upcoming">
           <div>See More</div>
         </a> */}
         </div>
         <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
-          {movies ? movies.map((movie) => <Cards prop={movie} />) : <Loading />}
+          {movies ? (
+            movies.map((movie: Movie) => <Cards prop={movie} />)
+          ) : (
+            <Loading />
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-("use client");
+// ("use client");
+// import { useEffect, useState } from "react";
