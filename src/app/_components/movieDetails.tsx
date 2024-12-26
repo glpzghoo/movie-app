@@ -210,5 +210,9 @@ export const Loaded = async (props: Props) => {
   );
 };
 export const Loading = () => {
-  return <div>Loading...</div>;
+  return (
+    <div className="font-extrabold fixed top-1/2 bottom-1/2 left-1/2 right-1/2 translate-x-1/2 translate-y-1/2">
+      Loading...
+    </div>
+  );
 };

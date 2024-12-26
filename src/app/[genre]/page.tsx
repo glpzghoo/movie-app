@@ -1,9 +1,9 @@
-"use client";
 import { useParams } from "next/navigation";
 import { Cards } from "../_components/movies";
 import { Movie, options } from "../page";
 import { useEffect, useState } from "react";
-import { Genres } from "../types/types";
+import { Loading } from "../_components/movieDetails";
+
 type Props = {
   params: Params;
 };
@@ -31,25 +31,26 @@ type movies = {
   results: results;
 };
 export default function Genre() {
-  const [movies, setMovies] = useState<movies>();
+  const [movies, setMovies] = useState<movies[]>();
   const params: Params = useParams();
+  const genre = params.genre;
 
-  // console.log(params);
+  console.log(genre);
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
-        `https://api.themoviedb.org/3/movie/${params.genre}?language=en-US`,
+        `https://api.themoviedb.org/3/movie/${genre}`,
         options
       );
       const data = await res.json();
       console.log("data response", data);
-      setMovies(data);
+      setMovies(data.results);
       console.log("checking movies", movies);
     };
     fetchData();
   }, []);
 
-  console.log(movies);
+  console.log("is this movies?", movies);
   return (
     <div>
       <div className="navigation">
@@ -83,11 +84,11 @@ export default function Genre() {
         </a> */}
         </div>
         <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
-          {movies.map((movie: Movie) => (
-            <Cards prop={movie} />
-          ))}
+          {movies ? movies.map((movie) => <Cards prop={movie} />) : <Loading />}
         </div>
       </div>
     </div>
   );
 }
+
+("use client");
