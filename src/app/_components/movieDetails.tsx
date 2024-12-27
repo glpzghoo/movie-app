@@ -194,7 +194,10 @@ export const Loaded = async (props: Props) => {
         <div className="m-6">
           <div className=" popular flex justify-between">
             <h1 className="text-xl font-extrabold ">More like this</h1>
-            <a href={`../${movieGenres[0].name}`}>
+            <a
+              href={`./${
+                movie.id
+              }/${movieGenres[0].name.toLowerCase()}?language=en-US&page=1`}>
               <div>See More</div>
             </a>
           </div>

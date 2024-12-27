@@ -1,5 +1,4 @@
 "use client";
-
 import { Loading } from "@/app/_components/movieDetails";
 import { Cards } from "@/app/_components/movies";
 import { Page } from "@/app/_components/pagination";
@@ -8,56 +7,31 @@ import { Movie, options } from "@/app/page";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-type Props = {
-  params: Params;
-};
-type Params = {
+type props = {
+  id: number;
   genre: string;
 };
-type oneMovieGenre = {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-};
-type results = oneMovieGenre[];
-type movies = {
-  results: results;
-};
-export default function Genre(props: Props) {
-  const [data, setData] = useState<movies>();
-  const searchParams = useSearchParams();
-
+export default function similar() {
   const params = useParams();
+  const searchParams = useSearchParams();
+  const [movies, setData] = useState();
+  console.log("params id", params.id);
+  console.log("search params", searchParams);
   const genre: any = params.genre;
-  const page = searchParams.get("page");
-  console.log("genre  ???", genre);
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(
-        `https://api.themoviedb.org/3/movie/${genre}?language=en-US&page=${page}`,
+      const res_recom = await fetch(
+        `https://api.themoviedb.org/3/movie/${params.id}/similar?language=en-US&page=1`,
         options
       );
-      const data: movies = await res.json();
-      setData(data);
-      console.log("data response", data);
-
-      console.log("checking movies", data.results);
+      const recommendations = await res_recom.json();
+      console.log("recommendations", recommendations);
+      setData(recommendations.results);
     };
     fetchData();
   }, []);
-
-  const movies = data?.results;
+  console.log("data", movies);
+  // const movies = data;
   return (
     <div>
       <div className="navigation">
@@ -85,8 +59,8 @@ export default function Genre(props: Props) {
             {genre && genre?.replaceAll("_", " ").toUpperCase()}
           </h1>
           {/* <a href="/upcoming">
-          <div>See More</div>
-        </a> */}
+            <div>See More</div>
+          </a> */}
         </div>
         <div
           key={69}
@@ -104,6 +78,3 @@ export default function Genre(props: Props) {
     </div>
   );
 }
-
-// ("use client");
-// import { useEffect, useState } from "react";
