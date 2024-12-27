@@ -45,6 +45,7 @@ export const Loaded = async (props: Props) => {
   const movieGenres: Genres[] = movie.genres;
 
   console.log("checking movie", movie);
+  console.log(`checking props(movieDetails)`, props);
 
   const response = await fetch(
     `https://api.themoviedb.org/3/movie/${movie.id}/credits`,
@@ -52,7 +53,7 @@ export const Loaded = async (props: Props) => {
   );
   const credits = await response.json();
   const res_recom = await fetch(
-    `https://api.themoviedb.org/3/movie/${movie.id}/recommendations?language=en-US&page=1`,
+    `https://api.themoviedb.org/3/movie/${movie.id}/similar?language=en-US&page=1`,
     options
   );
   const recommendations = await res_recom.json();
@@ -193,14 +194,16 @@ export const Loaded = async (props: Props) => {
         <div className="m-6">
           <div className=" popular flex justify-between">
             <h1 className="text-xl font-extrabold ">More like this</h1>
-            <a href="/">
+            <a href={`../${movieGenres[0].name}`}>
               <div>See More</div>
             </a>
           </div>
           <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
             {recommendations &&
               recommendations?.results
-                ?.map((movie: Movie) => <Cards prop={movie} />)
+                ?.map((movie: Movie, index: number) => (
+                  <Cards prop={movie} index={index} />
+                ))
                 .slice(0, 4)}
           </div>
         </div>

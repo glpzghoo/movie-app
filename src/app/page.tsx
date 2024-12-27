@@ -28,7 +28,6 @@ export const options = {
   },
 };
 export default async function Home() {
-  const response = await fetch("https://api.themoviedb.org/3/movie/", options);
   const res_topRated = await fetch(
     "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
     options
@@ -171,28 +170,32 @@ export default async function Home() {
         <div className="upcoming my-6">
           <div className="upcoming-header flex justify-between p-3">
             <h1 className="text-2xl font-extrabold ">Upcoming</h1>
-            <a href="/upcoming">
+            <a href="/upcoming?language=en-US&page=1">
               <div>See More</div>
             </a>
           </div>
           {/*  cards here */}
           <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
             {upcoming.results
-              .map((movie: Movie) => <Cards prop={movie} />)
+              .map((movie: Movie, index: number) => (
+                <Cards prop={movie} index={index} />
+              ))
               .slice(0, 12)}
           </div>
 
           <div className="popular my-6">
             <div className="popular-header popular flex justify-between p-3">
               <h1 className="text-2xl font-extrabold ">Popular</h1>
-              <a href="/popular">
+              <a href="/popular?language=en-US&page=1">
                 <div>See More</div>
               </a>
             </div>
             {/*  cards here */}
             <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
               {popular.results
-                .map((movie: Movie) => <Cards prop={movie} />)
+                .map((movie: Movie, index: number) => (
+                  <Cards prop={movie} index={index} />
+                ))
                 .slice(0, 12)}
             </div>
           </div>
@@ -200,14 +203,16 @@ export default async function Home() {
         <div className="toprated my-6">
           <div className="toprated-header flex justify-between p-3">
             <h1 className="text-2xl font-extrabold ">Top rated</h1>
-            <a href="/top_rated">
+            <a href="/top_rated?language=en-US&page=1">
               <div>See More</div>
             </a>
           </div>
           {/*  cards here */}
           <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
             {top_rated.results
-              .map((movie: Movie) => <Cards prop={movie} />)
+              .map((movie: Movie, index: number) => (
+                <Cards prop={movie} index={index} />
+              ))
               .slice(0, 12)}
           </div>
         </div>

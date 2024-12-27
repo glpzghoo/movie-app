@@ -1,10 +1,10 @@
 "use client";
 
-import { Cards } from "../_components/movies";
-import { Movie, options } from "../page";
-import { Loading } from "../_components/movieDetails";
-import { SearchBar } from "../_components/searchBar";
-import { Page } from "../_components/pagination";
+import { Loading } from "@/app/_components/movieDetails";
+import { Cards } from "@/app/_components/movies";
+import { Page } from "@/app/_components/pagination";
+import { SearchBar } from "@/app/_components/searchBar";
+import { Movie, options } from "@/app/page";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
