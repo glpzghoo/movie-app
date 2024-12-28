@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Cards } from "./_components/movies";
 import { SearchBar } from "./_components/searchBar";
+import Image from "next/image";
+import Link from "next/link";
 
 export type Movie = {
   adult: boolean;
@@ -110,12 +112,18 @@ export default async function Home() {
       <div className="navigation">
         <div>
           <div className="flex justify-around p-4 sm:justify-between">
-            <a href="/">
+            <Link href="/">
               <div className="flex gap-2 items-center">
-                <img className="w-9 h-9" src="/img/film.svg" />
+                <Image
+                  width="500"
+                  height="700"
+                  alt="logo"
+                  className="w-9 h-9"
+                  src="/img/film.svg"
+                />
                 <h3 className="">Movie</h3>
               </div>
-            </a>
+            </Link>
             <div className="flex"></div>
             {/* here */}
 
@@ -123,7 +131,13 @@ export default async function Home() {
               {/* here */}
               <SearchBar />
               <button>
-                <img className="w-9" src="/img/switch-button.png" />
+                <Image
+                  width="500"
+                  height="700"
+                  alt="switch mode to light/dark"
+                  className="w-9"
+                  src="/img/switch-button.png"
+                />
               </button>
             </div>
           </div>
@@ -131,11 +145,17 @@ export default async function Home() {
       </div>
       <div className="featured-movie">
         <div className="sm:flex">
-          <img
+          <Image
+            width="500"
+            height="700"
+            alt="featured movie backdrop"
             className="overflow-auto w-[50%] h-[50%] justify-self-center hidden sm:block"
             src={`https://image.tmdb.org/t/p/w500${now_playingMoviePictureSM}`}
           />
-          <img
+          <Image
+            width="500"
+            height="700"
+            alt="featured movie backdrop"
             className="overflow-auto w-full h-full justify-self-center block sm:hidden"
             src={`https://image.tmdb.org/t/p/w500${now_playingMoviePicture}`}
           />
@@ -146,7 +166,13 @@ export default async function Home() {
                 <h1 className="text-lg font-bold">{now_playingMovieTitle}</h1>
               </div>
               <div className="">
-                <img src="/img/rating.svg" />
+                <Image
+                  width="30"
+                  height="30"
+                  className="w-auto h-auto"
+                  alt="star rating"
+                  src="/img/rating.svg"
+                />
                 <div>{Math.floor(now_playingMovieRating * 10) / 10}/10</div>
               </div>
             </div>
@@ -158,9 +184,9 @@ export default async function Home() {
               {now_playingMovieOverview}
             </div>
             <div className="py-4">
-              <a href={yt_trailer}>
+              <Link href={yt_trailer}>
                 <Button className="px-4 py-2">Watch Trailer</Button>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -169,9 +195,9 @@ export default async function Home() {
         <div className="upcoming my-6">
           <div className="upcoming-header flex justify-between p-3">
             <h1 className="text-2xl font-extrabold ">Upcoming</h1>
-            <a href="/upcoming?language=en-US&page=1">
+            <Link href="/upcoming?language=en-US&page=1">
               <div>See More</div>
-            </a>
+            </Link>
           </div>
           {/*  cards here */}
           <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
@@ -185,9 +211,9 @@ export default async function Home() {
           <div className="popular my-6">
             <div className="popular-header popular flex justify-between p-3">
               <h1 className="text-2xl font-extrabold ">Popular</h1>
-              <a href="/popular?language=en-US&page=1">
+              <Link href="/popular?language=en-US&page=1">
                 <div>See More</div>
-              </a>
+              </Link>
             </div>
             {/*  cards here */}
             <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
@@ -202,9 +228,9 @@ export default async function Home() {
         <div className="toprated my-6">
           <div className="toprated-header flex justify-between p-3">
             <h1 className="text-2xl font-extrabold ">Top rated</h1>
-            <a href="/top_rated?language=en-US&page=1">
+            <Link href="/top_rated?language=en-US&page=1">
               <div>See More</div>
-            </a>
+            </Link>
           </div>
           {/*  cards here */}
           <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">

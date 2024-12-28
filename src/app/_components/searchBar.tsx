@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Movie, options } from "../page";
 import { Link } from "lucide-react";
 import { FaArrowRight } from "react-icons/fa";
+import Image from "next/image";
 type target = {
   value: string;
 };
@@ -69,12 +70,15 @@ export const SearchBar = () => {
         {data ? (
           theMovies
             .map((theMovie) => (
-              <a
+              <Link
                 className=" w-[335px] p-2 relative flex border-b-2 border-gray-200"
                 href={`/movie/${theMovie.id}`}
               >
                 <div>
-                  <img
+                  <Image
+                    width="50"
+                    height="50"
+                    alt="movie poster on search result"
                     className="w-16 h-25"
                     src={
                       theMovie.poster_path
@@ -86,7 +90,13 @@ export const SearchBar = () => {
                 <div className="flex flex-col justify-evenly ">
                   <h1 className="">{theMovie.title}</h1>
                   <div className="flex">
-                    <img className="w-5" src="/img/rating.svg" />
+                    <Image
+                      width="50"
+                      height="50"
+                      alt="movie rating star on search result"
+                      className="w-5"
+                      src="/img/rating.svg"
+                    />
                     <div>{Math.floor(theMovie.vote_average * 10) / 10}/10</div>
                   </div>
                   <div>{theMovie.release_date}</div>
@@ -94,7 +104,7 @@ export const SearchBar = () => {
                     See more <FaArrowRight />
                   </div>
                 </div>
-              </a>
+              </Link>
             ))
             .slice(1, 5)
         ) : (
@@ -140,7 +150,13 @@ export const SearchBar = () => {
             onClick={handleSearchButton}
             className={`sm:hidden ${searchButton ? `hidden` : `block`}`}
           >
-            <img className="w-9" src="/img/search.png" />
+            <Image
+              width="500"
+              height="700"
+              alt="search"
+              className="w-9"
+              src="/img/search.png"
+            />
           </button>
         </div>
       )}

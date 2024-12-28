@@ -4,6 +4,8 @@ import { Cards } from "@/app/_components/movies";
 import { Page } from "@/app/_components/pagination";
 import { SearchBar } from "@/app/_components/searchBar";
 import { Movie, options } from "@/app/page";
+import Image from "next/image";
+import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -40,17 +42,29 @@ export default function similar() {
       <div className="navigation">
         <div>
           <div className="flex justify-around py-2">
-            <a href="/">
+            <Link href="/">
               <div className="flex gap-2 items-center">
-                <img className="w-9 h-9" src="/img/film.svg" />
+                <Image
+                  width="500"
+                  height="700"
+                  alt="logo"
+                  className="w-9 h-9"
+                  src="/img/film.svg"
+                />
                 <h3 className="">Movie</h3>
               </div>
-            </a>
+            </Link>
             <div className="flex"></div>
             <div className="flex gap-4">
               <SearchBar />
               <button>
-                <img className="w-9" src="/img/switch-button.png" />
+                <Image
+                  width="500"
+                  height="700"
+                  alt="switch mode to light or dark"
+                  className="w-9"
+                  src="/img/switch-button.png"
+                />
               </button>
             </div>
           </div>

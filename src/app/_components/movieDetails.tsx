@@ -1,8 +1,10 @@
+import Image from "next/image";
 import { Movie, options } from "../page";
 import { CreditCrew, Genres, movieDetail, Props } from "../types/types";
 import { Badge } from "./badge";
 import { Cards } from "./movies";
 import { SearchBar } from "./searchBar";
+import Link from "next/link";
 // type movieDetailGenres = {};
 // type creditsData ={
 //   cast:
@@ -85,17 +87,29 @@ export const Loaded = async (props: Props) => {
       <div className="navigation">
         <div>
           <div className="flex justify-around py-2">
-            <a href="/">
+            <Link href="/">
               <div className="flex gap-2 items-center">
-                <img className="w-9 h-9" src="/img/film.svg" />
+                <Image
+                  width="50"
+                  height="50"
+                  className="w-9 h-9"
+                  alt="the logo"
+                  src="/img/film.svg"
+                />
                 <h3 className="">Movie</h3>
               </div>
-            </a>
+            </Link>
             <div className="flex"></div>
             <div className="flex gap-4">
               <SearchBar />
               <button>
-                <img className="w-9" src="/img/switch-button.png" />
+                <Image
+                  width="50"
+                  height="50"
+                  alt="mode switch to dark/light"
+                  className="w-9"
+                  src="/img/switch-button.png"
+                />
               </button>
             </div>
           </div>
@@ -122,7 +136,13 @@ export const Loaded = async (props: Props) => {
             </div>
             <div>
               <div className="flex">
-                <img className="w-9" src="/img/rating.svg" />
+                <Image
+                  width="50"
+                  height="50"
+                  alt="the rating"
+                  className="w-9"
+                  src="/img/rating.svg"
+                />
                 <div>
                   <div className="flex justify-center">
                     {movie && movie?.vote_average?.toFixed(1)}/{" "}
@@ -138,7 +158,10 @@ export const Loaded = async (props: Props) => {
       {/* div start */}
       <div className="block">
         <div className="flex justify-center">
-          <img
+          <Image
+            width="500"
+            height="700"
+            alt="featured movie backdrop"
             className="w-auto h-auto sm:h-[405px] sm:w-[720px]"
             src={
               movie.poster_path
@@ -150,7 +173,10 @@ export const Loaded = async (props: Props) => {
         <div className="flex justify-center">
           <div className="flex justify-between items-start h-72 overflow-hidden my-4 gap-10 sm:w-[auto] p-5 sm:h-[420px] sm:justify-around">
             <div className="zuragnii-div w-[50%] content-center overflow-hidden">
-              <img
+              <Image
+                width="500"
+                height="700"
+                alt="featured movie poster"
                 className="sm:w-auto sm:h-[420px]"
                 src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
               />
@@ -206,13 +232,13 @@ export const Loaded = async (props: Props) => {
         <div className="m-6">
           <div className=" popular flex justify-between">
             <h1 className="text-xl font-extrabold ">More like this</h1>
-            <a
+            <Link
               href={`./${
                 movie.id
               }/${movieGenres[0].name.toLowerCase()}?language=en-US&page=1`}
             >
               <div>See More</div>
-            </a>
+            </Link>
           </div>
           <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
             {recommendations &&

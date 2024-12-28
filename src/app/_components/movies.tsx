@@ -1,4 +1,6 @@
+import Image from "next/image";
 import { Movie } from "../page";
+import Link from "next/link";
 
 type Props = {
   prop: Movie;
@@ -16,22 +18,31 @@ export const Cards = (props: Props) => {
   // console.log("movie", props.prop);
   return (
     <div key={props.prop.id + props.index}>
-      <a href={`/movie/${props.prop.id}`}>
+      <Link href={`/movie/${props.prop.id}`}>
         <div
           key={props.prop.id}
           className={`rounded-lg bg-secondary overflow-hidden`}
         >
-          <img
+          <Image
+            width="500"
+            height="700"
+            alt="movie poster"
             className="w-full h-auto"
+            placeholder="empty"
             src={
-              props.prop.poster_path
-                ? `https://image.tmdb.org/t/p/original${props.prop.poster_path}`
-                : `https://placehold.co/286x429?text=no+pic+lol`
+              props.prop.poster_path &&
+              `https://image.tmdb.org/t/p/original${props.prop.poster_path}`
             }
           />
           <div className="p-[10px]">
             <div className="rating flex items-center text-xs">
-              <img className="w-4 h-4" src="/img/rating.svg" />
+              <Image
+                width="500"
+                height="700"
+                alt="rating star"
+                className="w-4 h-4"
+                src="/img/rating.svg"
+              />
               <div>
                 {Math.floor(props.prop.vote_average * 10) / 10}/10 (
                 {props.prop.vote_count})
@@ -40,7 +51,7 @@ export const Cards = (props: Props) => {
             <div className="name overflow-hidden">{props.prop.title}</div>
           </div>
         </div>
-      </a>
+      </Link>
     </div>
   );
 };
