@@ -14,14 +14,17 @@ type props = {
 export default function similar() {
   const params = useParams();
   const searchParams = useSearchParams();
-  const [movies, setData] = useState();
+  const [movies, setData] = useState<Movie[]>();
   console.log("params id", params.id);
   console.log("search params", searchParams);
   const genre: any = params.genre;
+  const currentPage: any = searchParams.get("page");
   useEffect(() => {
     const fetchData = async () => {
       const res_recom = await fetch(
-        `https://api.themoviedb.org/3/movie/${params.id}/similar?language=en-US&page=1`,
+        `https://api.themoviedb.org/3/movie/${
+          params.id
+        }/similar?language=en-US&page=${parseInt(currentPage)}`,
         options
       );
       const recommendations = await res_recom.json();
@@ -29,8 +32,8 @@ export default function similar() {
       setData(recommendations.results);
     };
     fetchData();
-  }, []);
-  console.log("data", movies);
+  }, [currentPage]);
+  console.log("movies[movie/[id]/[genre]]", movies);
   // const movies = data;
   return (
     <div>
@@ -62,12 +65,14 @@ export default function similar() {
             <div>See More</div>
           </a> */}
         </div>
+        <Page />
         <div
           key={69}
-          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
+        >
           {movies ? (
             movies.map((movie: Movie, index: number) => (
-              <Cards prop={movie} index={index} />
+              <Cards prop={movie} key={movie.id} index={index} />
             ))
           ) : (
             <Loading />

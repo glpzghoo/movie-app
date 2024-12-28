@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Cards } from "./_components/movies";
-import { Link } from "lucide-react";
 import { SearchBar } from "./_components/searchBar";
 
 export type Movie = {
@@ -178,7 +177,7 @@ export default async function Home() {
           <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
             {upcoming.results
               .map((movie: Movie, index: number) => (
-                <Cards prop={movie} index={index} />
+                <Cards prop={movie} key={movie.id} index={index} />
               ))
               .slice(0, 12)}
           </div>
@@ -194,7 +193,7 @@ export default async function Home() {
             <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
               {popular.results
                 .map((movie: Movie, index: number) => (
-                  <Cards prop={movie} index={index} />
+                  <Cards prop={movie} key={movie.id} index={index} />
                 ))
                 .slice(0, 12)}
             </div>
@@ -211,7 +210,7 @@ export default async function Home() {
           <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
             {top_rated.results
               .map((movie: Movie, index: number) => (
-                <Cards prop={movie} index={index} />
+                <Cards prop={movie} key={movie.id} index={index} />
               ))
               .slice(0, 12)}
           </div>

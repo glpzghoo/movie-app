@@ -34,6 +34,7 @@ type results = oneMovieGenre[];
 type movies = {
   results: results;
 };
+export const api_key = `7bd2309ac551c9317c3fd9df79b3ea29`;
 export default function Genre(props: Props) {
   const [data, setData] = useState<movies>();
   const searchParams = useSearchParams();
@@ -42,6 +43,7 @@ export default function Genre(props: Props) {
   const genre: any = params.genre;
   const page = searchParams.get("page");
   console.log("genre  ???", genre);
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
@@ -50,6 +52,14 @@ export default function Genre(props: Props) {
       );
       const data: movies = await res.json();
       setData(data);
+      if (!data) {
+        const res = await fetch(
+          `https://api.themoviedb.org/discover/movie?api_key=${api_key}&with_genres=${genre}`,
+          options
+        );
+        const data: movies = await res.json();
+        setData(data);
+      }
       console.log("data response", data);
 
       console.log("checking movies", data.results);
@@ -58,6 +68,7 @@ export default function Genre(props: Props) {
   }, []);
 
   const movies = data?.results;
+  console.log("movies [genre]", movies);
   return (
     <div>
       <div className="navigation">
@@ -88,12 +99,14 @@ export default function Genre(props: Props) {
           <div>See More</div>
         </a> */}
         </div>
+        <Page />
         <div
           key={69}
-          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
+        >
           {movies ? (
             movies.map((movie: Movie, index: number) => (
-              <Cards prop={movie} index={index} />
+              <Cards prop={movie} key={movie.id} index={index} />
             ))
           ) : (
             <Loading />

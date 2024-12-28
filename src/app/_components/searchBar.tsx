@@ -36,6 +36,7 @@ type theMovie = {
 export const SearchBar = () => {
   const [search, setSearch] = useState("");
   const [data, setData] = useState<data>();
+  const [searchButton, setSearchButton] = useState<boolean>(false);
   const input = (e: Event) => {
     const value: string = e.target.value;
     console.log("input", e);
@@ -60,8 +61,12 @@ export const SearchBar = () => {
   const ResultDiv = (props: Props) => {
     const theMovies = props.results;
     return (
-      <div className="border-border overflow-hidden rounded-xl p-3 shadow-2xl flex flex-col bg-white absolute right-4 gap-1">
-        {data &&
+      <div
+        className={`border-border overflow-hidden rounded-xl p-3 shadow-2xl ${
+          search && `bg-white`
+        } flex flex-col absolute top-2 right-0 gap-1`}
+      >
+        {data ? (
           theMovies
             .map((theMovie) => (
               <a
@@ -71,7 +76,11 @@ export const SearchBar = () => {
                 <div>
                   <img
                     className="w-16 h-25"
-                    src={`https://image.tmdb.org/t/p/original${theMovie.poster_path}`}
+                    src={
+                      theMovie.poster_path
+                        ? `https://image.tmdb.org/t/p/original${theMovie.poster_path}`
+                        : `https://placehold.co/286x429?text=no+pic+lol`
+                    }
                   />
                 </div>
                 <div className="flex flex-col justify-evenly ">
@@ -87,21 +96,50 @@ export const SearchBar = () => {
                 </div>
               </a>
             ))
-            .slice(1, 5)}
-        {search && <div>See all results for "{search}"</div>}
+            .slice(1, 5)
+        ) : (
+          <div className=" w-[335px] h-[200px] p-2 border-b-2 border-gray-200">
+            No Results
+          </div>
+        )}
+        {theMovies && search && <div>See all results for "{search}"</div>}
       </div>
     );
+  };
+
+  const handleSearchButton = () => {
+    setSearchButton(!searchButton);
+    console.log(searchButton);
   };
   return (
     <>
       {data && (
-        <div>
-          <div className="relative hidden w-full sm:block">
-            <input onChange={input} placeholder="Search" className="" />
+        <div className="content-center">
+          <div
+            className={`relative ${
+              searchButton ? `flex` : `hidden sm:block`
+            } items-center gap-2 w-full`}
+          >
+            <button
+              onClick={handleSearchButton}
+              className="text-gray-400 block sm:hidden"
+            >
+              X
+            </button>
+            <input
+              onChange={input}
+              placeholder="Search"
+              className="w-full h-full"
+            />
+          </div>
+          <div className="relative w-full bg-none">
             <ResultDiv results={data} />
           </div>
 
-          <button className="block sm:hidden">
+          <button
+            onClick={handleSearchButton}
+            className={`sm:hidden ${searchButton ? `hidden` : `block`}`}
+          >
             <img className="w-9" src="/img/search.png" />
           </button>
         </div>

@@ -135,27 +135,39 @@ export const Loaded = async (props: Props) => {
           </div>
         </div>
       </div>
-      <div>
-        <img
-          className="w-full"
-          src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
-        />
-      </div>
-      <div className="flex justify-around gap-10 w-full p-5">
-        <div className="zuragnii-div w-[50%]">
+      {/* div start */}
+      <div className="block">
+        <div className="flex justify-center">
           <img
-            className="w-full h-full"
-            src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+            className="w-auto h-auto sm:h-[405px] sm:w-[720px]"
+            src={
+              movie.poster_path
+                ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+                : `https://placehold.co/640x360?text=no+pic+lol`
+            }
           />
         </div>
-        <div className="tailbariin-div w-[50%]">
-          <div className="badges-here flex gap-3 flex-wrap my-3">
-            {movieGenres &&
-              movieGenres.map((genre: Genres) => <Badge genre={genre} />)}
+        <div className="flex justify-center">
+          <div className="flex justify-between items-start h-72 overflow-hidden my-4 gap-10 sm:w-[auto] p-5 sm:h-[420px] sm:justify-around">
+            <div className="zuragnii-div w-[50%] content-center overflow-hidden">
+              <img
+                className="sm:w-auto sm:h-[420px]"
+                src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+              />
+            </div>
+            <div className="tailbariin-div w-[50%] sm:flex sm:flex-col sm:justify-center sm:w-[80%]">
+              <div className="badges-here flex gap-3 flex-wrap my-3 ">
+                {movieGenres &&
+                  movieGenres.map((genre: Genres, index: number) => (
+                    <Badge genre={genre} id={movie.id} />
+                  ))}
+              </div>
+              <div className="overview my-3 w-[100%] ">{movie.overview}</div>
+            </div>
           </div>
-          <div className="overview my-3 w-[100%]">{movie.overview}</div>
         </div>
       </div>
+      {/* div ends */}
       <div className="nairuulagchtai-heseg">
         <div className="w-[90%]  min-h-20 justify-self-center flex gap-2 border-b-2 border-gray-300">
           <h1 className="font-bold">Directer</h1>
@@ -197,7 +209,8 @@ export const Loaded = async (props: Props) => {
             <a
               href={`./${
                 movie.id
-              }/${movieGenres[0].name.toLowerCase()}?language=en-US&page=1`}>
+              }/${movieGenres[0].name.toLowerCase()}?language=en-US&page=1`}
+            >
               <div>See More</div>
             </a>
           </div>
@@ -205,7 +218,7 @@ export const Loaded = async (props: Props) => {
             {recommendations &&
               recommendations?.results
                 ?.map((movie: Movie, index: number) => (
-                  <Cards prop={movie} index={index} />
+                  <Cards prop={movie} key={movie.id} index={index} />
                 ))
                 .slice(0, 4)}
           </div>
@@ -216,8 +229,9 @@ export const Loaded = async (props: Props) => {
 };
 export const Loading = () => {
   return (
-    <div className="font-extrabold fixed top-1/2 bottom-1/2 left-1/2 right-1/2 translate-x-1/2 translate-y-1/2">
-      Loading...
+    <div className="font-extrabold relative flex items-center gap-2 text-center w-full">
+      <span className="relative inline-flex rounded-full h-2 w-2 bg-red-600 animate-ping"></span>
+      <p>Loading...</p>
     </div>
   );
 };
