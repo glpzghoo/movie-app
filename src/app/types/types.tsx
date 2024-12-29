@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+
 export type Genres = {
   id: number;
   name: string;

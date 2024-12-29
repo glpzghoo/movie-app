@@ -73,37 +73,6 @@ export default function Genre(props: Props) {
   console.log("movies [genre]", movies);
   return (
     <div>
-      <div className="navigation">
-        <div>
-          <div className="flex justify-around py-2">
-            <Link href="/">
-              <div className="flex gap-2 items-center">
-                <Image
-                  width="500"
-                  height="700"
-                  alt="logo"
-                  className="w-9 h-9"
-                  src="/img/film.svg"
-                />
-                <h3 className="">Movie</h3>
-              </div>
-            </Link>
-            <div className="flex"></div>
-            <div className="flex gap-4">
-              <SearchBar />
-              <button>
-                <Image
-                  width="500"
-                  height="700"
-                  alt="switch mode to light/dark"
-                  className="w-9"
-                  src="/img/switch-button.png"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="m-4">
         <div className="upcoming-header flex justify-between">
           <h1 className="text-xl font-extrabold ">

@@ -3,6 +3,16 @@ import { Cards } from "./_components/movies";
 import { SearchBar } from "./_components/searchBar";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  ArrowBigDown,
+  ArrowDown,
+  ArrowDown01,
+  ArrowDown01Icon,
+} from "lucide-react";
+import { MdKeyboardArrowDown } from "react-icons/md";
+import { ToggleMode } from "./_components/switchmode";
+import { Navigation } from "./_components/navigation";
+import { Metadata } from "next";
 
 export type Movie = {
   adult: boolean;
@@ -28,6 +38,7 @@ export const options = {
       "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3YmQyMzA5YWM1NTFjOTMxN2MzZmQ5ZGY3OWIzZWEyOSIsIm5iZiI6MTczNTAyNTM4OC42MDQsInN1YiI6IjY3NmE2MmVjYjBjMzc2ZDQyMWE5ZWQyZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.NP1yqe7VPWE7aXz-y9KfvdAA6EK8r8UDrjhU8EjFev4",
   },
 };
+
 export default async function Home() {
   const res_topRated = await fetch(
     "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1",
@@ -59,11 +70,11 @@ export default async function Home() {
   // const moviesData= await res_movies.json();
   // console.log("top_rated 1", top_rated1.results[0]);
   // top rated
-  const topRatedMovies: string[] = top_rated.results;
-  const topRatedMovieTitle: string = top_rated.results[0].title;
-  const topRatedMovieOverview: string = top_rated.results[0].overview;
-  const topRatedMoviePicture: string = top_rated.results[0].poster_path;
-  const topRatedMovieRating: number = top_rated.results[0].vote_average;
+  const topRatedMovies: string[] = top_rated?.results;
+  const topRatedMovieTitle: string = top_rated?.results[0]?.title;
+  const topRatedMovieOverview: string = top_rated?.results[0]?.overview;
+  const topRatedMoviePicture: string = top_rated?.results[0]?.poster_path;
+  const topRatedMovieRating: number = top_rated?.results[0]?.vote_average;
   // popular
   const popularMovies: string[] = popular.results;
   const popularMovieTitle: string = popular.results[0].title;
@@ -108,116 +119,100 @@ export default async function Home() {
   console.log("now playing", now_playing);
 
   return (
-    <div className="">
-      <div className="navigation">
-        <div>
-          <div className="flex justify-around p-4 sm:justify-between">
-            <Link href="/">
-              <div className="flex gap-2 items-center">
-                <Image
-                  width="500"
-                  height="700"
-                  alt="logo"
-                  className="w-9 h-9"
-                  src="/img/film.svg"
-                />
-                <h3 className="">Movie</h3>
+    <>
+      <div className="block xl:hidden">
+        <div className="featured-movie">
+          <div className="sm:flex">
+            <Image
+              width="500"
+              height="700"
+              alt="featured movie backdrop"
+              className="overflow-auto w-[50%] h-[50%] justify-self-center hidden sm:block"
+              src={`https://image.tmdb.org/t/p/w500${now_playingMoviePictureSM}`}
+            />
+            <Image
+              width="500"
+              height="700"
+              alt="featured movie backdrop"
+              className="overflow-auto w-full h-full justify-self-center block sm:hidden"
+              src={`https://image.tmdb.org/t/p/w500${now_playingMoviePicture}`}
+            />
+            <div className="p-7">
+              <div className="flex justify-between py-4">
+                <div>
+                  <div>Now in theaters:</div>
+                  <h1 className="text-lg font-bold">{now_playingMovieTitle}</h1>
+                </div>
+                <div className="">
+                  <Image
+                    width="30"
+                    height="30"
+                    className="w-auto h-auto"
+                    alt="star rating"
+                    src="/img/rating.svg"
+                  />
+                  <div>{Math.floor(now_playingMovieRating * 10) / 10}/10</div>
+                </div>
               </div>
-            </Link>
-            <div className="flex"></div>
-            {/* here */}
-
-            <div className="flex gap-4">
-              {/* here */}
-              <SearchBar />
-              <button>
-                <Image
-                  width="500"
-                  height="700"
-                  alt="switch mode to light/dark"
-                  className="w-9"
-                  src="/img/switch-button.png"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="featured-movie">
-        <div className="sm:flex">
-          <Image
-            width="500"
-            height="700"
-            alt="featured movie backdrop"
-            className="overflow-auto w-[50%] h-[50%] justify-self-center hidden sm:block"
-            src={`https://image.tmdb.org/t/p/w500${now_playingMoviePictureSM}`}
-          />
-          <Image
-            width="500"
-            height="700"
-            alt="featured movie backdrop"
-            className="overflow-auto w-full h-full justify-self-center block sm:hidden"
-            src={`https://image.tmdb.org/t/p/w500${now_playingMoviePicture}`}
-          />
-          <div className="p-7">
-            <div className="flex justify-between py-4">
-              <div>
-                <div>Now in theaters:</div>
-                <h1 className="text-lg font-bold">{now_playingMovieTitle}</h1>
-              </div>
-              <div className="">
-                <Image
-                  width="30"
-                  height="30"
-                  className="w-auto h-auto"
-                  alt="star rating"
-                  src="/img/rating.svg"
-                />
-                <div>{Math.floor(now_playingMovieRating * 10) / 10}/10</div>
-              </div>
-            </div>
-            <div className="text-sm py-4">
-              {/* Elphaba, a misunderstood young woman because of her green skin, and
+              <div className="text-sm py-4">
+                {/* Elphaba, a misunderstood young woman because of her green skin, and
             Glinda, a popular girl, become friends at Shiz University in the
             Land of Oz. After an encounter with the Wonderful Wizard of Oz,
             their friendship reaches a crossroads. */}
-              {now_playingMovieOverview}
-            </div>
-            <div className="py-4">
-              <Link href={yt_trailer}>
-                <Button className="px-4 py-2">Watch Trailer</Button>
-              </Link>
+                {now_playingMovieOverview}
+              </div>
+              <div className="py-4">
+                <Link href={yt_trailer}>
+                  <Button className="px-4 py-2">Watch Trailer</Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className="suggestion p-5">
-        <div className="upcoming my-6">
-          <div className="upcoming-header flex justify-between p-3">
-            <h1 className="text-2xl font-extrabold ">Upcoming</h1>
-            <Link href="/upcoming?language=en-US&page=1">
-              <div>See More</div>
-            </Link>
-          </div>
-          {/*  cards here */}
-          <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
-            {upcoming.results
-              .map((movie: Movie, index: number) => (
-                <Cards prop={movie} key={movie.id} index={index} />
-              ))
-              .slice(0, 12)}
-          </div>
-
-          <div className="popular my-6">
-            <div className="popular-header popular flex justify-between p-3">
-              <h1 className="text-2xl font-extrabold ">Popular</h1>
-              <Link href="/popular?language=en-US&page=1">
+        <div className="suggestion p-5">
+          <div className="upcoming my-6">
+            <div className="upcoming-header flex justify-between p-3">
+              <h1 className="text-2xl font-extrabold ">Upcoming</h1>
+              <Link href="/upcoming?language=en-US&page=1">
                 <div>See More</div>
               </Link>
             </div>
             {/*  cards here */}
             <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
-              {popular.results
+              {upcoming.results
+                .map((movie: Movie, index: number) => (
+                  <Cards prop={movie} key={movie.id} index={index} />
+                ))
+                .slice(0, 12)}
+            </div>
+
+            <div className="popular my-6">
+              <div className="popular-header popular flex justify-between p-3">
+                <h1 className="text-2xl font-extrabold ">Popular</h1>
+                <Link href="/popular?language=en-US&page=1">
+                  <div>See More</div>
+                </Link>
+              </div>
+              {/*  cards here */}
+              <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+                {popular.results
+                  .map((movie: Movie, index: number) => (
+                    <Cards prop={movie} key={movie.id} index={index} />
+                  ))
+                  .slice(0, 12)}
+              </div>
+            </div>
+          </div>
+          <div className="toprated my-6">
+            <div className="toprated-header flex justify-between p-3">
+              <h1 className="text-2xl font-extrabold ">Top rated</h1>
+              <Link href="/top_rated?language=en-US&page=1">
+                <div>See More</div>
+              </Link>
+            </div>
+            {/*  cards here */}
+            <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+              {top_rated.results
                 .map((movie: Movie, index: number) => (
                   <Cards prop={movie} key={movie.id} index={index} />
                 ))
@@ -225,23 +220,176 @@ export default async function Home() {
             </div>
           </div>
         </div>
-        <div className="toprated my-6">
-          <div className="toprated-header flex justify-between p-3">
-            <h1 className="text-2xl font-extrabold ">Top rated</h1>
-            <Link href="/top_rated?language=en-US&page=1">
-              <div>See More</div>
-            </Link>
+      </div>
+
+      <div className="hidden xl:block">
+        {/* reminder */}
+        {now_playingMovies ? (
+          <div className="featured-movie">
+            <div className="">
+              <div
+                style={{
+                  backgroundImage: `url("https://image.tmdb.org/t/p/original${now_playingMoviePicture}")`,
+                }}
+                className={`min-h-[600px] bg-cover relative`}
+              >
+                <div className="p-7 absolute w-[404px] h-[264px] bottom-[158px] left-[140px]">
+                  <div className="flex justify-between py-4">
+                    <div className="text-white">
+                      <div>Now in theaters:</div>
+                      <h1 className="text-lg font-bold">
+                        {now_playingMovieTitle}
+                      </h1>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Image
+                      width="30"
+                      height="30"
+                      className="w-auto h-auto"
+                      alt="star rating"
+                      src="/img/rating.svg"
+                    />
+                    <div className="text-white">
+                      {Math.floor(now_playingMovieRating * 10) / 10}/10
+                    </div>
+                  </div>
+                  <div className="text-sm my-4 text-white h-20 truncate text-wrap">
+                    {/* Elphaba, a misunderstood young woman because of her green skin, and
+            Glinda, a popular girl, become friends at Shiz University in the
+            Land of Oz. After an encounter with the Wonderful Wizard of Oz,
+            their friendship reaches a crossroads. */}
+                    {now_playingMovieOverview}
+                  </div>
+                  <div className="py-4 ">
+                    <Link href={yt_trailer}>
+                      <Button className="px-4 py-2 bg-white text-black">
+                        Watch Trailer
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+                {/* <Image
+                width="500"
+                height="700"
+                alt="featured movie backdrop"
+                className="overflow-auto w-[50%] h-[50%] justify-self-center block xl:hidden"
+                src={`https://image.tmdb.org/t/p/w500${now_playingMoviePictureSM}`}
+              />
+              <Image
+                width="500"
+                height="700"
+                alt="featured movie backdrop"
+                className="overflow-auto w-full h-full justify-self-center hidden xl:block"
+                src={`https://image.tmdb.org/t/p/w500${now_playingMoviePicture}`}
+              /> */}
+              </div>
+            </div>
           </div>
-          {/*  cards here */}
-          <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
-            {top_rated.results
-              .map((movie: Movie, index: number) => (
-                <Cards prop={movie} key={movie.id} index={index} />
-              ))
-              .slice(0, 12)}
+        ) : (
+          <div className="featured-movie">
+            <div className="">
+              <div className={`min-h-[600px] bg-muted bg-cover relative`}></div>
+            </div>
+          </div>
+        )}
+        <div className="suggestion p-5">
+          <div className="upcoming my-6">
+            {upcomingMovies ? (
+              <div className="upcoming-header flex justify-between p-3">
+                <h1 className="text-2xl font-extrabold ">Upcoming</h1>
+                <Link href="/upcoming?language=en-US&page=1">
+                  <div>See More</div>
+                </Link>
+              </div>
+            ) : (
+              <div className="upcoming-header flex h-10 justify-between p-50">
+                <h1 className="text-2xl rounded-xl font-extrabold w-60 bg-muted"></h1>
+                <Link
+                  className="w-40 rounded-xl bg-muted"
+                  href="/upcoming?language=en-US&page=1"
+                >
+                  <div></div>
+                </Link>
+              </div>
+            )}
+
+            {/*  cards here */}
+            <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              {upcoming.results
+                .map((movie: Movie, index: number) => (
+                  <div key={movie.id}>
+                    <Cards prop={movie} key={movie.id} index={index} />
+                  </div>
+                ))
+                .slice(0, 10)}
+            </div>
+
+            <div className="popular my-6">
+              {popularMovies ? (
+                <div className="popular-header popular flex justify-between p-3 ">
+                  <h1 className="text-2xl font-extrabold ">Popular</h1>
+                  <Link href="/popular?language=en-US&page=1">
+                    <div>See More</div>
+                  </Link>
+                </div>
+              ) : (
+                <div className="upcoming-header flex h-10 justify-between p-50">
+                  <h1 className="text-2xl rounded-xl font-extrabold w-60 bg-muted"></h1>
+                  <Link
+                    className="w-40 rounded-xl bg-muted"
+                    href="/upcoming?language=en-US&page=1"
+                  >
+                    <div></div>
+                  </Link>
+                </div>
+              )}
+
+              {/*  cards here */}
+              <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                {popular.results
+                  .map((movie: Movie, index: number) => (
+                    <div key={movie.id}>
+                      <Cards prop={movie} key={movie.id} index={index} />
+                    </div>
+                  ))
+                  .slice(0, 10)}
+              </div>
+            </div>
+          </div>
+          <div className="toprated my-6">
+            {topRatedMovies ? (
+              <div className="toprated-header flex justify-between p-3">
+                <h1 className="text-2xl font-extrabold ">Top rated</h1>
+                <Link href="/top_rated?language=en-US&page=1">
+                  <div>See More</div>
+                </Link>
+              </div>
+            ) : (
+              <div className="upcoming-header flex h-10 justify-between p-50">
+                <h1 className="text-2xl rounded-xl font-extrabold w-60 bg-muted"></h1>
+                <Link
+                  className="w-40 rounded-xl bg-muted"
+                  href="/upcoming?language=en-US&page=1"
+                >
+                  <div></div>
+                </Link>
+              </div>
+            )}
+
+            {/*  cards here */}
+            <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              {top_rated.results
+                .map((movie: Movie, index: number) => (
+                  <div key={movie.id}>
+                    <Cards prop={movie} key={movie.id} index={index} />
+                  </div>
+                ))
+                .slice(0, 10)}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

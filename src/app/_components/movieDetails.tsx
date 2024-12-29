@@ -84,37 +84,6 @@ export const Loaded = async (props: Props) => {
   console.log("writes", Writers);
   return (
     <div>
-      <div className="navigation">
-        <div>
-          <div className="flex justify-around py-2">
-            <Link href="/">
-              <div className="flex gap-2 items-center">
-                <Image
-                  width="50"
-                  height="50"
-                  className="w-9 h-9"
-                  alt="the logo"
-                  src="/img/film.svg"
-                />
-                <h3 className="">Movie</h3>
-              </div>
-            </Link>
-            <div className="flex"></div>
-            <div className="flex gap-4">
-              <SearchBar />
-              <button>
-                <Image
-                  width="50"
-                  height="50"
-                  alt="mode switch to dark/light"
-                  className="w-9"
-                  src="/img/switch-button.png"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="p-5">
         <div className="movie-title-section">
           <div className="flex justify-between">
