@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { Movie } from "../page";
 import Link from "next/link";
+import { movieDetail } from "../types/types";
 
 type Props = {
-  prop: Movie;
+  prop: movieDetail;
   key: number;
   index: number;
 };
@@ -22,8 +23,7 @@ export const Cards = (props: Props) => {
         <Link href={`/movie/${props.prop.id}`}>
           <div
             key={props.prop.id}
-            className={`rounded-lg bg-secondary overflow-hidden`}
-          >
+            className={`rounded-lg bg-secondary overflow-hidden`}>
             <Image
               width="500"
               height="700"

@@ -75,3 +75,8 @@ export type movieDetail = {
   vote_average: number;
   vote_count: number;
 };
+export type data = {
+  results: movieDetail[];
+  page: number;
+  total_pages: number;
+};

@@ -17,8 +17,8 @@ export default function similar() {
   const params = useParams();
   const searchParams = useSearchParams();
   const [movies, setData] = useState<Movie[]>();
-  console.log("params id", params.id);
-  console.log("search params", searchParams);
+  // console.log("params id", params.id);
+  // console.log("search params", searchParams);
   const genre: any = params.genre;
   const currentPage: any = searchParams.get("page");
   useEffect(() => {
@@ -30,12 +30,12 @@ export default function similar() {
         options
       );
       const recommendations = await res_recom.json();
-      console.log("recommendations", recommendations);
+      // console.log("recommendations", recommendations);
       setData(recommendations.results);
     };
     fetchData();
   }, [currentPage]);
-  console.log("movies[movie/[id]/[genre]]", movies);
+  // console.log("movies[movie/[id]/[genre]]", movies);
   // const movies = data;
   return (
     <div>
@@ -51,8 +51,7 @@ export default function similar() {
         <Page />
         <div
           key={69}
-          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
-        >
+          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
           {movies ? (
             movies.map((movie: Movie, index: number) => (
               <Cards prop={movie} key={movie.id} index={index} />

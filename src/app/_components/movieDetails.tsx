@@ -46,8 +46,8 @@ export const Loaded = async (props: Props) => {
   const movie: movieDetail = props.movie;
   const movieGenres: Genres[] = movie.genres;
 
-  console.log("checking movie", movie);
-  console.log(`checking props(movieDetails)`, props);
+  // console.log("checking movie", movie);
+  // console.log(`checking props(movieDetails)`, props);
 
   const response = await fetch(
     `https://api.themoviedb.org/3/movie/${movie.id}/credits`,
@@ -60,9 +60,9 @@ export const Loaded = async (props: Props) => {
   );
   const recommendations = await res_recom.json();
 
-  console.log("credits crew", credits.crew);
+  // console.log("credits crew", credits.crew);
 
-  console.log("recommendations", recommendations);
+  // console.log("recommendations", recommendations);
 
   const directors: CreditCrew[] = credits?.crew?.filter((crew: CreditCrew) => {
     if (crew.known_for_department == "Directing" || crew.job === "Director") {
@@ -204,8 +204,7 @@ export const Loaded = async (props: Props) => {
             <Link
               href={`./${
                 movie.id
-              }/${movieGenres[0].name.toLowerCase()}?language=en-US&page=1`}
-            >
+              }/${movieGenres[0].name.toLowerCase()}?language=en-US&page=1`}>
               <div>See More</div>
             </Link>
           </div>

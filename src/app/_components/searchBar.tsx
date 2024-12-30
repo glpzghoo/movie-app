@@ -48,7 +48,7 @@ export const SearchBar = (props: Props2) => {
   const [searchButton, setSearchButton] = useState<boolean>(false);
   const input = (e: Event) => {
     const value: string = e.target.value;
-    console.log("input", e);
+    // console.log("input", e);
     // if()
     setSearch(value);
   };
@@ -60,7 +60,7 @@ export const SearchBar = (props: Props2) => {
       );
       const data = await res.json();
       setData(data.results);
-      console.log("searching data", data);
+      // console.log("searching data", data);
     };
     fetchData();
   }, [search]);
@@ -71,14 +71,14 @@ export const SearchBar = (props: Props2) => {
         options
       );
       const genre_data = await res.json();
-      console.log("fetched data", genre_data);
+      // console.log("fetched data", genre_data);
       setgenreData(genre_data.genres);
     };
     fetchData();
   }, []);
   //   const results = data.results;
-  console.log("checking the damn data", data);
-  console.log("genre data", genreData);
+  // console.log("checking the damn data", data);
+  // console.log("genre data", genreData);
 
   const ResultDiv = (props: Props) => {
     const theMovies = props.results;
@@ -86,46 +86,48 @@ export const SearchBar = (props: Props2) => {
       <div
         className={`border-border overflow-hidden rounded-xl p-3 shadow-2xl ${
           search && `bg-white`
-        } flex flex-col absolute gap-1 z-10 `}
-      >
+        } flex flex-col absolute gap-1 z-10 `}>
         {data ? (
           theMovies
             .map((theMovie) => (
-              <Link
-                className="w-[335px] p-2 relative flex border-b-2 border-gray-200"
-                href={`/movie/${theMovie.id}`}
-              >
-                <div>
-                  <Image
-                    width="50"
-                    height="50"
-                    alt="movie poster on search result"
-                    className="w-16 h-25"
-                    src={
-                      theMovie.poster_path
-                        ? `https://image.tmdb.org/t/p/original${theMovie.poster_path}`
-                        : `https://placehold.co/286x429?text=no+pic+lol`
-                    }
-                  />
-                </div>
-                <div className="flex flex-col justify-evenly ">
-                  <h1 className="">{theMovie.title}</h1>
-                  <div className="flex">
+              <div key={theMovie.id}>
+                <Link
+                  className="w-[335px] p-2 relative flex border-b-2 border-gray-200"
+                  href={`/movie/${theMovie.id}`}>
+                  <div>
                     <Image
                       width="50"
                       height="50"
-                      alt="movie rating star on search result"
-                      className="w-5"
-                      src="/img/rating.svg"
+                      alt="movie poster on search result"
+                      className="w-16 h-25"
+                      src={
+                        theMovie.poster_path
+                          ? `https://image.tmdb.org/t/p/original${theMovie.poster_path}`
+                          : `https://placehold.co/286x429?text=no+pic+lol`
+                      }
                     />
-                    <div>{Math.floor(theMovie.vote_average * 10) / 10}/10</div>
                   </div>
-                  <div>{theMovie.release_date}</div>
-                  <div className="absolute bottom-0 flex items-center gap-2  right-0">
-                    See more <FaArrowRight />
+                  <div className="flex flex-col justify-evenly ">
+                    <h1 className="">{theMovie.title}</h1>
+                    <div className="flex">
+                      <Image
+                        width="50"
+                        height="50"
+                        alt="movie rating star on search result"
+                        className="w-5"
+                        src="/img/rating.svg"
+                      />
+                      <div>
+                        {Math.floor(theMovie.vote_average * 10) / 10}/10
+                      </div>
+                    </div>
+                    <div>{theMovie.release_date}</div>
+                    <div className="absolute bottom-0 flex items-center gap-2  right-0">
+                      See more <FaArrowRight />
+                    </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </div>
             ))
             .slice(1, 5)
         ) : (
@@ -142,8 +144,7 @@ export const SearchBar = (props: Props2) => {
       <div
         className={`xl:w-[577px] xl:h-[333px] p-5 flex flex-col gap-12 absolute border-border z-10 ${
           props.mode ? `bg-black` : `bg-white`
-        } `}
-      >
+        } `}>
         <div className="flex flex-col gap-2">
           <h1 className="font-extrabold text-xl">Genres</h1>
           <p>See lists of movies by genre</p>
@@ -151,11 +152,15 @@ export const SearchBar = (props: Props2) => {
         <div className="flex flex-wrap gap-4">
           {genreData &&
             genreData.map((genre) => (
-              <div
-                key={genre.id}
-                className="border-border border rounded-xl flex items-center gap-2 px-2 text-sm font-semibold"
-              >
-                {genre.name} <MdArrowForwardIos />
+              <div key={genre.id}>
+                <Link
+                  href={`/badge/${genre.name}/${genre.id}?language=en-US&page=1`}>
+                  <div
+                    key={genre.id}
+                    className="border-border border rounded-xl flex items-center gap-2 px-2 text-sm font-semibold">
+                    {genre.name} <MdArrowForwardIos />
+                  </div>
+                </Link>
               </div>
             ))}
         </div>
@@ -165,7 +170,7 @@ export const SearchBar = (props: Props2) => {
 
   const handleSearchButton = () => {
     setSearchButton(!searchButton);
-    console.log(searchButton);
+    // console.log(searchButton);
   };
   const handleGenreButoon = () => {
     setToggleGenreButton(!toggleGenreButton);
@@ -178,8 +183,7 @@ export const SearchBar = (props: Props2) => {
             <div className="relative">
               <button
                 onClick={handleGenreButoon}
-                className="bg-background border border-[#e4e4e7] py-2 px-4 rounded-md shadow-sm xl:rounded-md items-center gap-1 hidden xl:flex"
-              >
+                className="bg-background border border-[#e4e4e7] py-2 px-4 rounded-md shadow-sm xl:rounded-md items-center gap-1 hidden xl:flex">
                 <MdKeyboardArrowDown />
                 Genre
               </button>
@@ -190,12 +194,10 @@ export const SearchBar = (props: Props2) => {
               <div
                 className={`relative ${
                   searchButton ? `flex` : `hidden sm:block`
-                } items-center gap-2 w-full`}
-              >
+                } items-center gap-2 w-full`}>
                 <button
                   onClick={handleSearchButton}
-                  className="text-gray-400 block sm:hidden"
-                >
+                  className="text-gray-400 block sm:hidden">
                   X
                 </button>
                 <input
@@ -209,8 +211,7 @@ export const SearchBar = (props: Props2) => {
 
               <button
                 onClick={handleSearchButton}
-                className={`sm:hidden ${searchButton ? `hidden` : `block`}`}
-              >
+                className={`sm:hidden ${searchButton ? `hidden` : `block`}`}>
                 <Image
                   width="500"
                   height="700"

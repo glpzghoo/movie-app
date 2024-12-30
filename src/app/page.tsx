@@ -111,12 +111,12 @@ export default async function Home() {
   const now_playingMoviePictureSM: string = now_playing.results[0].poster_path;
   const now_playingMovieRating: number = now_playing.results[0].vote_average;
 
-  console.log("trailer info", get_thelink_pls);
-  console.log("movies", moviesData);
-  console.log("top_rated result", top_rated);
-  console.log("popular", popular);
-  console.log("upcoming", upcoming);
-  console.log("now playing", now_playing);
+  // console.log("trailer info", get_thelink_pls);
+  // console.log("movies", moviesData);
+  // console.log("top_rated result", top_rated);
+  // console.log("popular", popular);
+  // console.log("upcoming", upcoming);
+  // console.log("now playing", now_playing);
 
   return (
     <>
@@ -231,8 +231,7 @@ export default async function Home() {
                 style={{
                   backgroundImage: `url("https://image.tmdb.org/t/p/original${now_playingMoviePicture}")`,
                 }}
-                className={`min-h-[600px] bg-cover relative`}
-              >
+                className={`min-h-[600px] bg-cover relative`}>
                 <div className="p-7 absolute w-[404px] h-[264px] bottom-[158px] left-[140px]">
                   <div className="flex justify-between py-4">
                     <div className="text-white">
@@ -307,8 +306,7 @@ export default async function Home() {
                 <h1 className="text-2xl rounded-xl font-extrabold w-60 bg-muted"></h1>
                 <Link
                   className="w-40 rounded-xl bg-muted"
-                  href="/upcoming?language=en-US&page=1"
-                >
+                  href="/upcoming?language=en-US&page=1">
                   <div></div>
                 </Link>
               </div>
@@ -338,8 +336,7 @@ export default async function Home() {
                   <h1 className="text-2xl rounded-xl font-extrabold w-60 bg-muted"></h1>
                   <Link
                     className="w-40 rounded-xl bg-muted"
-                    href="/upcoming?language=en-US&page=1"
-                  >
+                    href="/upcoming?language=en-US&page=1">
                     <div></div>
                   </Link>
                 </div>
@@ -370,8 +367,7 @@ export default async function Home() {
                 <h1 className="text-2xl rounded-xl font-extrabold w-60 bg-muted"></h1>
                 <Link
                   className="w-40 rounded-xl bg-muted"
-                  href="/upcoming?language=en-US&page=1"
-                >
+                  href="/upcoming?language=en-US&page=1">
                   <div></div>
                 </Link>
               </div>
