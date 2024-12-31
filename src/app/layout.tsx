@@ -35,13 +35,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased ${
           inter.className
-        } ${isDark && `dark`}`}
+        } ${isDark && `dark`} `}
       >
-        <main className="min-h-screen">
+        <main className="min-h-screen xl:px-15">
           <Navigation handleMode={handleMode} mode={isDark} />
           {children}
+          <Footer />
         </main>
-        <Footer />
       </body>
     </html>
   );

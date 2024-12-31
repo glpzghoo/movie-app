@@ -14,9 +14,9 @@ export const Navigation = (props: Props) => {
   //   const handleMode = props.handleMode();
 
   return (
-    <div className="navigation">
-      <div>
-        <div className="flex justify-around p-4 sm:justify-between">
+    <div className="navigation justify-items-center">
+      <div className="w-full xl:w-4/5">
+        <div className="flex justify-around p-4  sm:justify-between">
           <Link href="/">
             <div className="flex gap-2 items-center">
               <Image
