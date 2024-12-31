@@ -3,33 +3,8 @@ import { Cards } from "./_components/movies";
 import { SearchBar } from "./_components/searchBar";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ArrowBigDown,
-  ArrowDown,
-  ArrowDown01,
-  ArrowDown01Icon,
-} from "lucide-react";
-import { MdKeyboardArrowDown } from "react-icons/md";
-import { ToggleMode } from "./_components/switchmode";
-import { Navigation } from "./_components/navigation";
-import { Metadata } from "next";
+import { movieDetail } from "./types/types";
 
-export type Movie = {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-};
 export const options = {
   method: "GET",
   headers: {
@@ -127,7 +102,7 @@ export default async function Home() {
               width="500"
               height="700"
               alt="featured movie backdrop"
-              className="overflow-auto w-[50%] h-[50%] justify-self-center hidden sm:block"
+              className="overflow-auto w-[50%] h-[50%] xl:bg-cover xl:bg-center justify-self-center hidden sm:block"
               src={`https://image.tmdb.org/t/p/w500${now_playingMoviePictureSM}`}
             />
             <Image
@@ -180,7 +155,7 @@ export default async function Home() {
             {/*  cards here */}
             <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
               {upcoming.results
-                .map((movie: Movie, index: number) => (
+                .map((movie: movieDetail, index: number) => (
                   <Cards prop={movie} key={movie.id} index={index} />
                 ))
                 .slice(0, 12)}
@@ -196,7 +171,7 @@ export default async function Home() {
               {/*  cards here */}
               <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
                 {popular.results
-                  .map((movie: Movie, index: number) => (
+                  .map((movie: movieDetail, index: number) => (
                     <Cards prop={movie} key={movie.id} index={index} />
                   ))
                   .slice(0, 12)}
@@ -213,7 +188,7 @@ export default async function Home() {
             {/*  cards here */}
             <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
               {top_rated.results
-                .map((movie: Movie, index: number) => (
+                .map((movie: movieDetail, index: number) => (
                   <Cards prop={movie} key={movie.id} index={index} />
                 ))
                 .slice(0, 12)}
@@ -231,7 +206,8 @@ export default async function Home() {
                 style={{
                   backgroundImage: `url("https://image.tmdb.org/t/p/original${now_playingMoviePicture}")`,
                 }}
-                className={`min-h-[600px] bg-cover relative`}>
+                className={`min-h-[600px] bg-cover relative`}
+              >
                 <div className="p-7 absolute w-[404px] h-[264px] bottom-[158px] left-[140px]">
                   <div className="flex justify-between py-4">
                     <div className="text-white">
@@ -306,7 +282,8 @@ export default async function Home() {
                 <h1 className="text-2xl rounded-xl font-extrabold w-60 bg-muted"></h1>
                 <Link
                   className="w-40 rounded-xl bg-muted"
-                  href="/upcoming?language=en-US&page=1">
+                  href="/upcoming?language=en-US&page=1"
+                >
                   <div></div>
                 </Link>
               </div>
@@ -315,7 +292,7 @@ export default async function Home() {
             {/*  cards here */}
             <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {upcoming.results
-                .map((movie: Movie, index: number) => (
+                .map((movie: movieDetail, index: number) => (
                   <div key={movie.id}>
                     <Cards prop={movie} key={movie.id} index={index} />
                   </div>
@@ -336,7 +313,8 @@ export default async function Home() {
                   <h1 className="text-2xl rounded-xl font-extrabold w-60 bg-muted"></h1>
                   <Link
                     className="w-40 rounded-xl bg-muted"
-                    href="/upcoming?language=en-US&page=1">
+                    href="/upcoming?language=en-US&page=1"
+                  >
                     <div></div>
                   </Link>
                 </div>
@@ -345,7 +323,7 @@ export default async function Home() {
               {/*  cards here */}
               <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {popular.results
-                  .map((movie: Movie, index: number) => (
+                  .map((movie: movieDetail, index: number) => (
                     <div key={movie.id}>
                       <Cards prop={movie} key={movie.id} index={index} />
                     </div>
@@ -367,7 +345,8 @@ export default async function Home() {
                 <h1 className="text-2xl rounded-xl font-extrabold w-60 bg-muted"></h1>
                 <Link
                   className="w-40 rounded-xl bg-muted"
-                  href="/upcoming?language=en-US&page=1">
+                  href="/upcoming?language=en-US&page=1"
+                >
                   <div></div>
                 </Link>
               </div>
@@ -376,7 +355,7 @@ export default async function Home() {
             {/*  cards here */}
             <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {top_rated.results
-                .map((movie: Movie, index: number) => (
+                .map((movie: movieDetail, index: number) => (
                   <div key={movie.id}>
                     <Cards prop={movie} key={movie.id} index={index} />
                   </div>

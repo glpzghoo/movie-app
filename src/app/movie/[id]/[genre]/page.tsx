@@ -3,7 +3,8 @@ import { Loading } from "@/app/_components/movieDetails";
 import { Cards } from "@/app/_components/movies";
 import { Page } from "@/app/_components/pagination";
 import { SearchBar } from "@/app/_components/searchBar";
-import { Movie, options } from "@/app/page";
+import { options } from "@/app/page";
+import { movieDetail } from "@/app/types/types";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
@@ -16,7 +17,7 @@ type props = {
 export default function similar() {
   const params = useParams();
   const searchParams = useSearchParams();
-  const [movies, setData] = useState<Movie[]>();
+  const [movies, setData] = useState<movieDetail[]>();
   // console.log("params id", params.id);
   // console.log("search params", searchParams);
   const genre: any = params.genre;
@@ -51,9 +52,10 @@ export default function similar() {
         <Page />
         <div
           key={69}
-          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
+        >
           {movies ? (
-            movies.map((movie: Movie, index: number) => (
+            movies.map((movie: movieDetail, index: number) => (
               <Cards prop={movie} key={movie.id} index={index} />
             ))
           ) : (

@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Cards } from "@/app/_components/movies";
 import { Page } from "@/app/_components/pagination";
 import { Loading } from "@/app/_components/movieDetails";
-import { Movie, options } from "@/app/page";
+import { options } from "@/app/page";
 import { data, movieDetail } from "@/app/types/types";
 
 type Props = {
@@ -16,25 +16,7 @@ type Props = {
 type Params = {
   genre: string;
 };
-type oneMovieGenre = {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-};
-type movies = {
-  results: movieDetail[];
-};
+
 export const api_key = `7bd2309ac551c9317c3fd9df79b3ea29`;
 export default function Genre(props: Props) {
   const [data, setData] = useState<data>();
@@ -73,7 +55,8 @@ export default function Genre(props: Props) {
         <Page />
         <div
           key={69}
-          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
+        >
           {movies ? (
             movies.map((movie: movieDetail, index: number) => (
               <Cards prop={movie} key={movie.id} index={index} />

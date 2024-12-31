@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-export type Genres = {
+export type Genre = {
   id: number;
   name: string;
 };
@@ -48,30 +48,30 @@ export type Params = {
   id: number;
 };
 export type movieDetail = {
-  adult: boolean;
+  adult?: boolean;
   backdrop_path: string;
-  belongs_to_collection: belongs_to_collection;
-  budget: number;
-  genres: Genres[];
-  homepage: string;
+  belongs_to_collection?: belongs_to_collection;
+  budget?: number;
+  genres: Genre[];
+  homepage?: string;
   id: number;
-  imdb_id: string;
-  origin_country: string[];
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
+  imdb_id?: string;
+  origin_country?: string[];
+  original_language?: string;
+  original_title?: string;
+  overview?: string;
+  popularity?: number;
   poster_path: string;
-  production_companies: production_companies[];
-  production_countries: production_countries[];
+  production_companies?: production_companies[];
+  production_countries?: production_countries[];
   release_date: string;
-  revenue: number;
+  revenue?: number;
   runtime: number;
-  spoken_languages: spoken_languages[];
-  status: string;
-  tagline: string;
+  spoken_languages?: spoken_languages[];
+  status?: string;
+  tagline?: string;
   title: string;
-  video: boolean;
+  video?: boolean;
   vote_average: number;
   vote_count: number;
 };

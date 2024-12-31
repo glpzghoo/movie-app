@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Movie, options } from "../page";
+import { options } from "../page";
 // import { Link } from "lucide-react";
 import { FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import { MdArrowForwardIos, MdKeyboardArrowDown } from "react-icons/md";
-import { Genres } from "../types/types";
+import { Genre, movieDetail } from "../types/types";
 type target = {
   value: string;
 };
@@ -14,7 +14,8 @@ type Event = {
   target: target;
 };
 type Props = {
-  results: theMovie[];
+  results?: movieDetail[];
+  mode?: boolean;
 };
 
 // type results = {
@@ -37,13 +38,11 @@ type theMovie = {
   vote_average: number;
   vote_count: number;
 };
-type Props2 = {
-  mode: boolean;
-};
-export const SearchBar = (props: Props2) => {
+
+export const SearchBar = (props: Props) => {
   const [search, setSearch] = useState("");
-  const [data, setData] = useState<data>();
-  const [genreData, setgenreData] = useState<Genres[]>();
+  const [data, setData] = useState<movieDetail[]>();
+  const [genreData, setgenreData] = useState<Genre[]>();
   const [toggleGenreButton, setToggleGenreButton] = useState(false);
   const [searchButton, setSearchButton] = useState<boolean>(false);
   const input = (e: Event) => {
@@ -81,19 +80,21 @@ export const SearchBar = (props: Props2) => {
   // console.log("genre data", genreData);
 
   const ResultDiv = (props: Props) => {
-    const theMovies = props.results;
+    const theMovies = props?.results;
     return (
       <div
         className={`border-border overflow-hidden rounded-xl p-3 shadow-2xl ${
           search && `bg-white`
-        } flex flex-col absolute gap-1 z-10 `}>
-        {data ? (
+        } flex flex-col absolute gap-1 z-10 `}
+      >
+        {theMovies ? (
           theMovies
             .map((theMovie) => (
               <div key={theMovie.id}>
                 <Link
                   className="w-[335px] p-2 relative flex border-b-2 border-gray-200"
-                  href={`/movie/${theMovie.id}`}>
+                  href={`/movie/${theMovie.id}`}
+                >
                   <div>
                     <Image
                       width="50"
@@ -144,7 +145,8 @@ export const SearchBar = (props: Props2) => {
       <div
         className={`xl:w-[577px] xl:h-[333px] p-5 flex flex-col gap-12 absolute border-border z-10 ${
           props.mode ? `bg-black` : `bg-white`
-        } `}>
+        } `}
+      >
         <div className="flex flex-col gap-2">
           <h1 className="font-extrabold text-xl">Genres</h1>
           <p>See lists of movies by genre</p>
@@ -154,10 +156,12 @@ export const SearchBar = (props: Props2) => {
             genreData.map((genre) => (
               <div key={genre.id}>
                 <Link
-                  href={`/badge/${genre.name}/${genre.id}?language=en-US&page=1`}>
+                  href={`/badge/${genre.name}/${genre.id}?language=en-US&page=1`}
+                >
                   <div
                     key={genre.id}
-                    className="border-border border rounded-xl flex items-center gap-2 px-2 text-sm font-semibold">
+                    className="border-border border rounded-xl flex items-center gap-2 px-2 text-sm font-semibold"
+                  >
                     {genre.name} <MdArrowForwardIos />
                   </div>
                 </Link>
@@ -183,7 +187,8 @@ export const SearchBar = (props: Props2) => {
             <div className="relative">
               <button
                 onClick={handleGenreButoon}
-                className="bg-background border border-[#e4e4e7] py-2 px-4 rounded-md shadow-sm xl:rounded-md items-center gap-1 hidden xl:flex">
+                className="bg-background border border-[#e4e4e7] py-2 px-4 rounded-md shadow-sm xl:rounded-md items-center gap-1 hidden xl:flex"
+              >
                 <MdKeyboardArrowDown />
                 Genre
               </button>
@@ -194,10 +199,12 @@ export const SearchBar = (props: Props2) => {
               <div
                 className={`relative ${
                   searchButton ? `flex` : `hidden sm:block`
-                } items-center gap-2 w-full`}>
+                } items-center gap-2 w-full`}
+              >
                 <button
                   onClick={handleSearchButton}
-                  className="text-gray-400 block sm:hidden">
+                  className="text-gray-400 block sm:hidden"
+                >
                   X
                 </button>
                 <input
@@ -211,7 +218,8 @@ export const SearchBar = (props: Props2) => {
 
               <button
                 onClick={handleSearchButton}
-                className={`sm:hidden ${searchButton ? `hidden` : `block`}`}>
+                className={`sm:hidden ${searchButton ? `hidden` : `block`}`}
+              >
                 <Image
                   width="500"
                   height="700"

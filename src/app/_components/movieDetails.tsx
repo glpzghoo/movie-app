@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { Movie, options } from "../page";
-import { CreditCrew, Genres, movieDetail, Props } from "../types/types";
+import { options } from "../page";
+import { CreditCrew, Genre, movieDetail, Props } from "../types/types";
 import { Badge } from "./badge";
 import { Cards } from "./movies";
 import { SearchBar } from "./searchBar";
@@ -44,7 +44,7 @@ type creditsDetails = {
 
 export const Loaded = async (props: Props) => {
   const movie: movieDetail = props.movie;
-  const movieGenres: Genres[] = movie.genres;
+  const movieGenres: Genre[] = movie.genres;
 
   // console.log("checking movie", movie);
   // console.log(`checking props(movieDetails)`, props);
@@ -83,14 +83,18 @@ export const Loaded = async (props: Props) => {
   console.log("directors", directors);
   console.log("writes", Writers);
   return (
-    <div>
+    <div className="px-10">
       <div className="p-5">
         <div className="movie-title-section">
           <div className="flex justify-between">
             <div>
               <h1 className="text-2xl font-extrabold">{movie.title}</h1>
               <div className="flex gap-2">
-                <div>{movie && movie?.release_date?.replaceAll("-", ".")}</div>·
+                <div>
+                  {movie?.release_date &&
+                    movie?.release_date?.replaceAll("-", ".")}
+                </div>
+                ·
                 {/* <div className="flex gap-2">
                     {movie.genres.map((genre: Genres) => {
                       return <div>{genre.name}</div>;
@@ -98,7 +102,7 @@ export const Loaded = async (props: Props) => {
                   </div>
                   · */}
                 <div>
-                  {movie && Math.floor(movie.runtime / 60)}h :{" "}
+                  {movie?.runtime && Math.floor(movie.runtime / 60)}h :{" "}
                   {movie.runtime % 60}m
                 </div>
               </div>
@@ -140,8 +144,8 @@ export const Loaded = async (props: Props) => {
           />
         </div>
         <div className="flex justify-center">
-          <div className="flex justify-between items-start h-72 overflow-hidden my-4 gap-10 sm:w-[auto] p-5 sm:h-[420px] sm:justify-around">
-            <div className="zuragnii-div w-[50%] content-center overflow-hidden">
+          <div className="flex justify-between items-start h-72 overflow-hidden  my-4 gap-10 sm:w-[auto] p-5 sm:h-[420px] sm:justify-around">
+            <div className="zuragnii-div h-full w-[50%] xl:justify-items-center items-center content-center overflow-hidden ">
               <Image
                 width="500"
                 height="700"
@@ -151,9 +155,9 @@ export const Loaded = async (props: Props) => {
               />
             </div>
             <div className="tailbariin-div w-[50%] sm:flex sm:flex-col sm:justify-center sm:w-[80%]">
-              <div className="badges-here flex gap-3 flex-wrap my-3 ">
+              <div className="badges-here gap-3 flex-wrap my-3 hidden xl:flex">
                 {movieGenres &&
-                  movieGenres.map((genre: Genres, index: number) => (
+                  movieGenres.map((genre: Genre, index: number) => (
                     <Badge genre={genre} id={movie.id} />
                   ))}
               </div>
@@ -163,8 +167,8 @@ export const Loaded = async (props: Props) => {
         </div>
       </div>
       {/* div ends */}
-      <div className="nairuulagchtai-heseg">
-        <div className="w-[90%]  min-h-20 justify-self-center flex gap-2 border-b-2 border-gray-300">
+      <div className="nairuulagchtai-heseg ">
+        <div className="w-full min-h-20 justify-self-center flex gap-2 border-b-2 border-gray-300">
           <h1 className="font-bold">Directer</h1>
           <h3 className="flex flex-wrap gap-2">
             {/* reminder */}
@@ -176,7 +180,7 @@ export const Loaded = async (props: Props) => {
                 .slice(0, 5)}
           </h3>
         </div>
-        <div className="w-[90%] min-h-20 justify-self-center flex gap-2 border-b-2 border-gray-300">
+        <div className="w-full  min-h-20 justify-self-center flex gap-2 border-b-2 border-gray-300">
           <h1 className="font-bold">Writer</h1>
           <h3 className="flex flex-wrap gap-2">
             {/* reminder */}
@@ -186,7 +190,7 @@ export const Loaded = async (props: Props) => {
               )).slice(0, 5)}
           </h3>
         </div>
-        <div className="w-[90%] min-h-20 justify-self-center flex gap-2 border-b-2 border-gray-300">
+        <div className="w-full  min-h-20 justify-self-center flex gap-2 border-b-2 border-gray-300">
           <h1 className="font-bold">Stars</h1>
           <h3 className="flex flex-wrap gap-2">
             {/* reminder */}
@@ -204,14 +208,15 @@ export const Loaded = async (props: Props) => {
             <Link
               href={`./${
                 movie.id
-              }/${movieGenres[0].name.toLowerCase()}?language=en-US&page=1`}>
+              }/${movieGenres[0].name.toLowerCase()}?language=en-US&page=1`}
+            >
               <div>See More</div>
             </Link>
           </div>
           <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
             {recommendations &&
               recommendations?.results
-                ?.map((movie: Movie, index: number) => (
+                ?.map((movie: movieDetail, index: number) => (
                   <Cards prop={movie} key={movie.id} index={index} />
                 ))
                 .slice(0, 4)}

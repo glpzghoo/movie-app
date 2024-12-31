@@ -1,7 +1,7 @@
 "use client";
 
 import { Cards } from "../_components/movies";
-import { Movie, options } from "../page";
+import { options } from "../page";
 import { Loading } from "../_components/movieDetails";
 import { SearchBar } from "../_components/searchBar";
 import { Page } from "../_components/pagination";
@@ -9,6 +9,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { movieDetail } from "../types/types";
 
 type Props = {
   params: Params;
@@ -16,23 +17,8 @@ type Props = {
 type Params = {
   genre: string;
 };
-type oneMovieGenre = {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-};
-type results = oneMovieGenre[];
+
+type results = movieDetail[];
 type movies = {
   results: results;
 };
@@ -41,10 +27,10 @@ export default function Genre(props: Props) {
   const [data, setData] = useState<movies>();
   const searchParams = useSearchParams();
 
-  const params = useParams();
-  const genre: any = params.genre;
+  const params: Params = useParams();
+  const genre: string = params.genre;
   const page = searchParams.get("page");
-  // console.log("genre  ???", genre);
+  console.log("genre  ???", genre);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,9 +64,10 @@ export default function Genre(props: Props) {
         <Page />
         <div
           key={69}
-          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
+        >
           {movies ? (
-            movies.map((movie: Movie, index: number) => (
+            movies.map((movie: movieDetail, index: number) => (
               <Cards prop={movie} key={movie.id} index={index} />
             ))
           ) : (

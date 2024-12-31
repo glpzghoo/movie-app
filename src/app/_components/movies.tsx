@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Movie } from "../page";
 import Link from "next/link";
 import { movieDetail } from "../types/types";
 
@@ -18,12 +17,13 @@ export const Cards = (props: Props) => {
   // console.log("check type props.key", typeof props.prop.id);
   // console.log("movie", props.prop);
   return (
-    <div key={props.prop.id + props.index}>
+    <div key={props?.prop?.id + props.index}>
       {props.prop ? (
         <Link href={`/movie/${props.prop.id}`}>
           <div
             key={props.prop.id}
-            className={`rounded-lg bg-secondary overflow-hidden`}>
+            className={`rounded-lg bg-secondary overflow-hidden`}
+          >
             <Image
               width="500"
               height="700"
