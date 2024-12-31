@@ -17,7 +17,6 @@ type Params = {
   genre: string;
 };
 
-export const api_key = `7bd2309ac551c9317c3fd9df79b3ea29`;
 export default function Genre(props: Props) {
   const [data, setData] = useState<data>();
   const searchParams = useSearchParams();

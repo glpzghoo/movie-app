@@ -158,7 +158,9 @@ export const Loaded = async (props: Props) => {
               <div className="badges-here gap-3 flex-wrap my-3 hidden xl:flex">
                 {movieGenres &&
                   movieGenres.map((genre: Genre, index: number) => (
-                    <Badge genre={genre} id={movie.id} />
+                    <div key={genre.id}>
+                      <Badge genre={genre} id={movie.id} />
+                    </div>
                   ))}
               </div>
               <div className="overview my-3 w-[100%] ">{movie.overview}</div>

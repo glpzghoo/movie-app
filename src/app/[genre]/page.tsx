@@ -11,26 +11,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { movieDetail } from "../types/types";
 
-type Props = {
-  params: Params;
-};
 type Params = {
   genre: string;
 };
 
-type results = movieDetail[];
+// type results = movieDetail[];
 type movies = {
-  results: results;
+  results: movieDetail[];
 };
-export const api_key = `7bd2309ac551c9317c3fd9df79b3ea29`;
-export default function Genre(props: Props) {
+export default function Genre() {
   const [data, setData] = useState<movies>();
   const searchParams = useSearchParams();
 
   const params: Params = useParams();
   const genre: string = params.genre;
   const page = searchParams.get("page");
-  console.log("genre  ???", genre);
+  console.log("params  ???", params);
 
   useEffect(() => {
     const fetchData = async () => {
