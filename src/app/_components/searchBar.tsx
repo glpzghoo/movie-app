@@ -12,6 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useSearchParams } from "next/navigation";
 type target = {
   value: string;
 };
@@ -55,6 +56,8 @@ export const SearchBar = (props: Props) => {
   const [data, setData] = useState<movieDetail[]>();
   const [genreData, setgenreData] = useState<Genre[]>();
   const [toggleGenreButton, setToggleGenreButton] = useState(false);
+  const searchParams = useSearchParams();
+  const query = searchParams.get("query");
   const input = (e: Event) => {
     const value: string = e.target.value;
     // console.log("input", e);
@@ -87,6 +90,9 @@ export const SearchBar = (props: Props) => {
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    setSearch("");
+  }, [query]);
   //   const results = data.results;
   // console.log("checking the damn data", data);
   // console.log("genre data", genreData);

@@ -23,6 +23,7 @@ type PropsForFeaturedMovies = {
 };
 export const FeaturedMovie = async (props: Props) => {
   const FeaturedMovie = async (props: PropsForFeaturedMovies) => {
+    console.log(props.now_playingMovieId);
     const now_playingMovieTitle: string = props.now_playingMovieTitle;
     const now_playingMovieOverview: string = props.now_playingMovieOverview;
     const now_playingMoviePicture: string = props.now_playingMoviePicture;
@@ -35,16 +36,16 @@ export const FeaturedMovie = async (props: Props) => {
     const trailer_info_data = await res_movie_trailer.json();
     const get_thelink_pls =
       trailer_info_data.results[trailer_info_data.results.length - 1].key;
-
     const yt_trailer: string = `https://www.youtube.com/watch?v=${get_thelink_pls}`;
     return (
       <CarouselItem>
-        <div className="justify-items-center" key={now_playingMovieId}>
+        <div className="justify-items-center">
           <div
             style={{
               backgroundImage: `url("https://image.tmdb.org/t/p/original${now_playingMoviePicture}")`,
             }}
-            className={`min-h-[600px] w-full bg-cover relative`}>
+            className={`min-h-[600px] w-full bg-cover relative`}
+          >
             <div className="p-7 absolute w-[404px] h-[264px] bottom-[158px] left-[140px]">
               <div className="flex justify-between py-4">
                 <div className="text-white">
@@ -86,13 +87,15 @@ export const FeaturedMovie = async (props: Props) => {
       <Carousel>
         <CarouselContent>
           {props.nowPlaying.results.slice(0, 3).map((movie) => (
-            <FeaturedMovie
-              now_playingMovieTitle={movie.title}
-              now_playingMovieOverview={movie.overview}
-              now_playingMoviePicture={movie.backdrop_path}
-              now_playingMovieRating={movie.vote_average}
-              now_playingMovieId={movie.id}
-            />
+            <div key={movie.id}>
+              <FeaturedMovie
+                now_playingMovieTitle={movie.title}
+                now_playingMovieOverview={movie.overview}
+                now_playingMoviePicture={movie.backdrop_path}
+                now_playingMovieRating={movie.vote_average}
+                now_playingMovieId={movie.id}
+              />
+            </div>
           ))}
           {/* <CarouselItem>
             <div className="justify-items-center">

@@ -137,13 +137,7 @@ export default async function Home() {
                     <div>{Math.floor(now_playingMovieRating * 10) / 10}/10</div>
                   </div>
                 </div>
-                <div className="text-sm py-4">
-                  {/* Elphaba, a misunderstood young woman because of her green skin, and
-            Glinda, a popular girl, become friends at Shiz University in the
-            Land of Oz. After an encounter with the Wonderful Wizard of Oz,
-            their friendship reaches a crossroads. */}
-                  {now_playingMovieOverview}
-                </div>
+                <div className="text-sm py-4">{now_playingMovieOverview}</div>
                 <div className="py-4">
                   <Link href={yt_trailer}>
                     <Button className="px-4 py-2">Watch Trailer</Button>

@@ -9,7 +9,9 @@ import { Page } from "../_components/pagination";
 import { Cards } from "../_components/movies";
 
 export default function searchResult() {
-  const [data, setData] = useState<movieDetail[]>([]);
+  const [data, setData] = useState<any>({});
+  const [movies, setMovies] = useState<movieDetail[]>();
+  const [totalMovies, setTotalMovies] = useState<number>(0);
   const params = useParams();
   const searchParams = useSearchParams();
   const query = searchParams.get("query");
@@ -21,32 +23,43 @@ export default function searchResult() {
         options
       );
       const movies = await res.json();
-      setData(movies.results);
+
+      setData(movies);
+
+      setMovies(movies.results);
 
       // console.log("searching data", data);
       console.log("checking search params", query);
       console.log("checking the damn data", data);
     };
-
+    console.log("checking data", data);
+    setTotalMovies(data.total_pages);
     fetchData();
   }, [query, page]);
+  // const handleClick = () => {
+  //   console.log("total movies", totalMovies);
+  //   console.log("data", data.total_pages);
+  // };
   return (
     <div>
       <div className="m-4">
         <div className="upcoming-header flex justify-between">
           <h1 className="text-xl font-extrabold ">
-            {query && query?.replaceAll("_", " ").toUpperCase()}
+            {movies &&
+              movies.length * data.total_pages +
+                ` results for "` +
+                query?.replaceAll("_", " ").toUpperCase() +
+                `"`}
           </h1>
-          {/* <a href="/upcoming">
-            <div>See More</div>
-          </a> */}
+          {/* <button onClick={handleClick}>handleClick</button> */}
         </div>
         <Page />
         <div
           key={69}
-          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
-          {data ? (
-            data.map((movie: movieDetail, index: number) => (
+          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
+        >
+          {movies ? (
+            movies.map((movie: movieDetail, index: number) => (
               <Cards prop={movie} key={movie.id} index={index} />
             ))
           ) : (
