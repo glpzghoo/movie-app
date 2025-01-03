@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const Footer = () => {
   return (
-    <div className="bg-indigo-700 w-[100%] h-[280px] xl:flex xl:justify-between text-white p-10 xl:px-20">
+    <div className="bg-indigo-700 box-content w-[100%] h-[280px] xl:flex xl:justify-between text-white p-10 xl:px-20">
       <div className="w-[100%] flex-col gap-3 p-5 xl:w-auto">
         <div className="flex gap-3">
           <Image width="30" height="30" alt="logo" src="/img/movie-icon.png" />

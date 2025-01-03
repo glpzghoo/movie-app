@@ -21,6 +21,12 @@ type Event = {
 type Props = {
   results?: movieDetail[];
   mode?: boolean;
+  setSearchButton: Function;
+  searchButton: boolean;
+};
+type Props2 = {
+  results?: movieDetail[];
+  mode?: boolean;
 };
 
 // type results = {
@@ -49,13 +55,14 @@ export const SearchBar = (props: Props) => {
   const [data, setData] = useState<movieDetail[]>();
   const [genreData, setgenreData] = useState<Genre[]>();
   const [toggleGenreButton, setToggleGenreButton] = useState(false);
-  const [searchButton, setSearchButton] = useState<boolean>(false);
   const input = (e: Event) => {
     const value: string = e.target.value;
     // console.log("input", e);
     // if()
     setSearch(value);
   };
+  const setSearchButton = props.setSearchButton;
+  const searchButton = props.searchButton;
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch(
@@ -83,21 +90,26 @@ export const SearchBar = (props: Props) => {
   //   const results = data.results;
   // console.log("checking the damn data", data);
   // console.log("genre data", genreData);
-
-  const ResultDiv = (props: Props) => {
+  const handleSearchButton = () => {
+    setSearchButton(!searchButton);
+    // console.log(searchButton);
+  };
+  const ResultDiv = (props: Props2) => {
     const theMovies = props?.results;
     return (
       <div
         className={`border-border overflow-hidden rounded-xl xp-3 shadow-2xl ${
           search && `bg-white`
-        } xl:flex xl:flex-col absolute xl:gap-1 z-10 left-[-75px] xl:left-[0]`}>
+        } xl:flex xl:flex-col absolute xl:gap-1 z-10 left-[-75px] xl:left-[0] xl:p-4`}
+      >
         {theMovies ? (
           theMovies
             .map((theMovie) => (
               <div key={theMovie.id}>
                 <Link
-                  className="w-[335px] p-2 relative flex border-b-2 border-gray-200"
-                  href={`/movie/${theMovie.id}`}>
+                  className="w-[335px] p-2 relative flex border-b-2 gap-4 border-gray-200"
+                  href={`/movie/${theMovie.id}`}
+                >
                   <div>
                     <Image
                       width="50"
@@ -141,7 +153,8 @@ export const SearchBar = (props: Props) => {
         )}
         {search && (
           <Link
-            href={`/search?query=${search}&include_adult=false&language=en-US&page=1`}>
+            href={`/search?query=${search}&include_adult=false&language=en-US&page=1`}
+          >
             See all results for "{search}"
           </Link>
         )}
@@ -151,9 +164,10 @@ export const SearchBar = (props: Props) => {
   const AllCategories = () => {
     return (
       <PopoverContent
-        className={`xl:w-[577px] xl:h-[333px] p-5 flex flex-col gap-12 absolute border-border z-10 ${
+        className={`xl:w-[577px] xl:h-[333px] p-5 flex flex-col gap-12 border-border z-10 ${
           props.mode ? `bg-black` : `bg-white`
-        } `}>
+        } `}
+      >
         <div className="flex flex-col gap-2">
           <h1 className="font-extrabold text-xl">Genres</h1>
           <p>See lists of movies by genre</p>
@@ -163,10 +177,12 @@ export const SearchBar = (props: Props) => {
             genreData.map((genre) => (
               <div key={genre.id}>
                 <Link
-                  href={`/badge/${genre.name}/${genre.id}?language=en-US&page=1`}>
+                  href={`/badge/${genre.name}/${genre.id}?language=en-US&page=1`}
+                >
                   <div
                     key={genre.id}
-                    className="border-border border rounded-xl flex items-center gap-2 px-2 text-sm font-semibold">
+                    className="border-border border rounded-xl flex items-center gap-2 px-2 text-sm font-semibold"
+                  >
                     {genre.name} <MdArrowForwardIos />
                   </div>
                 </Link>
@@ -177,10 +193,6 @@ export const SearchBar = (props: Props) => {
     );
   };
 
-  const handleSearchButton = () => {
-    setSearchButton(!searchButton);
-    // console.log(searchButton);
-  };
   const handleGenreButton = () => {
     setToggleGenreButton(!toggleGenreButton);
   };
@@ -188,12 +200,13 @@ export const SearchBar = (props: Props) => {
     <>
       {data && (
         <>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 justify-between w-full">
             <div className="relative">
               <Popover>
                 <PopoverTrigger
                   className="border-border border p-2 px-2 rounded-lg"
-                  onClick={handleGenreButton}>
+                  onClick={handleGenreButton}
+                >
                   Genre
                 </PopoverTrigger>
                 {toggleGenreButton && <AllCategories />}
@@ -208,10 +221,12 @@ export const SearchBar = (props: Props) => {
               <div
                 className={`relative ${
                   searchButton ? `flex` : `hidden sm:block`
-                } items-center gap-2 w-full`}>
+                } items-center gap-2 w-full`}
+              >
                 <button
                   onClick={handleSearchButton}
-                  className="text-gray-400 block sm:hidden">
+                  className="text-gray-400 block sm:hidden"
+                >
                   X
                 </button>
                 <input
@@ -225,7 +240,8 @@ export const SearchBar = (props: Props) => {
 
               <button
                 onClick={handleSearchButton}
-                className={`sm:hidden ${searchButton ? `hidden` : `block`}`}>
+                className={`sm:hidden ${searchButton ? `hidden` : `block`}`}
+              >
                 <Image
                   width="500"
                   height="700"
