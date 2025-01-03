@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { movieDetail } from "./types/types";
 import { SkeletonOne, SkeletonCategory } from "./_components/skeletons";
+import { FeaturedMovie } from "./_components/featured";
 
 export const options = {
   method: "GET",
@@ -207,74 +208,14 @@ export default async function Home() {
 
       <div className="hidden xl:block justify-items-center">
         {/* reminder */}
-        <div className="w-4/5">
+        <div className="">
           {now_playingMovies ? (
-            <div className="featured-movie">
-              <div className="justify-items-center">
-                <div
-                  style={{
-                    backgroundImage: `url("https://image.tmdb.org/t/p/original${now_playingMoviePicture}")`,
-                  }}
-                  className={`min-h-[600px] w-full bg-cover bg-center relative`}
-                >
-                  <div className="p-7 absolute w-[404px] h-[264px] bottom-[158px] left-[140px]">
-                    <div className="flex justify-between py-4">
-                      <div className="text-white">
-                        <div>Now in theaters:</div>
-                        <h1 className="text-lg font-bold">
-                          {now_playingMovieTitle}
-                        </h1>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <Image
-                        width="30"
-                        height="30"
-                        className="w-auto h-auto"
-                        alt="star rating"
-                        src="/img/rating.svg"
-                      />
-                      <div className="text-white">
-                        {Math.floor(now_playingMovieRating * 10) / 10}/10
-                      </div>
-                    </div>
-                    <div className="text-sm my-4 text-white h-20 truncate text-wrap">
-                      {/* Elphaba, a misunderstood young woman because of her green skin, and
-            Glinda, a popular girl, become friends at Shiz University in the
-            Land of Oz. After an encounter with the Wonderful Wizard of Oz,
-            their friendship reaches a crossroads. */}
-                      {now_playingMovieOverview}
-                    </div>
-                    <div className="py-4 ">
-                      <Link href={yt_trailer}>
-                        <Button className="px-4 py-2 bg-white text-black">
-                          Watch Trailer
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                  {/* <Image
-                width="500"
-                height="700"
-                alt="featured movie backdrop"
-                className="overflow-auto w-[50%] h-[50%] justify-self-center block xl:hidden"
-                src={`https://image.tmdb.org/t/p/w500${now_playingMoviePictureSM}`}
-              />
-              <Image
-                width="500"
-                height="700"
-                alt="featured movie backdrop"
-                className="overflow-auto w-full h-full justify-self-center hidden xl:block"
-                src={`https://image.tmdb.org/t/p/w500${now_playingMoviePicture}`}
-              /> */}
-                </div>
-              </div>
-            </div>
+            <FeaturedMovie nowPlaying={now_playing} />
           ) : (
             <SkeletonOne />
           )}
           <div className="suggestion p-5 justify-items-center ">
-            <div className="upcoming my-6 w-full">
+            <div className="upcoming my-6 w-4/5">
               {upcomingMovies ? (
                 <div className="upcoming-header flex justify-between p-3">
                   <h1 className="text-2xl font-extrabold ">Upcoming</h1>

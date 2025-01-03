@@ -83,18 +83,16 @@ export const SearchBar = (props: Props) => {
     const theMovies = props?.results;
     return (
       <div
-        className={`border-border overflow-hidden rounded-xl p-3 shadow-2xl ${
+        className={`border-border overflow-hidden rounded-xl xp-3 shadow-2xl ${
           search && `bg-white`
-        } flex flex-col absolute gap-1 z-10 `}
-      >
+        } xl:flex xl:flex-col absolute xl:gap-1 z-10 left-[-75px] xl:left-[0]`}>
         {theMovies ? (
           theMovies
             .map((theMovie) => (
               <div key={theMovie.id}>
                 <Link
                   className="w-[335px] p-2 relative flex border-b-2 border-gray-200"
-                  href={`/movie/${theMovie.id}`}
-                >
+                  href={`/movie/${theMovie.id}`}>
                   <div>
                     <Image
                       width="50"
@@ -136,7 +134,12 @@ export const SearchBar = (props: Props) => {
             No Results
           </div>
         )}
-        {theMovies && search && <div>See all results for "{search}"</div>}
+        {theMovies && search && (
+          <Link
+            href={`/search?query=${search}&include_adult=false&language=en-US&page=1`}>
+            See all results for "{search}"
+          </Link>
+        )}
       </div>
     );
   };
@@ -145,8 +148,7 @@ export const SearchBar = (props: Props) => {
       <div
         className={`xl:w-[577px] xl:h-[333px] p-5 flex flex-col gap-12 absolute border-border z-10 ${
           props.mode ? `bg-black` : `bg-white`
-        } `}
-      >
+        } `}>
         <div className="flex flex-col gap-2">
           <h1 className="font-extrabold text-xl">Genres</h1>
           <p>See lists of movies by genre</p>
@@ -156,12 +158,10 @@ export const SearchBar = (props: Props) => {
             genreData.map((genre) => (
               <div key={genre.id}>
                 <Link
-                  href={`/badge/${genre.name}/${genre.id}?language=en-US&page=1`}
-                >
+                  href={`/badge/${genre.name}/${genre.id}?language=en-US&page=1`}>
                   <div
                     key={genre.id}
-                    className="border-border border rounded-xl flex items-center gap-2 px-2 text-sm font-semibold"
-                  >
+                    className="border-border border rounded-xl flex items-center gap-2 px-2 text-sm font-semibold">
                     {genre.name} <MdArrowForwardIos />
                   </div>
                 </Link>
@@ -176,7 +176,7 @@ export const SearchBar = (props: Props) => {
     setSearchButton(!searchButton);
     // console.log(searchButton);
   };
-  const handleGenreButoon = () => {
+  const handleGenreButton = () => {
     setToggleGenreButton(!toggleGenreButton);
   };
   return (
@@ -186,9 +186,8 @@ export const SearchBar = (props: Props) => {
           <div className="flex gap-4 items-center">
             <div className="relative">
               <button
-                onClick={handleGenreButoon}
-                className="bg-background border border-[#e4e4e7] py-2 px-4 rounded-md shadow-sm xl:rounded-md items-center gap-1 hidden xl:flex"
-              >
+                onClick={handleGenreButton}
+                className="bg-background border border-[#e4e4e7] py-2 px-4 rounded-md shadow-sm xl:rounded-md items-center gap-1 hidden xl:flex">
                 <MdKeyboardArrowDown />
                 Genre
               </button>
@@ -199,12 +198,10 @@ export const SearchBar = (props: Props) => {
               <div
                 className={`relative ${
                   searchButton ? `flex` : `hidden sm:block`
-                } items-center gap-2 w-full`}
-              >
+                } items-center gap-2 w-full`}>
                 <button
                   onClick={handleSearchButton}
-                  className="text-gray-400 block sm:hidden"
-                >
+                  className="text-gray-400 block sm:hidden">
                   X
                 </button>
                 <input
@@ -218,8 +215,7 @@ export const SearchBar = (props: Props) => {
 
               <button
                 onClick={handleSearchButton}
-                className={`sm:hidden ${searchButton ? `hidden` : `block`}`}
-              >
+                className={`sm:hidden ${searchButton ? `hidden` : `block`}`}>
                 <Image
                   width="500"
                   height="700"

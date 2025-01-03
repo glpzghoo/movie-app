@@ -80,3 +80,14 @@ export type data = {
   page: number;
   total_pages: number;
 };
+export type FeaturedData = {
+  results: FeaturedDataResult[];
+};
+export type FeaturedDataResult = {
+  title: string;
+  overview: string;
+  poster_path: string;
+  vote_average: number;
+  id: number;
+  backdrop_path: string;
+};

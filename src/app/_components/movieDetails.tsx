@@ -210,8 +210,7 @@ export const Loaded = async (props: Props) => {
             <Link
               href={`./${
                 movie.id
-              }/${movieGenres[0].name.toLowerCase()}?language=en-US&page=1`}
-            >
+              }/${movieGenres[0].name.toLowerCase()}?language=en-US&page=1`}>
               <div>See More</div>
             </Link>
           </div>

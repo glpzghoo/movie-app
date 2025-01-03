@@ -22,8 +22,7 @@ export const Cards = (props: Props) => {
         <Link href={`/movie/${props.prop.id}`}>
           <div
             key={props.prop.id}
-            className={`rounded-lg bg-secondary overflow-hidden`}
-          >
+            className={`rounded-lg bg-secondary overflow-hidden`}>
             <Image
               width="500"
               height="700"
@@ -31,8 +30,9 @@ export const Cards = (props: Props) => {
               className="w-full h-auto"
               placeholder="empty"
               src={
-                props.prop.poster_path &&
-                `https://image.tmdb.org/t/p/original${props.prop.poster_path}`
+                !props.prop.poster_path
+                  ? "https://placehold.co/360x540?text=no+pic+lol"
+                  : `https://image.tmdb.org/t/p/original${props.prop.poster_path}`
               }
             />
             <div className="p-[10px]">
@@ -54,7 +54,8 @@ export const Cards = (props: Props) => {
           </div>
         </Link>
       ) : (
-        <div className={`rounded-lg bg-secondary h-[350px] overflow-hidden`}>
+        <div
+          className={`rounded-lg bg-secondary h-[350px] overflow-hidden animate-pulse`}>
           <div className="p-[10px]">
             <div className="rating flex items-center text-xs">
               <div></div>

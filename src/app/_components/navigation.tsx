@@ -39,8 +39,7 @@ export const Navigation = (props: Props) => {
             <button
               onClick={() => {
                 props.handleMode();
-              }}
-            >
+              }}>
               <Image
                 width="500"
                 height="700"

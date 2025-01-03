@@ -28,15 +28,14 @@ export default function RootLayout({
 
   const handleMode = () => {
     setDarkMode(!isDark);
-    console.log(isDark);
+    console.log("dark mode:", isDark);
   };
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased ${
           inter.className
-        } ${isDark && `dark`} `}
-      >
+        } ${isDark && `dark`} `}>
         <main className="min-h-screen xl:px-15">
           <Navigation handleMode={handleMode} mode={isDark} />
           {children}
