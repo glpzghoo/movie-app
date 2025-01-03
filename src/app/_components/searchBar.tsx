@@ -7,6 +7,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { MdArrowForwardIos, MdKeyboardArrowDown } from "react-icons/md";
 import { Genre, movieDetail } from "../types/types";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 type target = {
   value: string;
 };
@@ -134,7 +139,7 @@ export const SearchBar = (props: Props) => {
             No Results
           </div>
         )}
-        {theMovies && search && (
+        {search && (
           <Link
             href={`/search?query=${search}&include_adult=false&language=en-US&page=1`}>
             See all results for "{search}"
@@ -145,7 +150,7 @@ export const SearchBar = (props: Props) => {
   };
   const AllCategories = () => {
     return (
-      <div
+      <PopoverContent
         className={`xl:w-[577px] xl:h-[333px] p-5 flex flex-col gap-12 absolute border-border z-10 ${
           props.mode ? `bg-black` : `bg-white`
         } `}>
@@ -168,7 +173,7 @@ export const SearchBar = (props: Props) => {
               </div>
             ))}
         </div>
-      </div>
+      </PopoverContent>
     );
   };
 
@@ -185,13 +190,18 @@ export const SearchBar = (props: Props) => {
         <>
           <div className="flex gap-4 items-center">
             <div className="relative">
-              <button
-                onClick={handleGenreButton}
-                className="bg-background border border-[#e4e4e7] py-2 px-4 rounded-md shadow-sm xl:rounded-md items-center gap-1 hidden xl:flex">
+              <Popover>
+                <PopoverTrigger
+                  className="border-border border p-2 px-2 rounded-lg"
+                  onClick={handleGenreButton}>
+                  Genre
+                </PopoverTrigger>
+                {toggleGenreButton && <AllCategories />}
+              </Popover>
+              {/* <button className="bg-background border border-[#e4e4e7] py-2 px-4 rounded-md shadow-sm xl:rounded-md items-center gap-1 hidden xl:flex">
                 <MdKeyboardArrowDown />
                 Genre
-              </button>
-              {toggleGenreButton && <AllCategories />}
+              </button> */}
             </div>
 
             <div className="content-center relative">
