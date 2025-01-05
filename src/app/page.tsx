@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { movieDetail } from "./types/types";
 import { SkeletonOne, SkeletonCategory } from "./_components/skeletons";
-import { FeaturedMovie } from "./_components/featured";
+import { FeaturedMovies } from "./_components/featured";
 
 export const options = {
   method: "GET",
@@ -204,7 +204,7 @@ export default async function Home() {
         {/* reminder */}
         <div className="">
           {now_playingMovies ? (
-            <FeaturedMovie nowPlaying={now_playing} />
+            <FeaturedMovies nowPlaying={now_playing} />
           ) : (
             <SkeletonOne />
           )}

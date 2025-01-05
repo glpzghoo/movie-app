@@ -48,7 +48,7 @@ export default function searchResult() {
             {movies &&
               movies.length * data.total_pages +
                 ` results for "` +
-                query?.replaceAll("_", " ").toUpperCase() +
+                query?.replaceAll("_", " ") +
                 `"`}
           </h1>
           {/* <button onClick={handleClick}>handleClick</button> */}

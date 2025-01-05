@@ -21,7 +21,7 @@ type PropsForFeaturedMovies = {
   now_playingMovieRating: number;
   now_playingMovieId: number;
 };
-export const FeaturedMovie = async (props: Props) => {
+export const FeaturedMovies = async (props: Props) => {
   const FeaturedMovie = async (props: PropsForFeaturedMovies) => {
     console.log(props.now_playingMovieId);
     const now_playingMovieTitle: string = props.now_playingMovieTitle;
@@ -38,7 +38,7 @@ export const FeaturedMovie = async (props: Props) => {
       trailer_info_data.results[trailer_info_data.results.length - 1].key;
     const yt_trailer: string = `https://www.youtube.com/watch?v=${get_thelink_pls}`;
     return (
-      <CarouselItem>
+      <CarouselItem key={now_playingMovieId}>
         <div className="justify-items-center">
           <div
             style={{
@@ -87,15 +87,13 @@ export const FeaturedMovie = async (props: Props) => {
       <Carousel>
         <CarouselContent>
           {props.nowPlaying.results.slice(0, 3).map((movie) => (
-            <div key={movie.id}>
-              <FeaturedMovie
-                now_playingMovieTitle={movie.title}
-                now_playingMovieOverview={movie.overview}
-                now_playingMoviePicture={movie.backdrop_path}
-                now_playingMovieRating={movie.vote_average}
-                now_playingMovieId={movie.id}
-              />
-            </div>
+            <FeaturedMovie
+              now_playingMovieTitle={movie.title}
+              now_playingMovieOverview={movie.overview}
+              now_playingMoviePicture={movie.backdrop_path}
+              now_playingMovieRating={movie.vote_average}
+              now_playingMovieId={movie.id}
+            />
           ))}
           {/* <CarouselItem>
             <div className="justify-items-center">

@@ -10,20 +10,18 @@ import { Loading } from "@/app/_components/movieDetails";
 import { options } from "@/app/page";
 import { data, movieDetail } from "@/app/types/types";
 
-type Props = {
-  params: Params;
-};
 type Params = {
-  genre: string;
+  id: string;
+  name: string;
 };
 
-export default function Genre(props: Props) {
+export default function Genre() {
   const [data, setData] = useState<data>();
   const searchParams = useSearchParams();
-  const params = useParams();
-  const genre: any = params.genre;
+  const params: Params = useParams();
+  const genre: any = params.name;
   const page = searchParams.get("page");
-  // console.log("params  ???", params);
+  console.log("params  ???", typeof params.id);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +43,9 @@ export default function Genre(props: Props) {
     <div>
       <div className="m-4">
         <div className="upcoming-header flex justify-between">
-          <h1 className="text-xl font-extrabold ">{params.name}</h1>
+          <h1 className="text-xl font-extrabold ">
+            {params.name.replaceAll("%20", " ")}
+          </h1>
           {/* <a href="/upcoming">
           <div>See More</div>
         </a> */}
@@ -53,7 +53,8 @@ export default function Genre(props: Props) {
         <Page />
         <div
           key={69}
-          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
+        >
           {movies ? (
             movies.map((movie: movieDetail, index: number) => (
               <Cards prop={movie} key={movie.id} index={index} />
