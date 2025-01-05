@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { options } from "../page";
 import { data, movieDetail } from "../types/types";
 import { useParams, useSearchParams } from "next/navigation";
 import { Loading } from "../_components/movieDetails";
 import { Page } from "../_components/pagination";
 import { Cards } from "../_components/movies";
+import { SkeletonOne } from "../_components/skeletons";
 
 export default function searchResult() {
   const [data, setData] = useState<any>({});
@@ -41,33 +42,36 @@ export default function searchResult() {
   //   console.log("data", data.total_pages);
   // };
   return (
-    <div>
-      <div className="m-4">
-        <div className="upcoming-header flex justify-between">
-          <h1 className="text-xl font-extrabold ">
-            {movies &&
-              movies.length * data.total_pages +
-                ` results for "` +
-                query?.replaceAll("_", " ") +
-                `"`}
-          </h1>
-          {/* <button onClick={handleClick}>handleClick</button> */}
+    <Suspense>
+      <div>
+        <div className="m-4">
+          <div className="upcoming-header flex justify-between">
+            <h1 className="text-xl font-extrabold ">
+              {movies &&
+                movies.length * data.total_pages +
+                  ` results for "` +
+                  query?.replaceAll("_", " ") +
+                  `"`}
+            </h1>
+
+            {/* <button onClick={handleClick}>handleClick</button> */}
+          </div>
+          <Page />
+          <div
+            key={69}
+            className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
+          >
+            {movies ? (
+              movies.map((movie: movieDetail, index: number) => (
+                <Cards prop={movie} key={movie.id} index={index} />
+              ))
+            ) : (
+              <Loading />
+            )}
+          </div>
+          <Page />
         </div>
-        <Page />
-        <div
-          key={69}
-          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
-        >
-          {movies ? (
-            movies.map((movie: movieDetail, index: number) => (
-              <Cards prop={movie} key={movie.id} index={index} />
-            ))
-          ) : (
-            <Loading />
-          )}
-        </div>
-        <Page />
       </div>
-    </div>
+    </Suspense>
   );
 }

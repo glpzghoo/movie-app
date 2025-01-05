@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Cards } from "@/app/_components/movies";
@@ -40,32 +40,34 @@ export default function Genre() {
   const movies = data?.results;
   // console.log("movies [genre]", movies);
   return (
-    <div>
-      <div className="m-4">
-        <div className="upcoming-header flex justify-between">
-          <h1 className="text-xl font-extrabold ">
-            {params.name.replaceAll("%20", " ")}
-          </h1>
-          {/* <a href="/upcoming">
+    <Suspense>
+      <div>
+        <div className="m-4">
+          <div className="upcoming-header flex justify-between">
+            <h1 className="text-xl font-extrabold ">
+              {params.name.replaceAll("%20", " ")}
+            </h1>
+            {/* <a href="/upcoming">
           <div>See More</div>
         </a> */}
+          </div>
+          <Page />
+          <div
+            key={69}
+            className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
+          >
+            {movies ? (
+              movies.map((movie: movieDetail, index: number) => (
+                <Cards prop={movie} key={movie.id} index={index} />
+              ))
+            ) : (
+              <Loading />
+            )}
+          </div>
+          <Page data={data} />
         </div>
-        <Page />
-        <div
-          key={69}
-          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
-        >
-          {movies ? (
-            movies.map((movie: movieDetail, index: number) => (
-              <Cards prop={movie} key={movie.id} index={index} />
-            ))
-          ) : (
-            <Loading />
-          )}
-        </div>
-        <Page data={data} />
       </div>
-    </div>
+    </Suspense>
   );
 }
 

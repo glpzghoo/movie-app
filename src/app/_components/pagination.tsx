@@ -14,9 +14,10 @@ import {
   useSearchParams,
   useRouter,
 } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { options } from "../page";
 import { data } from "../types/types";
+import { Loading } from "./movieDetails";
 type Props = {
   data?: data;
 };
@@ -48,101 +49,109 @@ export const Page = (props: Props) => {
   }, [data]);
 
   return (
-    <Pagination>
-      <PaginationContent>
-        {parseInt(currentPage) > 1 && (
-          <>
-            {parseInt(currentPage) > 2 && (
-              <>
-                <PaginationItem>
-                  <PaginationPrevious
-                    className="cursor-pointer"
-                    onClick={() => {
-                      changePage(parseInt(currentPage) - 1);
-                    }}
-                  />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink
-                    className="cursor-pointer"
-                    onClick={() => {
-                      changePage(parseInt(currentPage) - 2);
-                    }}>
-                    {parseInt(currentPage) - 2}
-                  </PaginationLink>
-                </PaginationItem>
-              </>
-            )}
-          </>
-        )}
-        {parseInt(currentPage) > 1 && (
-          <>
-            <PaginationItem>
-              <PaginationLink
-                className="cursor-pointer"
-                onClick={() => {
-                  changePage(parseInt(currentPage) - 1);
-                }}>
-                {parseInt(currentPage) - 1}
-              </PaginationLink>
-            </PaginationItem>
-          </>
-        )}
+    <Suspense fallback={<Loading />}>
+      <Pagination>
+        <PaginationContent>
+          {parseInt(currentPage) > 1 && (
+            <>
+              {parseInt(currentPage) > 2 && (
+                <>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      className="cursor-pointer"
+                      onClick={() => {
+                        changePage(parseInt(currentPage) - 1);
+                      }}
+                    />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink
+                      className="cursor-pointer"
+                      onClick={() => {
+                        changePage(parseInt(currentPage) - 2);
+                      }}
+                    >
+                      {parseInt(currentPage) - 2}
+                    </PaginationLink>
+                  </PaginationItem>
+                </>
+              )}
+            </>
+          )}
+          {parseInt(currentPage) > 1 && (
+            <>
+              <PaginationItem>
+                <PaginationLink
+                  className="cursor-pointer"
+                  onClick={() => {
+                    changePage(parseInt(currentPage) - 1);
+                  }}
+                >
+                  {parseInt(currentPage) - 1}
+                </PaginationLink>
+              </PaginationItem>
+            </>
+          )}
 
-        <PaginationItem>
-          <PaginationLink
-            className="cursor-pointer"
-            onClick={() => {
-              changePage(parseInt(currentPage));
-            }}
-            isActive>
-            {currentPage}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink
-            className="cursor-pointer"
-            onClick={() => {
-              changePage(parseInt(currentPage) + 1);
-            }}>
-            {parseInt(currentPage) + 1}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink
-            className="cursor-pointer"
-            onClick={() => {
-              changePage(parseInt(currentPage) + 2);
-            }}>
-            {parseInt(currentPage) + 2}
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationEllipsis>....</PaginationEllipsis>
-        </PaginationItem>
-
-        {/* reminder */}
-        {props?.data?.total_pages && (
           <PaginationItem>
             <PaginationLink
               className="cursor-pointer"
               onClick={() => {
-                changePage(data?.total_pages);
-              }}>
-              {data?.total_pages}
+                changePage(parseInt(currentPage));
+              }}
+              isActive
+            >
+              {currentPage}
             </PaginationLink>
           </PaginationItem>
-        )}
-        <PaginationItem>
-          <PaginationNext
-            className="cursor-pointer"
-            onClick={() => {
-              changePage(parseInt(currentPage) + 1);
-            }}
-          />
-        </PaginationItem>
-        {/* reminder */}
-      </PaginationContent>
-    </Pagination>
+          <PaginationItem>
+            <PaginationLink
+              className="cursor-pointer"
+              onClick={() => {
+                changePage(parseInt(currentPage) + 1);
+              }}
+            >
+              {parseInt(currentPage) + 1}
+            </PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink
+              className="cursor-pointer"
+              onClick={() => {
+                changePage(parseInt(currentPage) + 2);
+              }}
+            >
+              {parseInt(currentPage) + 2}
+            </PaginationLink>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationEllipsis>....</PaginationEllipsis>
+          </PaginationItem>
+
+          {/* reminder */}
+          {props?.data?.total_pages && (
+            <PaginationItem>
+              <PaginationLink
+                className="cursor-pointer"
+                onClick={() => {
+                  changePage(data?.total_pages);
+                }}
+              >
+                {data?.total_pages}
+              </PaginationLink>
+            </PaginationItem>
+          )}
+          <PaginationItem>
+            <PaginationNext
+              className="cursor-pointer"
+              onClick={() => {
+                changePage(parseInt(currentPage) + 1);
+              }}
+            />
+          </PaginationItem>
+          {/* reminder */}
+        </PaginationContent>
+      </Pagination>
+    </Suspense>
   );
 };

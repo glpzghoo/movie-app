@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { options } from "../page";
 // import { Link } from "lucide-react";
 import { FaArrowRight } from "react-icons/fa";
@@ -13,6 +13,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useSearchParams } from "next/navigation";
+import { Loading } from "./movieDetails";
 type target = {
   value: string;
 };
@@ -203,7 +204,7 @@ export const SearchBar = (props: Props) => {
     setToggleGenreButton(!toggleGenreButton);
   };
   return (
-    <>
+    <Suspense>
       {data && (
         <>
           <div className="flex gap-4 justify-between w-full">
@@ -261,6 +262,6 @@ export const SearchBar = (props: Props) => {
           </div>
         </>
       )}
-    </>
+    </Suspense>
   );
 };

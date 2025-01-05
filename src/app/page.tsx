@@ -6,7 +6,6 @@ import Link from "next/link";
 import { movieDetail } from "./types/types";
 import { SkeletonOne, SkeletonCategory } from "./_components/skeletons";
 import { FeaturedMovies } from "./_components/featured";
-
 export const options = {
   method: "GET",
   headers: {

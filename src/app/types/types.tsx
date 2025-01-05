@@ -41,12 +41,7 @@ export type spoken_languages = {
   iso_639_1: string;
   name: string;
 };
-export type PropsParams = {
-  params: Params;
-};
-export type Params = {
-  id: string;
-};
+
 export type movieDetail = {
   adult?: boolean;
   backdrop_path: string;
