@@ -4,7 +4,7 @@ import { movieDetail, PropsParams } from "@/app/types/types";
 
 export default async function movieDetails(props: PropsParams) {
   const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${props.params.id}?language=en-US'`,
+    `https://api.themoviedb.org/3/movie/${props.params.id}?language=en-US`,
     options
   );
   const movie: movieDetail = await res.json();

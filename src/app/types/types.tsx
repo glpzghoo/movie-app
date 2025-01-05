@@ -45,7 +45,7 @@ export type PropsParams = {
   params: Params;
 };
 export type Params = {
-  id: number;
+  id: string;
 };
 export type movieDetail = {
   adult?: boolean;
