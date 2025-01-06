@@ -19,7 +19,7 @@ export const Cards = (props: Props) => {
   return (
     <div key={props?.prop?.id + props.index}>
       {props.prop ? (
-        <Link href={`/movie/${props.prop.id}`}>
+        <Link href={`/movie/${props.prop.id.toString()}`}>
           <div
             key={props.prop.id}
             className={`rounded-lg bg-secondary overflow-hidden`}>

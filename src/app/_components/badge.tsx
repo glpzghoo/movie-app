@@ -12,18 +12,18 @@ export const Badge = async (props: Props) => {
   const genre: Genre = props.genre;
   // console.log("props on badge", props);
   const res = await fetch(
-    `https://api.themoviedb.org/3/discover/movie?with_genres=${props.genre.id}&language=en-US&page=1`
+    `https://api.themoviedb.org/3/discover/movie?with_genres=${props.genre.id.toString()}&language=en-US&page=1`
   );
   const data = await res.json();
   // console.log("filter genre", props.genre.id);
   return (
     <a
-      href={`/badge/${props.genre.name}/${props.genre.id}?language=en-US&page=1`}
-    >
+      href={`/badge/${
+        props.genre.name
+      }/${props.genre.id.toString()}?language=en-US&page=1`}>
       <div
         key={genre.id}
-        className="border bg-none border-gray-200 px-5 rounded-xl font-semibold text-foreground text-xs content-center justify-center"
-      >
+        className="border bg-none border-gray-200 px-5 rounded-xl font-semibold text-foreground text-xs content-center justify-center">
         {genre.name}
       </div>
     </a>

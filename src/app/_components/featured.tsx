@@ -35,17 +35,16 @@ export const FeaturedMovies = async (props: Props) => {
     );
     const trailer_info_data = await res_movie_trailer.json();
     const get_thelink_pls =
-      trailer_info_data.results[trailer_info_data.results.length - 1].key;
+      trailer_info_data.results[trailer_info_data.results.length - 1]?.key;
     const yt_trailer: string = `https://www.youtube.com/watch?v=${get_thelink_pls}`;
     return (
-      <CarouselItem key={now_playingMovieId}>
+      <CarouselItem>
         <div className="justify-items-center">
           <div
             style={{
               backgroundImage: `url("https://image.tmdb.org/t/p/original${now_playingMoviePicture}")`,
             }}
-            className={`min-h-[600px] w-full bg-cover relative`}
-          >
+            className={`min-h-[600px] w-full bg-cover relative`}>
             <div className="p-7 absolute w-[404px] h-[264px] bottom-[158px] left-[140px]">
               <div className="flex justify-between py-4">
                 <div className="text-white">
@@ -70,7 +69,7 @@ export const FeaturedMovies = async (props: Props) => {
               </div>
               <div className="py-4 ">
                 <Link href={yt_trailer}>
-                  <Button className="px-4 py-2 bg-white text-black hover:text-white">
+                  <Button className="px-4 py-2 bg-background text-secondary-foreground">
                     Watch Trailer
                   </Button>
                 </Link>
@@ -86,8 +85,9 @@ export const FeaturedMovies = async (props: Props) => {
     <div className="featured-movie">
       <Carousel>
         <CarouselContent>
-          {props.nowPlaying.results.slice(0, 3).map((movie) => (
+          {props.nowPlaying.results.slice(0, 10).map((movie) => (
             <FeaturedMovie
+              key={movie.id}
               now_playingMovieTitle={movie.title}
               now_playingMovieOverview={movie.overview}
               now_playingMoviePicture={movie.backdrop_path}
