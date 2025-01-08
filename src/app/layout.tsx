@@ -23,7 +23,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [isDark, setDarkMode] = useState(false);
-
+  useEffect(() => {
+    document.title = "movie app";
+  }, []);
   const handleMode = () => {
     setDarkMode(!isDark);
     console.log("dark mode:", isDark);
@@ -33,9 +35,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased ${
           inter.className
-        } ${isDark && `dark`} `}>
+        } ${isDark && `dark`} justify-items-center`}
+      >
         <Suspense fallback={<Loading />}>
-          <main className="min-h-screen xl:px-15">
+          <main className="min-h-screen w-[80%]">
             <Navigation handleMode={handleMode} mode={isDark} />
             {children}
 
