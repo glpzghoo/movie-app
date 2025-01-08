@@ -51,9 +51,12 @@ export default function Genre() {
       <div>
         <div className="m-4">
           <div className="upcoming-header flex justify-between">
-            <h1 className="text-xl font-extrabold ">
-              {genre && genre?.replaceAll("_", " ").toUpperCase()}
-            </h1>
+            <Suspense>
+              <h1 className="text-xl font-extrabold ">
+                {genre && genre?.replaceAll("_", " ").toUpperCase()}
+              </h1>
+            </Suspense>
+
             {/* <a href="/upcoming">
           <div>See More</div>
         </a> */}
@@ -61,8 +64,7 @@ export default function Genre() {
           <Page />
           <div
             key={69}
-            className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
-          >
+            className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
             <Suspense fallback={<Loading />}>
               {movies &&
                 movies.map((movie: movieDetail, index: number) => (

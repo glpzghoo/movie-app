@@ -15,7 +15,6 @@ import {
   useRouter,
 } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
-import { options } from "../page";
 import { data } from "../types/types";
 import { Loading } from "./movieDetails";
 type Props = {
@@ -69,8 +68,7 @@ export const Page = (props: Props) => {
                       className="cursor-pointer"
                       onClick={() => {
                         changePage(parseInt(currentPage) - 2);
-                      }}
-                    >
+                      }}>
                       {parseInt(currentPage) - 2}
                     </PaginationLink>
                   </PaginationItem>
@@ -85,8 +83,7 @@ export const Page = (props: Props) => {
                   className="cursor-pointer"
                   onClick={() => {
                     changePage(parseInt(currentPage) - 1);
-                  }}
-                >
+                  }}>
                   {parseInt(currentPage) - 1}
                 </PaginationLink>
               </PaginationItem>
@@ -99,8 +96,7 @@ export const Page = (props: Props) => {
               onClick={() => {
                 changePage(parseInt(currentPage));
               }}
-              isActive
-            >
+              isActive>
               {currentPage}
             </PaginationLink>
           </PaginationItem>
@@ -109,8 +105,7 @@ export const Page = (props: Props) => {
               className="cursor-pointer"
               onClick={() => {
                 changePage(parseInt(currentPage) + 1);
-              }}
-            >
+              }}>
               {parseInt(currentPage) + 1}
             </PaginationLink>
           </PaginationItem>
@@ -119,8 +114,7 @@ export const Page = (props: Props) => {
               className="cursor-pointer"
               onClick={() => {
                 changePage(parseInt(currentPage) + 2);
-              }}
-            >
+              }}>
               {parseInt(currentPage) + 2}
             </PaginationLink>
           </PaginationItem>
@@ -135,8 +129,7 @@ export const Page = (props: Props) => {
                 className="cursor-pointer"
                 onClick={() => {
                   changePage(data?.total_pages);
-                }}
-              >
+                }}>
                 {data?.total_pages}
               </PaginationLink>
             </PaginationItem>

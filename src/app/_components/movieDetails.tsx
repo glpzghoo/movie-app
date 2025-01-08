@@ -5,6 +5,7 @@ import { Badge } from "./badge";
 import { Cards } from "./movies";
 import { SearchBar } from "./searchBar";
 import Link from "next/link";
+import { Suspense } from "react";
 // type movieDetailGenres = {};
 // type creditsData ={
 //   cast:
@@ -91,8 +92,10 @@ export const Loaded = async (props: Props) => {
               <h1 className="text-2xl font-extrabold">{movie.title}</h1>
               <div className="flex gap-2">
                 <div>
-                  {movie?.release_date &&
-                    movie?.release_date?.replaceAll("-", ".")}
+                  <Suspense>
+                    {movie?.release_date &&
+                      movie?.release_date?.replaceAll("-", ".")}
+                  </Suspense>
                 </div>
                 ·
                 {/* <div className="flex gap-2">
@@ -102,8 +105,10 @@ export const Loaded = async (props: Props) => {
                   </div>
                   · */}
                 <div>
-                  {movie?.runtime && Math.floor(movie.runtime / 60)}h :{" "}
-                  {movie.runtime % 60}m
+                  <Suspense>
+                    {movie?.runtime && Math.floor(movie.runtime / 60)}h :{" "}
+                    {movie.runtime % 60}m
+                  </Suspense>
                 </div>
               </div>
             </div>
@@ -118,8 +123,10 @@ export const Loaded = async (props: Props) => {
                 />
                 <div>
                   <div className="flex justify-center">
-                    {movie && movie?.vote_average?.toFixed(1)}/{" "}
-                    <span className="text-gray-400">10</span>
+                    <Suspense>
+                      {movie && movie?.vote_average?.toFixed(1)}/
+                      <span className="text-gray-400">10</span>
+                    </Suspense>
                   </div>
                   <div className="justify-self-end">({movie.vote_count})</div>
                 </div>
@@ -131,39 +138,47 @@ export const Loaded = async (props: Props) => {
       {/* div start */}
       <div className="block">
         <div className="flex justify-center">
-          <Image
-            width="500"
-            height="700"
-            alt="featured movie backdrop"
-            className="w-auto h-auto sm:h-[405px] sm:w-[720px]"
-            src={
-              movie.poster_path
-                ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
-                : `https://placehold.co/640x360?text=no+pic+lol`
-            }
-          />
+          <Suspense>
+            <Image
+              width="500"
+              height="700"
+              alt="featured movie backdrop"
+              className="w-auto h-auto sm:h-[405px] sm:w-[720px]"
+              src={
+                movie.poster_path
+                  ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+                  : `https://placehold.co/640x360?text=no+pic+lol`
+              }
+            />
+          </Suspense>
         </div>
         <div className="flex justify-center">
           <div className="flex justify-between items-start h-72 overflow-hidden  my-4 gap-10 sm:w-[auto] p-5 sm:h-[420px] sm:justify-around">
             <div className="zuragnii-div h-full w-[50%] xl:justify-items-center items-center content-center overflow-hidden ">
-              <Image
-                width="500"
-                height="700"
-                alt="featured movie poster"
-                className="sm:w-auto sm:h-[420px]"
-                src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-              />
+              <Suspense>
+                <Image
+                  width="500"
+                  height="700"
+                  alt="featured movie poster"
+                  className="sm:w-auto sm:h-[420px]"
+                  src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                />
+              </Suspense>
             </div>
             <div className="tailbariin-div w-[50%] sm:flex sm:flex-col sm:justify-center sm:w-[80%]">
               <div className="badges-here gap-3 flex-wrap my-3 hidden xl:flex">
-                {movieGenres &&
-                  movieGenres.map((genre: Genre, index: number) => (
-                    <div key={genre.id}>
-                      <Badge genre={genre} id={movie.id} />
-                    </div>
-                  ))}
+                <Suspense>
+                  {movieGenres &&
+                    movieGenres.map((genre: Genre, index: number) => (
+                      <div key={genre.id}>
+                        <Badge genre={genre} id={movie.id} />
+                      </div>
+                    ))}
+                </Suspense>
               </div>
-              <div className="overview my-3 w-[100%] ">{movie.overview}</div>
+              <Suspense>
+                <div className="overview my-3 w-[100%] ">{movie.overview}</div>
+              </Suspense>
             </div>
           </div>
         </div>
@@ -174,54 +189,63 @@ export const Loaded = async (props: Props) => {
           <h1 className="font-bold">Directer</h1>
           <h3 className="flex flex-wrap gap-2">
             {/* reminder */}
-            {directors &&
-              directors
-                .map((director, index) => (
-                  <div key={index}>{director.name}</div>
-                ))
-                .slice(0, 5)}
+            <Suspense>
+              {directors &&
+                directors
+                  .map((director, index) => (
+                    <div key={index}>{director.name}</div>
+                  ))
+                  .slice(0, 5)}
+            </Suspense>
           </h3>
         </div>
         <div className="w-full  min-h-20 justify-self-center flex gap-2 border-b-2 border-gray-300">
           <h1 className="font-bold">Writer</h1>
           <h3 className="flex flex-wrap gap-2">
             {/* reminder */}
-            {Writers &&
-              Writers.map((writer, index) => (
-                <div key={index}>{writer.name}</div>
-              )).slice(0, 5)}
+            <Suspense>
+              {Writers &&
+                Writers.map((writer, index) => (
+                  <div key={index}>{writer.name}</div>
+                )).slice(0, 5)}
+            </Suspense>
           </h3>
         </div>
         <div className="w-full  min-h-20 justify-self-center flex gap-2 border-b-2 border-gray-300">
           <h1 className="font-bold">Stars</h1>
           <h3 className="flex flex-wrap gap-2">
             {/* reminder */}
-            {credits &&
-              credits?.cast
-                ?.map((cast: cast, index: number) => (
-                  <div key={index}>{cast.name}</div>
-                ))
-                .slice(0, 5)}
+            <Suspense>
+              {credits &&
+                credits?.cast
+                  ?.map((cast: cast, index: number) => (
+                    <div key={index}>{cast.name}</div>
+                  ))
+                  .slice(0, 5)}
+            </Suspense>
           </h3>
         </div>
         <div className="m-6">
           <div className=" popular flex justify-between">
             <h1 className="text-xl font-extrabold ">More like this</h1>
-            <Link
-              href={`./${
-                movie.id
-              }/${movieGenres[0].name.toLowerCase()}?language=en-US&page=1`}
-            >
-              <div>See More</div>
-            </Link>
+            <Suspense>
+              <Link
+                href={`./${
+                  movie.id
+                }/${movieGenres[0].name.toLowerCase()}?language=en-US&page=1`}>
+                <div>See More</div>
+              </Link>
+            </Suspense>
           </div>
           <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
-            {recommendations &&
-              recommendations?.results
-                ?.map((movie: movieDetail, index: number) => (
-                  <Cards prop={movie} key={movie.id} index={index} />
-                ))
-                .slice(0, 4)}
+            <Suspense>
+              {recommendations &&
+                recommendations?.results
+                  ?.map((movie: movieDetail, index: number) => (
+                    <Cards prop={movie} key={movie.id} index={index} />
+                  ))
+                  .slice(0, 4)}
+            </Suspense>
           </div>
         </div>
       </div>

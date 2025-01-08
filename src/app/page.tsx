@@ -6,6 +6,7 @@ import Link from "next/link";
 import { movieDetail } from "./types/types";
 import { SkeletonOne, SkeletonCategory } from "./_components/skeletons";
 import { FeaturedMovies } from "./_components/featured";
+import { Suspense } from "react";
 export const options = {
   method: "GET",
   headers: {
@@ -101,29 +102,33 @@ export default async function Home() {
           <div className="featured-movie">
             <div className="sm:flex justify-items-center">
               <div className="overflow-auto md:h-full xl:bg-cover xl:bg-center justify-self-center  md:content-center">
-                <Image
-                  width="500"
-                  height="700"
-                  alt="featured movie poster"
-                  className="hidden sm:block w-full h-full"
-                  src={`https://image.tmdb.org/t/p/original${now_playingMoviePictureSM}`}
-                />
-                <Image
-                  width="500"
-                  height="700"
-                  alt="featured movie backdrop"
-                  className="overflow-auto w-full h-full justify-self-center block sm:hidden"
-                  src={`https://image.tmdb.org/t/p/original${now_playingMoviePicture}`}
-                />
+                <Suspense>
+                  <Image
+                    width="500"
+                    height="700"
+                    alt="featured movie poster"
+                    className="hidden sm:block w-full h-full"
+                    src={`https://image.tmdb.org/t/p/original${now_playingMoviePictureSM}`}
+                  />
+                  <Image
+                    width="500"
+                    height="700"
+                    alt="featured movie backdrop"
+                    className="overflow-auto w-full h-full justify-self-center block sm:hidden"
+                    src={`https://image.tmdb.org/t/p/original${now_playingMoviePicture}`}
+                  />
+                </Suspense>
               </div>
 
               <div className="p-7 w-3/4 lg:content-center">
                 <div className="flex justify-between py-4">
                   <div>
                     <div>Now in theaters:</div>
-                    <h1 className="text-lg font-bold">
-                      {now_playingMovieTitle}
-                    </h1>
+                    <Suspense>
+                      <h1 className="text-lg font-bold">
+                        {now_playingMovieTitle}
+                      </h1>
+                    </Suspense>
                   </div>
                   <div className="">
                     <Image
@@ -133,14 +138,23 @@ export default async function Home() {
                       alt="star rating"
                       src="/img/rating.svg"
                     />
-                    <div>{Math.floor(now_playingMovieRating * 10) / 10}/10</div>
+                    <Suspense>
+                      <div>
+                        {Math.floor(now_playingMovieRating * 10) / 10}/10
+                      </div>
+                    </Suspense>
                   </div>
                 </div>
-                <div className="text-sm py-4">{now_playingMovieOverview}</div>
+                <Suspense>
+                  <div className="text-sm py-4">{now_playingMovieOverview}</div>
+                </Suspense>
+
                 <div className="py-4">
-                  <Link href={yt_trailer}>
-                    <Button className="px-4 py-2">Watch Trailer</Button>
-                  </Link>
+                  <Suspense>
+                    <Link href={yt_trailer}>
+                      <Button className="px-4 py-2">Watch Trailer</Button>
+                    </Link>
+                  </Suspense>
                 </div>
               </div>
             </div>
@@ -155,11 +169,13 @@ export default async function Home() {
               </div>
               {/*  cards here */}
               <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
-                {upcoming.results
-                  .map((movie: movieDetail, index: number) => (
-                    <Cards prop={movie} key={movie.id} index={index} />
-                  ))
-                  .slice(0, 12)}
+                <Suspense>
+                  {upcoming.results
+                    .map((movie: movieDetail, index: number) => (
+                      <Cards prop={movie} key={movie.id} index={index} />
+                    ))
+                    .slice(0, 12)}
+                </Suspense>
               </div>
 
               <div className="popular my-6">
@@ -171,11 +187,13 @@ export default async function Home() {
                 </div>
                 {/*  cards here */}
                 <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
-                  {popular.results
-                    .map((movie: movieDetail, index: number) => (
-                      <Cards prop={movie} key={movie.id} index={index} />
-                    ))
-                    .slice(0, 12)}
+                  <Suspense>
+                    {popular.results
+                      .map((movie: movieDetail, index: number) => (
+                        <Cards prop={movie} key={movie.id} index={index} />
+                      ))
+                      .slice(0, 12)}
+                  </Suspense>
                 </div>
               </div>
             </div>
@@ -188,11 +206,13 @@ export default async function Home() {
               </div>
               {/*  cards here */}
               <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
-                {top_rated.results
-                  .map((movie: movieDetail, index: number) => (
-                    <Cards prop={movie} key={movie.id} index={index} />
-                  ))
-                  .slice(0, 12)}
+                <Suspense>
+                  {top_rated.results
+                    .map((movie: movieDetail, index: number) => (
+                      <Cards prop={movie} key={movie.id} index={index} />
+                    ))
+                    .slice(0, 12)}
+                </Suspense>
               </div>
             </div>
           </div>
@@ -202,33 +222,34 @@ export default async function Home() {
       <div className="hidden xl:block justify-items-center">
         {/* reminder */}
         <div className="">
-          {now_playingMovies ? (
-            <FeaturedMovies nowPlaying={now_playing} />
-          ) : (
-            <SkeletonOne />
-          )}
+          <Suspense fallback={<SkeletonOne />}>
+            {now_playingMovies && <FeaturedMovies nowPlaying={now_playing} />}
+          </Suspense>
+
           <div className="suggestion p-5 justify-items-center ">
             <div className="upcoming my-6 w-4/5">
-              {upcomingMovies ? (
-                <div className="upcoming-header flex justify-between p-3">
-                  <h1 className="text-2xl font-extrabold ">Upcoming</h1>
-                  <Link href="/upcoming?language=en-US&page=1">
-                    <div>See More</div>
-                  </Link>
-                </div>
-              ) : (
-                <SkeletonCategory />
-              )}
+              <Suspense fallback={<SkeletonCategory />}>
+                {upcomingMovies && (
+                  <div className="upcoming-header flex justify-between p-3">
+                    <h1 className="text-2xl font-extrabold ">Upcoming</h1>
+                    <Link href="/upcoming?language=en-US&page=1">
+                      <div>See More</div>
+                    </Link>
+                  </div>
+                )}
+              </Suspense>
 
               {/*  cards here */}
               <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                {upcoming.results
-                  .map((movie: movieDetail, index: number) => (
-                    <div key={movie.id}>
-                      <Cards prop={movie} key={movie.id} index={index} />
-                    </div>
-                  ))
-                  .slice(0, 10)}
+                <Suspense>
+                  {upcoming.results
+                    .map((movie: movieDetail, index: number) => (
+                      <div key={movie.id}>
+                        <Cards prop={movie} key={movie.id} index={index} />
+                      </div>
+                    ))
+                    .slice(0, 10)}
+                </Suspense>
               </div>
 
               <div className="popular my-6">
@@ -245,13 +266,15 @@ export default async function Home() {
 
                 {/*  cards here */}
                 <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                  {popular.results
-                    .map((movie: movieDetail, index: number) => (
-                      <div key={movie.id}>
-                        <Cards prop={movie} key={movie.id} index={index} />
-                      </div>
-                    ))
-                    .slice(0, 10)}
+                  <Suspense>
+                    {popular.results
+                      .map((movie: movieDetail, index: number) => (
+                        <div key={movie.id}>
+                          <Cards prop={movie} key={movie.id} index={index} />
+                        </div>
+                      ))
+                      .slice(0, 10)}
+                  </Suspense>
                 </div>
               </div>
               <div className="toprated my-6">
@@ -268,13 +291,15 @@ export default async function Home() {
 
                 {/*  cards here */}
                 <div className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                  {top_rated.results
-                    .map((movie: movieDetail, index: number) => (
-                      <div key={movie.id}>
-                        <Cards prop={movie} key={movie.id} index={index} />
-                      </div>
-                    ))
-                    .slice(0, 10)}
+                  <Suspense>
+                    {top_rated.results
+                      .map((movie: movieDetail, index: number) => (
+                        <div key={movie.id}>
+                          <Cards prop={movie} key={movie.id} index={index} />
+                        </div>
+                      ))
+                      .slice(0, 10)}
+                  </Suspense>
                 </div>
               </div>
             </div>

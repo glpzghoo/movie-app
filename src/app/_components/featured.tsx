@@ -10,6 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { options } from "../page";
+import { Suspense } from "react";
 
 type Props = {
   nowPlaying: FeaturedData;
@@ -40,42 +41,55 @@ export const FeaturedMovies = async (props: Props) => {
     return (
       <CarouselItem>
         <div className="justify-items-center">
-          <div
-            style={{
-              backgroundImage: `url("https://image.tmdb.org/t/p/original${now_playingMoviePicture}")`,
-            }}
-            className={`min-h-[600px] w-full bg-cover relative`}>
-            <div className="p-7 absolute w-[404px] h-[264px] bottom-[158px] left-[140px]">
-              <div className="flex justify-between py-4">
-                <div className="text-white">
-                  <div>Now in theaters:</div>
-                  <h1 className="text-lg font-bold">{now_playingMovieTitle}</h1>
+          <Suspense>
+            <div
+              style={{
+                backgroundImage: `url("https://image.tmdb.org/t/p/original${now_playingMoviePicture}")`,
+              }}
+              className={`min-h-[600px] w-full bg-cover relative`}>
+              <div className="p-7 absolute w-[404px] h-[264px] bottom-[158px] left-[140px]">
+                <div className="flex justify-between py-4">
+                  <div className="text-white">
+                    <div>Now in theaters:</div>
+                    <Suspense>
+                      <h1 className="text-lg font-bold">
+                        {now_playingMovieTitle}
+                      </h1>
+                    </Suspense>
+                  </div>
                 </div>
-              </div>
-              <div className="flex gap-2">
-                <Image
-                  width="30"
-                  height="30"
-                  className="w-auto h-auto"
-                  alt="star rating"
-                  src="/img/rating.svg"
-                />
-                <div className="text-white">
-                  {Math.floor(now_playingMovieRating * 10) / 10}/10
+                <div className="flex gap-2">
+                  <Image
+                    width="30"
+                    height="30"
+                    className="w-auto h-auto"
+                    alt="star rating"
+                    src="/img/rating.svg"
+                  />
+                  <div className="text-white">
+                    <Suspense>
+                      {Math.floor(now_playingMovieRating * 10) / 10}/10
+                    </Suspense>
+                  </div>
                 </div>
-              </div>
-              <div className="text-sm my-4 text-white h-20 truncate text-wrap">
-                {now_playingMovieOverview}
-              </div>
-              <div className="py-4 ">
-                <Link href={yt_trailer}>
-                  <Button className="px-4 py-2 bg-background text-secondary-foreground">
-                    Watch Trailer
-                  </Button>
-                </Link>
+                <Suspense>
+                  <div className="text-sm my-4 text-white h-20 truncate text-wrap">
+                    {now_playingMovieOverview}
+                  </div>
+                </Suspense>
+
+                <div className="py-4 ">
+                  <Suspense>
+                    <Link href={yt_trailer}>
+                      <Button className="px-4 py-2 bg-background text-secondary-foreground">
+                        Watch Trailer
+                      </Button>
+                    </Link>
+                  </Suspense>
+                </div>
               </div>
             </div>
-          </div>
+          </Suspense>
         </div>
       </CarouselItem>
     );
@@ -83,149 +97,25 @@ export const FeaturedMovies = async (props: Props) => {
 
   return (
     <div className="featured-movie">
-      <Carousel>
-        <CarouselContent>
-          {props.nowPlaying.results.slice(0, 10).map((movie) => (
-            <FeaturedMovie
-              key={movie.id}
-              now_playingMovieTitle={movie.title}
-              now_playingMovieOverview={movie.overview}
-              now_playingMoviePicture={movie.backdrop_path}
-              now_playingMovieRating={movie.vote_average}
-              now_playingMovieId={movie.id}
-            />
-          ))}
-          {/* <CarouselItem>
-            <div className="justify-items-center">
-              <div
-                style={{
-                  backgroundImage: `url("https://image.tmdb.org/t/p/original${now_playingMoviePicture}")`,
-                }}
-                className={`min-h-[600px] w-full bg-cover relative`}>
-                <div className="p-7 absolute w-[404px] h-[264px] bottom-[158px] left-[140px]">
-                  <div className="flex justify-between py-4">
-                    <div className="text-white">
-                      <div>Now in theaters:</div>
-                      <h1 className="text-lg font-bold">
-                        {now_playingMovieTitle}
-                      </h1>
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <Image
-                      width="30"
-                      height="30"
-                      className="w-auto h-auto"
-                      alt="star rating"
-                      src="/img/rating.svg"
-                    />
-                    <div className="text-white">
-                      {Math.floor(now_playingMovieRating * 10) / 10}/10
-                    </div>
-                  </div>
-                  <div className="text-sm my-4 text-white h-20 truncate text-wrap">
-                    {now_playingMovieOverview}
-                  </div>
-                  <div className="py-4 ">
-                    <Link href={yt_trailer}>
-                      <Button className="px-4 py-2 bg-white text-black hover:text-white">
-                        Watch Trailer
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CarouselItem>
-          <CarouselItem>
-            <div className="justify-items-center">
-              <div
-                style={{
-                  backgroundImage: `url("https://image.tmdb.org/t/p/original${now_playingMoviePicture2}")`,
-                }}
-                className={`min-h-[600px] w-full bg-cover relative`}>
-                <div className="p-7 absolute w-[404px] h-[264px] bottom-[158px] left-[140px]">
-                  <div className="flex justify-between py-4">
-                    <div className="text-white">
-                      <div>Now in theaters:</div>
-                      <h1 className="text-lg font-bold">
-                        {now_playingMovieTitle2}
-                      </h1>
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <Image
-                      width="30"
-                      height="30"
-                      className="w-auto h-auto"
-                      alt="star rating"
-                      src="/img/rating.svg"
-                    />
-                    <div className="text-white">
-                      {Math.floor(now_playingMovieRating2 * 10) / 10}/10
-                    </div>
-                  </div>
-                  <div className="text-sm my-4 text-white h-20 truncate text-wrap">
-                    {now_playingMovieOverview2}
-                  </div>
-                  <div className="py-4 ">
-                    <Link href={yt_trailer2}>
-                      <Button className="px-4 py-2 bg-white text-black hover:text-white">
-                        Watch Trailer
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CarouselItem>
-          <CarouselItem>
-            <div className="justify-items-center">
-              <div
-                style={{
-                  backgroundImage: `url("https://image.tmdb.org/t/p/original${now_playingMoviePicture3}")`,
-                }}
-                className={`min-h-[600px] w-full bg-cover relative`}>
-                <div className="p-7 absolute w-[404px] h-[264px] bottom-[158px] left-[140px]">
-                  <div className="flex justify-between py-4">
-                    <div className="text-white">
-                      <div>Now in theaters:</div>
-                      <h1 className="text-lg font-bold">
-                        {now_playingMovieTitle3}
-                      </h1>
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <Image
-                      width="30"
-                      height="30"
-                      className="w-auto h-auto"
-                      alt="star rating"
-                      src="/img/rating.svg"
-                    />
-                    <div className="text-white">
-                      {Math.floor(now_playingMovieRating3 * 10) / 10}/10
-                    </div>
-                  </div>
-                  <div className="text-sm my-4 text-white h-20 truncate text-wrap">
-                    {now_playingMovieOverview3}
-                  </div>
-                  <div className="py-4 ">
-                    <Link href={yt_trailer3}>
-                      <Button className="px-4 py-2 bg-white text-black hover:text-white">
-                        Watch Trailer
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </CarouselItem> */}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+      <Suspense>
+        <Carousel>
+          <CarouselContent>
+            {props.nowPlaying.results.slice(0, 10).map((movie) => (
+              <FeaturedMovie
+                key={movie.id}
+                now_playingMovieTitle={movie.title}
+                now_playingMovieOverview={movie.overview}
+                now_playingMoviePicture={movie.backdrop_path}
+                now_playingMovieRating={movie.vote_average}
+                now_playingMovieId={movie.id}
+              />
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </Suspense>
     </div>
   );
 };

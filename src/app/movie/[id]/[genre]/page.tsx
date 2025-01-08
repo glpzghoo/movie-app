@@ -31,42 +31,33 @@ export default function similar() {
         options
       );
       const recommendations = await res_recom.json();
-      // console.log("recommendations", recommendations);
       setData(recommendations.results);
     };
     fetchData();
   }, [currentPage]);
-  // console.log("movies[movie/[id]/[genre]]", movies);
-  // const movies = data;
   return (
-    <Suspense>
-      <div>
-        <div className="m-4">
-          <div className="upcoming-header flex justify-between">
+    <div>
+      <div className="m-4">
+        <div className="upcoming-header flex justify-between">
+          <Suspense>
             <h1 className="text-xl font-extrabold ">
               {genre && genre?.replaceAll("_", " ").toUpperCase()}
             </h1>
-
-            {/* <a href="/upcoming">
-            <div>See More</div>
-          </a> */}
-          </div>
-          <Page />
-          <div
-            key={69}
-            className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
-          >
-            {movies ? (
+          </Suspense>
+        </div>
+        <Page />
+        <div
+          key={69}
+          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+          <Suspense fallback={<Loading />}>
+            {movies &&
               movies.map((movie: movieDetail, index: number) => (
                 <Cards prop={movie} key={movie.id} index={index} />
-              ))
-            ) : (
-              <Loading />
-            )}
-          </div>
-          <Page />
+              ))}
+          </Suspense>
         </div>
+        <Page />
       </div>
-    </Suspense>
+    </div>
   );
 }

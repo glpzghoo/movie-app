@@ -1,13 +1,14 @@
 import { Loaded, Loading } from "@/app/_components/movieDetails";
 import { options } from "@/app/page";
 import { movieDetail } from "@/app/types/types";
-type Params = {
-  id: string;
-};
+import { Suspense } from "react";
+
 type Props = {
-  params: Params;
+  params: {
+    id: string;
+  };
 };
-export default async function MovieDetails(props: Props) {
+export default async function MovieDetails(props: any) {
   const params = props.params;
   const res = await fetch(
     `https://api.themoviedb.org/3/movie/${props.params.id}?language=en-US`,
@@ -19,5 +20,11 @@ export default async function MovieDetails(props: Props) {
   // https: console.log(props.params);
   console.log(movie);
   console.log("checking", typeof params.id);
-  return <div>{movie ? <Loaded movie={movie} /> : <Loading />}</div>;
+  return (
+    <div>
+      <Suspense fallback={<Loading />}>
+        {movie && <Loaded movie={movie} />}
+      </Suspense>
+    </div>
+  );
 }

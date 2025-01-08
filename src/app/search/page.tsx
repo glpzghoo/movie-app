@@ -42,36 +42,34 @@ export default function searchResult() {
   //   console.log("data", data.total_pages);
   // };
   return (
-    <Suspense>
-      <div>
-        <div className="m-4">
-          <div className="upcoming-header flex justify-between">
-            <h1 className="text-xl font-extrabold ">
+    <div>
+      <div className="m-4">
+        <div className="upcoming-header flex justify-between">
+          <h1 className="text-xl font-extrabold ">
+            <Suspense>
               {movies &&
                 movies.length * data.total_pages +
                   ` results for "` +
                   query?.replaceAll("_", " ") +
                   `"`}
-            </h1>
+            </Suspense>
+          </h1>
 
-            {/* <button onClick={handleClick}>handleClick</button> */}
-          </div>
-          <Page />
-          <div
-            key={69}
-            className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
-          >
-            {movies ? (
+          {/* <button onClick={handleClick}>handleClick</button> */}
+        </div>
+        <Page />
+        <div
+          key={69}
+          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+          <Suspense fallback={<Loading />}>
+            {movies &&
               movies.map((movie: movieDetail, index: number) => (
                 <Cards prop={movie} key={movie.id} index={index} />
-              ))
-            ) : (
-              <Loading />
-            )}
-          </div>
-          <Page />
+              ))}
+          </Suspense>
         </div>
+        <Page />
       </div>
-    </Suspense>
+    </div>
   );
 }

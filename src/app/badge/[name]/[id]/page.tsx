@@ -40,34 +40,33 @@ export default function Genre() {
   const movies = data?.results;
   // console.log("movies [genre]", movies);
   return (
-    <Suspense>
-      <div>
-        <div className="m-4">
-          <div className="upcoming-header flex justify-between">
+    <div>
+      <div className="m-4">
+        <div className="upcoming-header flex justify-between">
+          <Suspense>
             <h1 className="text-xl font-extrabold ">
               {params.name.replaceAll("%20", " ")}
             </h1>
-            {/* <a href="/upcoming">
+          </Suspense>
+
+          {/* <a href="/upcoming">
           <div>See More</div>
         </a> */}
-          </div>
-          <Page />
-          <div
-            key={69}
-            className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7"
-          >
-            {movies ? (
+        </div>
+        <Page />
+        <div
+          key={69}
+          className="grid grid-cols-2 gap-5 mx-auto md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7">
+          <Suspense fallback={<Loading />}>
+            {movies &&
               movies.map((movie: movieDetail, index: number) => (
                 <Cards prop={movie} key={movie.id} index={index} />
-              ))
-            ) : (
-              <Loading />
-            )}
-          </div>
-          <Page data={data} />
+              ))}
+          </Suspense>
         </div>
+        <Page data={data} />
       </div>
-    </Suspense>
+    </div>
   );
 }
 

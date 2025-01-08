@@ -5,7 +5,8 @@ import "./globals.css";
 import { Footer } from "./_components/footer";
 import { Inter } from "next/font/google";
 import { Navigation } from "./_components/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { Loading } from "./_components/movieDetails";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,16 +33,18 @@ export default function RootLayout({
   };
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased ${
-          inter.className
-        } ${isDark && `dark`} `}>
-        <main className="min-h-screen xl:px-15">
-          <Navigation handleMode={handleMode} mode={isDark} />
-          {children}
-          <Footer />
-        </main>
-      </body>
+      <Suspense fallback={<Loading />}>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased ${
+            inter.className
+          } ${isDark && `dark`} `}>
+          <main className="min-h-screen xl:px-15">
+            <Navigation handleMode={handleMode} mode={isDark} />
+            {children}
+            <Footer />
+          </main>
+        </body>
+      </Suspense>
     </html>
   );
 }

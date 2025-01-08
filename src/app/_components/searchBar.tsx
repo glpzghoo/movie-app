@@ -108,60 +108,64 @@ export const SearchBar = (props: Props) => {
         className={`border-border overflow-hidden rounded-xl xp-3 shadow-2xl ${
           search && `bg-secondary`
         } xl:flex xl:flex-col absolute xl:gap-1 z-10 left-[-75px] xl:left-[0] xl:p-4`}>
-        {theMovies ? (
-          theMovies
-            .map((theMovie) => (
-              <div key={theMovie.id}>
-                <Link
-                  className="w-[335px] p-2 relative flex border-b-2 gap-4 border-gray-200"
-                  href={`/movie/${theMovie.id}`}>
-                  <div>
-                    <Image
-                      width="50"
-                      height="50"
-                      alt="movie poster on search result"
-                      className="w-16 h-25"
-                      src={
-                        theMovie.poster_path
-                          ? `https://image.tmdb.org/t/p/original${theMovie.poster_path}`
-                          : `https://placehold.co/286x429?text=no+pic+lol`
-                      }
-                    />
-                  </div>
-                  <div className="flex flex-col justify-evenly ">
-                    <h1 className="">{theMovie.title}</h1>
-                    <div className="flex">
+        <Suspense
+          fallback={
+            <div className=" w-[335px] h-[200px] p-2 border-b-2 border-gray-200">
+              No Results
+            </div>
+          }>
+          {theMovies &&
+            theMovies
+              .map((theMovie) => (
+                <div key={theMovie.id}>
+                  <Link
+                    className="w-[335px] p-2 relative flex border-b-2 gap-4 border-gray-200"
+                    href={`/movie/${theMovie.id}`}>
+                    <div>
                       <Image
                         width="50"
                         height="50"
-                        alt="movie rating star on search result"
-                        className="w-5"
-                        src="/img/rating.svg"
+                        alt="movie poster on search result"
+                        className="w-16 h-25"
+                        src={
+                          theMovie.poster_path
+                            ? `https://image.tmdb.org/t/p/original${theMovie.poster_path}`
+                            : `https://placehold.co/286x429?text=no+pic+lol`
+                        }
                       />
-                      <div>
-                        {Math.floor(theMovie.vote_average * 10) / 10}/10
+                    </div>
+                    <div className="flex flex-col justify-evenly ">
+                      <h1 className="">{theMovie.title}</h1>
+                      <div className="flex">
+                        <Image
+                          width="50"
+                          height="50"
+                          alt="movie rating star on search result"
+                          className="w-5"
+                          src="/img/rating.svg"
+                        />
+                        <div>
+                          {Math.floor(theMovie.vote_average * 10) / 10}/10
+                        </div>
+                      </div>
+                      <div>{theMovie.release_date}</div>
+                      <div className="absolute bottom-0 flex items-center gap-2  right-0">
+                        See more <FaArrowRight />
                       </div>
                     </div>
-                    <div>{theMovie.release_date}</div>
-                    <div className="absolute bottom-0 flex items-center gap-2  right-0">
-                      See more <FaArrowRight />
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            ))
-            .slice(1, 5)
-        ) : (
-          <div className=" w-[335px] h-[200px] p-2 border-b-2 border-gray-200">
-            No Results
-          </div>
-        )}
-        {search && (
-          <Link
-            href={`/search?query=${search}&include_adult=false&language=en-US&page=1`}>
-            See all results for "{search}"
-          </Link>
-        )}
+                  </Link>
+                </div>
+              ))
+              .slice(1, 5)}{" "}
+        </Suspense>
+        <Suspense>
+          {search && (
+            <Link
+              href={`/search?query=${search}&include_adult=false&language=en-US&page=1`}>
+              See all results for "{search}"
+            </Link>
+          )}
+        </Suspense>
       </div>
     );
   };
@@ -176,19 +180,21 @@ export const SearchBar = (props: Props) => {
           <p>See lists of movies by genre</p>
         </div>
         <div className="flex flex-wrap gap-4">
-          {genreData &&
-            genreData.map((genre) => (
-              <div key={genre.id}>
-                <Link
-                  href={`/badge/${genre.name}/${genre.id}?language=en-US&page=1`}>
-                  <div
-                    key={genre.id}
-                    className="border-border border rounded-xl flex items-center gap-2 px-2 text-sm font-semibold">
-                    {genre.name} <MdArrowForwardIos />
-                  </div>
-                </Link>
-              </div>
-            ))}
+          <Suspense>
+            {genreData &&
+              genreData.map((genre) => (
+                <div key={genre.id}>
+                  <Link
+                    href={`/badge/${genre.name}/${genre.id}?language=en-US&page=1`}>
+                    <div
+                      key={genre.id}
+                      className="border-border border rounded-xl flex items-center gap-2 px-2 text-sm font-semibold">
+                      {genre.name} <MdArrowForwardIos />
+                    </div>
+                  </Link>
+                </div>
+              ))}
+          </Suspense>
         </div>
       </PopoverContent>
     );
