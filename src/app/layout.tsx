@@ -34,12 +34,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased ${
           inter.className
         } ${isDark && `dark`} `}>
-        <main className="min-h-screen xl:px-15">
-          <Navigation handleMode={handleMode} mode={isDark} />
-          <Suspense fallback={<Loading />}> {children}</Suspense>
+        <Suspense fallback={<Loading />}>
+          <main className="min-h-screen xl:px-15">
+            <Navigation handleMode={handleMode} mode={isDark} />
+            {children}
 
-          <Footer />
-        </main>
+            <Footer />
+          </main>
+        </Suspense>
       </body>
     </html>
   );
