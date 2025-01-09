@@ -17,9 +17,11 @@ export const Cards = (props: Props) => {
   // console.log("check type props.key", typeof props.prop.id);
   // console.log("movie", props.prop);
   return (
-    <div key={props?.prop?.id + props.index}>
+    <div className="overflow-hidden" key={props?.prop?.id + props.index}>
       {props.prop ? (
-        <Link href={`/movie/${props.prop.id.toString()}`}>
+        <Link
+          className="overflow-hidden"
+          href={`/movie/${props.prop.id.toString()}`}>
           <div
             key={props.prop.id}
             className={`rounded-lg bg-secondary overflow-hidden`}>
@@ -49,7 +51,7 @@ export const Cards = (props: Props) => {
                   {props.prop.vote_count})
                 </div>
               </div>
-              <div className="name overflow-hidden">{props.prop.title}</div>
+              <div className="name h-8">{props.prop.title}</div>
             </div>
           </div>
         </Link>
