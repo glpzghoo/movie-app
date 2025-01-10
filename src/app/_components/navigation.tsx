@@ -5,15 +5,16 @@ import Link from "next/link";
 import { SearchBar } from "./searchBar";
 import { ToggleMode } from "./switchmode";
 import { useState } from "react";
-type Props = {
-  handleMode: Function;
-  mode: boolean;
-};
 
-export const Navigation = (props: Props) => {
+export const Navigation = () => {
   //   const handleMode = props.handleMode();
   const [searchButton, setSearchButton] = useState<boolean>(false);
+  const [isDark, setDarkMode] = useState(false);
 
+  const handleMode = () => {
+    setDarkMode(!isDark);
+    console.log("dark mode:", isDark);
+  };
   return (
     <div className="navigation justify-between xl:justify-items-center">
       <div className="w-full xl:w-4/5">
@@ -38,7 +39,6 @@ export const Navigation = (props: Props) => {
           {/* reminder */}
           <div className="flex gap-4">
             <SearchBar
-              mode={props.mode}
               setSearchButton={setSearchButton}
               searchButton={searchButton}
             />
@@ -47,9 +47,8 @@ export const Navigation = (props: Props) => {
 
             <button
               onClick={() => {
-                props.handleMode();
-              }}
-            >
+                handleMode();
+              }}>
               <Image
                 width="500"
                 height="700"
