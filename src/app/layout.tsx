@@ -27,7 +27,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased ${inter.className}  justify-items-center`}>
+        className={`${geistSans.variable} ${geistMono.variable} antialiased ${inter.className} justify-items-center`}
+      >
         <Suspense fallback={<Loading />}>
           <main className="min-h-screen w-[80%]">
             <Navigation />

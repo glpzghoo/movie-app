@@ -107,20 +107,23 @@ export const SearchBar = (props: Props) => {
       <div
         className={`border-border overflow-hidden rounded-xl xp-3 shadow-2xl ${
           search && `bg-secondary`
-        } xl:flex xl:flex-col absolute xl:gap-1 z-10 left-[-75px] xl:left-[0] xl:p-4`}>
+        } xl:flex xl:flex-col absolute xl:gap-1 z-10 left-[-75px] xl:left-[0] xl:p-4`}
+      >
         <Suspense
           fallback={
             <div className=" w-[335px] h-[200px] p-2 border-b-2 border-gray-200">
               No Results
             </div>
-          }>
+          }
+        >
           {theMovies &&
             theMovies
               .map((theMovie) => (
                 <div key={theMovie.id}>
                   <Link
                     className="w-[335px] p-2 relative flex border-b-2 gap-4 border-gray-200"
-                    href={`/movie/${theMovie.id}`}>
+                    href={`/movie/${theMovie.id}`}
+                  >
                     <div>
                       <Image
                         width="50"
@@ -161,7 +164,8 @@ export const SearchBar = (props: Props) => {
         <Suspense>
           {search && (
             <Link
-              href={`/search?query=${search}&include_adult=false&language=en-US&page=1`}>
+              href={`/search?query=${search}&include_adult=false&language=en-US&page=1`}
+            >
               See all results for "{search}"
             </Link>
           )}
@@ -174,7 +178,8 @@ export const SearchBar = (props: Props) => {
       <PopoverContent
         className={`xl:w-[577px] xl:h-[333px] p-5 flex flex-col gap-12 border-border z-10 ${
           props.mode ? `bg-black` : `bg-white`
-        } `}>
+        } `}
+      >
         <div className="flex flex-col gap-2">
           <h1 className="font-extrabold text-xl">Genres</h1>
           <p>See lists of movies by genre</p>
@@ -185,10 +190,12 @@ export const SearchBar = (props: Props) => {
               genreData.map((genre) => (
                 <div key={genre.id}>
                   <Link
-                    href={`/badge/${genre.name}/${genre.id}?language=en-US&page=1`}>
+                    href={`/badge/${genre.name}/${genre.id}?language=en-US&page=1`}
+                  >
                     <div
                       key={genre.id}
-                      className="border-border border rounded-xl flex items-center gap-2 px-2 text-sm font-semibold">
+                      className="border-border border rounded-xl flex items-center gap-2 px-2 text-sm font-semibold"
+                    >
                       {genre.name} <MdArrowForwardIos />
                     </div>
                   </Link>
@@ -208,11 +215,12 @@ export const SearchBar = (props: Props) => {
       {data && (
         <>
           <div className="flex gap-4 justify-between w-full">
-            <div className="relative">
+            <div className="relative content-center">
               <Popover>
                 <PopoverTrigger
                   className="border-border border p-2 px-2 rounded-lg"
-                  onClick={handleGenreButton}>
+                  onClick={handleGenreButton}
+                >
                   Genre
                 </PopoverTrigger>
                 {toggleGenreButton && <AllCategories />}
@@ -227,32 +235,24 @@ export const SearchBar = (props: Props) => {
               <div
                 className={`relative ${
                   searchButton ? `flex` : `hidden sm:block`
-                } items-center gap-2 w-full`}>
-                <button
+                } items-center gap-2 w-full`}
+              >
+                {/* <button
                   onClick={handleSearchButton}
-                  className="text-gray-400 block sm:hidden">
+                  className="text-gray-400 block sm:hidden"
+                >
                   X
-                </button>
+                </button> */}
+
                 <input
                   onChange={input}
                   placeholder="Search"
-                  className="w-full h-full shadow-sm py-2 bg-background px-4 border lg:w-[360px] xl:rounded-md"
+                  className="w-full h-full shadow-sm py-2 bg-background px-4 border hidden xl:block lg:w-[360px] xl:rounded-md"
                 />
               </div>
 
               {/* <div className="relative w-full bg-none"></div> */}
 
-              <button
-                onClick={handleSearchButton}
-                className={`sm:hidden ${searchButton ? `hidden` : `block`}`}>
-                <Image
-                  width="500"
-                  height="700"
-                  alt="search"
-                  className="w-9"
-                  src="/img/search.png"
-                />
-              </button>
               <ResultDiv results={data} />
             </div>
           </div>

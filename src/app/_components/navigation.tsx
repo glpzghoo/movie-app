@@ -8,31 +8,34 @@ import { useState } from "react";
 
 export const Navigation = () => {
   //   const handleMode = props.handleMode();
-  const [searchButton, setSearchButton] = useState<boolean>(false);
+  const [searchButton, setSearchButton] = useState<boolean>(true);
   const [isDark, setDarkMode] = useState(false);
 
   const handleMode = () => {
     setDarkMode(!isDark);
+    if (isDark) {
+      document.body.classList.remove("dark");
+    } else {
+      document.body.classList.add("dark");
+    }
     console.log("dark mode:", isDark);
   };
   return (
     <div className="navigation justify-between xl:justify-items-center">
       <div className="w-full xl:w-4/5">
         <div className="flex justify-around p-4 ">
-          {!searchButton && (
-            <Link className="" href="/">
-              <div className="flex gap-2 items-center">
-                <Image
-                  width="500"
-                  height="700"
-                  alt="logo"
-                  className="w-9 h-9"
-                  src="/img/film.svg"
-                />
-                <h3 className="">Movie</h3>
-              </div>
-            </Link>
-          )}
+          <Link className="hidden md:block" href="/">
+            <div className="flex gap-2 items-center">
+              <Image
+                width="500"
+                height="700"
+                alt="logo"
+                className="w-9 h-9"
+                src="/img/film.svg"
+              />
+              <h3 className="">Movie</h3>
+            </div>
+          </Link>
 
           {/* here */}
 
@@ -44,19 +47,30 @@ export const Navigation = () => {
             />
 
             {/* here */}
-
-            <button
-              onClick={() => {
-                handleMode();
-              }}>
-              <Image
-                width="500"
-                height="700"
-                alt="switch mode to light/dark"
-                className="w-9"
-                src="/img/switch-button.png"
-              />
-            </button>
+            <div className="flex gap-4">
+              <button className={`block xl:hidden `}>
+                <Image
+                  width="500"
+                  height="700"
+                  alt="search"
+                  className="w-14"
+                  src="/img/search.png"
+                />
+              </button>
+              <button
+                onClick={() => {
+                  handleMode();
+                }}
+              >
+                <Image
+                  width="500"
+                  height="700"
+                  alt="switch mode to light/dark"
+                  className="w-14"
+                  src="/img/switch-button.png"
+                />
+              </button>
+            </div>
           </div>
           {/* reminder */}
         </div>
