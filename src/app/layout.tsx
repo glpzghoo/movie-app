@@ -33,9 +33,8 @@ export default function RootLayout({
           <main className="min-h-screen w-[80%]">
             <Navigation />
             {children}
-
-            <Footer />
           </main>
+          <Footer />
         </Suspense>
       </body>
     </html>
