@@ -7,6 +7,7 @@ import { movieDetail } from "./types/types";
 import { SkeletonOne, SkeletonCategory } from "./_components/skeletons";
 import { FeaturedMovies } from "./_components/featured";
 import { Suspense } from "react";
+import { ThemeProvider } from "./ThemeProviler";
 export const options = {
   method: "GET",
   headers: {

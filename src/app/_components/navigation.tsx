@@ -4,15 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { SearchBar } from "./searchBar";
 import { ToggleMode } from "./switchmode";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ThemeContext } from "../ThemeProviler";
 
 export const Navigation = () => {
   //   const handleMode = props.handleMode();
   const [searchButton, setSearchButton] = useState<boolean>(true);
-  const [isDark, setDarkMode] = useState(false);
-
+  // const [isDark, setDarkMode] = useState(false);
+  const { isDark, toggle } = useContext(ThemeContext);
   const handleMode = () => {
-    setDarkMode(!isDark);
+    toggle();
     if (isDark) {
       document.body.classList.remove("dark");
     } else {

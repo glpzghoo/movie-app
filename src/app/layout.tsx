@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import { Navigation } from "./_components/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { Loading } from "./_components/movieDetails";
+import { ThemeProvider } from "./ThemeProviler";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -31,8 +32,10 @@ export default function RootLayout({
       >
         <Suspense fallback={<Loading />}>
           <main className="min-h-screen w-[80%]">
-            <Navigation />
-            {children}
+            <ThemeProvider>
+              <Navigation />
+              {children}
+            </ThemeProvider>
           </main>
           <Footer />
         </Suspense>
