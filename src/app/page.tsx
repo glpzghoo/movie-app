@@ -65,10 +65,10 @@ export default async function Home() {
     options
   );
   const trailer_info_data = await res_movie_trailer.json();
-  const get_thelink_pls =
-    trailer_info_data.results[trailer_info_data.results.length - 1].key;
+  // const get_thelink_pls =
+  //   trailer_info_data.results[trailer_info_data.results.length - 1].key;
 
-  const yt_trailer: string = `https://www.youtube.com/watch?v=${get_thelink_pls}`;
+  // const yt_trailer: string = `https://www.youtube.com/watch?v=${get_thelink_pls}`;
   // upcoming
   const upcomingMovies: string[] = upcoming.results;
   const upcomingMovieTitle: string = upcoming.results[0].title;
@@ -152,9 +152,9 @@ export default async function Home() {
 
                 <div className="py-4">
                   <Suspense>
-                    <Link href={yt_trailer}>
+                    {/* <Link href={yt_trailer}>
                       <Button className="px-4 py-2">Watch Trailer</Button>
-                    </Link>
+                    </Link> */}
                   </Suspense>
                 </div>
               </div>
